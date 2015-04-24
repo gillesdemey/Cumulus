@@ -1,0 +1,23 @@
+{
+    "node": true,
+    "bitwise": true,
+    "eqeqeq": true,
+    "immed": true,
+    "indent": 2,
+    "latedef": true,
+    "multistr": true,
+    "newcap": true,
+    "noarg": true,
+    "asi" : true,
+    "quotmark": "single",
+    "regexp": true,
+    "undef": true,
+    "unused": "vars",
+    "strict": true,
+    "trailing": true,
+    "smarttabs": false,
+    "laxcomma": true,
+    "white": true,
+    "globals": {
+    }
+}
