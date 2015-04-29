@@ -64,7 +64,7 @@ app.on('ready', function() {
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
   mainWindow.hide();
-  mainWindow.loadUrl('file://' + __dirname + '/app/views/index.html');
+  mainWindow.loadUrl('file://' + __dirname + '/app/index.html');
 
   mainWindow.on('closed', function() {
     mainWindow = null;
