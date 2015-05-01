@@ -9,7 +9,6 @@
     "newcap": true,
     "noarg": true,
     "asi" : true,
-    "quotmark": "single",
     "regexp": true,
     "undef": true,
     "unused": "vars",
@@ -19,5 +18,6 @@
     "laxcomma": true,
     "white": true,
     "globals": {
+        "document": true
     }
 }

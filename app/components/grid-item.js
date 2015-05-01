@@ -1,3 +1,7 @@
+'use strict';
+
+var React    = require('react');
+
 var GridItem = React.createClass({
   render: function() {
     return (
@@ -6,3 +10,5 @@ var GridItem = React.createClass({
   }
 
 });
+
+module.exports = GridItem;

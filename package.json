@@ -1,5 +1,27 @@
 {
-  "name"    : "Cumulus",
-  "version" : "0.1.0",
-  "main"    : "index.js"
+  "name": "Cumulus",
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "watchify -o app/js/bundle.js -v -d app/js/app.js",
+    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js"
+  },
+  "devDependencies": {
+    "browserify": "^10.0.0",
+    "envify": "^3.4.0",
+    "reactify": "^1.1.0",
+    "uglify": "^0.1.3",
+    "watchify": "^3.2.1"
+  },
+  "author": "Gilles De Mey <gilles.de.mey@gmail.com>",
+  "browserify": {
+    "transform": [
+      "reactify",
+      "envify"
+    ]
+  },
+  "dependencies": {
+    "react": "^0.13.2",
+    "react-router": "^0.13.3"
+  }
 }

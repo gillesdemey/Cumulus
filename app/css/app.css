@@ -1,0 +1,14 @@
+#cumulusapp {
+
+}
+
+/**
+ * Header styles
+ */
+header {
+
+}
+
+header a.active {
+  background: blue;
+}

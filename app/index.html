@@ -1,22 +1,11 @@
 <!DOCTYPE html>
-<html data-framework="react">
+<html manifest="cumulus.appcache">
   <head>
     <meta charset="utf-8">
     <title>Cumulus</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/react-with-addons.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.13.2/JSXTransformer.js"></script>
+    <link rel="stylesheet" href="css/app.css">
   </head>
-  <body>
-    <section id="cumulusapp"></section>
-
-    <!-- views -->
-    <script type="text/jsx" src="views/collection.jsx"></script>
-
-    <!-- components -->
-    <script type="text/jsx" src="components/media-player.jsx"></script>
-    <script type="text/jsx" src="components/grid-view.jsx"></script>
-    <script type="text/jsx" src="components/grid-item.jsx"></script>
-
-    <script type="text/jsx" src="js/app.jsx"></script>
+  <body id="cumulusapp">
+    <script src="js/bundle.js"></script>
   </body>
 </html>

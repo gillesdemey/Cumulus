@@ -1,3 +1,7 @@
+'use strict';
+
+var React       = require('react');
+
 var MediaPlayer = React.createClass({
 
   render: function() {
@@ -7,3 +11,5 @@ var MediaPlayer = React.createClass({
   }
 
 });
+
+module.exports = MediaPlayer;

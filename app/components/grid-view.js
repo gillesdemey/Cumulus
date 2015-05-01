@@ -1,3 +1,7 @@
+'use strict';
+
+var React    = require('react');
+
 var GridView = React.createClass({
 
   render: function() {
@@ -22,3 +26,5 @@ var GridView = React.createClass({
   }
 
 });
+
+module.exports = GridView;
