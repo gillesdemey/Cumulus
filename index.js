@@ -2,6 +2,7 @@
 
 var app           = require('app');
 var BrowserWindow = require('browser-window');
+
 var url           = require('url');
 var querystring   = require('querystring');
 

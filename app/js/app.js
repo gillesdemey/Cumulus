@@ -8,6 +8,9 @@ var About      = require('../views/about');
 var Collection = require('../views/collection');
 var Feed       = require('../views/feed');
 
+var Config       = window.require('remote').require('./lib/config');
+var SoundCloud   = window.SC;
+
 /**
  * Router
  */
@@ -20,6 +23,24 @@ var routes = (
   </Route>
 );
 
-Router.run(routes, function(Root) {
-  React.render(<Root/>, document.body);
-});
+/**
+ * Start the router and render Cumulus
+ */
+function bootstrap() {
+  Router.run(routes, function(Root) {
+    React.render(<Root/>, document.body);
+  });
+}
+
+/**
+ * Configure the SoundCloud SDK
+ */
+Config.get('access_token', function(err, token) {
+
+  if (err)
+    throw err;
+
+  SoundCloud.initialize({ 'access_token' : token });
+
+  bootstrap();
+})

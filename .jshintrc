@@ -18,6 +18,7 @@
     "laxcomma": true,
     "white": true,
     "globals": {
-        "document": true
+        "document": true,
+        "window"  : true
     }
 }

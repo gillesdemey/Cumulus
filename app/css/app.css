@@ -1,14 +1,85 @@
 #cumulusapp {
-
 }
 
 /**
  * Header styles
  */
 header {
-
 }
 
 header a.active {
-  background: blue;
+  color: black;
+  background: #ccc;
+}
+
+.grid-item {
+  display: inline-block;
+  overflow: hidden;
+
+  max-width: 200px;
+  max-height: 240px;
+  margin: 30px 10px;
+}
+
+.grid-item .item__cover {
+  position: relative;
+
+  width: 200px;
+  height: 200px;
+}
+
+.item__cover img,
+.item__cover .cover__overlay,
+.item__cover .cover__overlay > * {
+  position: absolute;
+}
+
+.grid-item .cover__overlay {
+  width: 100%;
+  height: 100%;
+
+  background: rgba(0,0,0,.5);
+
+  transition: all 150ms;
+  opacity: 0;
+}
+
+.grid-item .cover__overlay:hover {
+  opacity: 1;
+}
+
+.cover__overlay .overlay__play-pause {
+  width: 100%;
+  height: 100%;
+
+  color: white;
+  font-size: 48px;
+
+  line-height: 200px;
+  text-align: center;
+}
+
+.cover__overlay .overlay__play-pause:after {
+  content: '►';
+}
+
+.cover__overlay .overlay__play-pause.playing:after {
+  content: '❚❚';
+}
+
+.grid-item .title,
+.grid-item .artist {
+  display: block;
+  overflow: hidden;
+
+  max-width: 200px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.grid-item .title {
+}
+
+.grid-item .artist {
 }
