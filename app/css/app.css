@@ -1,4 +1,8 @@
-#cumulusapp {
+body {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+
+  margin: 0;
+  padding: 0;
 }
 
 /**
@@ -17,7 +21,6 @@ header a.active {
   overflow: hidden;
 
   max-width: 200px;
-  max-height: 240px;
   margin: 30px 10px;
 }
 
@@ -26,6 +29,8 @@ header a.active {
 
   width: 200px;
   height: 200px;
+
+  margin-bottom: 5px;
 }
 
 .item__cover img,
@@ -76,10 +81,26 @@ header a.active {
 
   white-space: nowrap;
   text-overflow: ellipsis;
+
+  line-height: 1.5em;
+  font-size: 14px;
 }
 
 .grid-item .title {
 }
 
 .grid-item .artist {
+}
+
+/**
+ * Media Player
+ */
+.cumulus__media-player {
+  position: fixed;
+  bottom: 0;
+
+  width: 100%;
+  height: 46px;
+
+  background: white;
 }

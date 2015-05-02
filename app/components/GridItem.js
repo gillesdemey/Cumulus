@@ -3,10 +3,16 @@
 var React      = require('react');
 var classNames = require('classnames');
 
+var centralDispatcher = require('../js/centralDispatcher');
+
 var GridItem = React.createClass({
 
   getInitialState: function() {
-    return { playing : false };
+
+    var audio     = new window.Audio(this.props.stream);
+    audio.preload = 'metadata';
+
+    return { 'audio' : audio, 'playing' : false };
   },
 
   handleClick: function() {
@@ -15,15 +21,21 @@ var GridItem = React.createClass({
     else
       this.pause();
 
-    this.setState({ playing : !this.state.playing });
+    this.setState({ 'playing' : !this.state.playing })
   },
 
   play: function() {
-    this.props.audio.play();
+    centralDispatcher.dispatch({
+      'media.action'     : 'play',
+      'media.nowPlaying' : this.props,
+      'media.audio'      : this.state.audio,
+    })
   },
 
   pause: function() {
-    this.props.audio.pause();
+    centralDispatcher.dispatch({
+      'media.action' : 'pause'
+    })
   },
 
   render: function() {

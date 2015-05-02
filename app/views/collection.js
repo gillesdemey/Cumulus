@@ -43,16 +43,20 @@ var CollectionView = React.createClass({
 
   render: function() {
 
+    var playing = this.props.playing;
+
     return (
       <div>
         {this.state.favorites.map(function(item) {
           return (
-            <GridItem key={item.id}
-              id={item.id}
-              audio={new window.Audio(item.stream_url)}
-              cover={item.artwork_url}
-              title={item.title}
-              artist={item.user.username}
+            <GridItem
+              playing = {playing}
+              key     = {item.id}
+              id      = {item.id}
+              stream  = {item.stream_url}
+              cover   = {item.artwork_url}
+              title   = {item.title}
+              artist  = {item.user.username}
             >
             </GridItem>
           )

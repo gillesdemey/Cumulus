@@ -2,19 +2,36 @@
 
 var React        = require('react');
 var Router       = require('react-router');
+var RouteHandler = Router.RouteHandler;
 
 var Header       = require('../views/partials/header');
-var RouteHandler = Router.RouteHandler;
 var MediaPlayer  = require('./media-player');
+
+var dispatcher   = require('../js/centralDispatcher');
 
 var CumulusApp   = React.createClass({
 
-  // get access_token from config
   getInitialState: function () {
-    return { }
+    return {
+      'nowPlaying' : {},
+      'audio'      : {},
+    }
   },
 
-  componentDidMount: function() {
+  componentWillMount: function() {
+    dispatcher.register(function(msg) {
+
+      if (msg['media.action'] === 'play') {
+        this.setState({
+          'audio'      : msg['media.audio'],
+          'nowPlaying' : msg['media.nowPlaying']
+        });
+      }
+
+    }.bind(this))
+  },
+
+  componentWillUnmount: function() {
 
   },
 
@@ -24,7 +41,10 @@ var CumulusApp   = React.createClass({
       <div>
         <Header />
         <RouteHandler />
-        <MediaPlayer />
+        <MediaPlayer
+          cover={this.state.nowPlaying.cover}
+          title={this.state.nowPlaying.title}
+          audio={this.state.audio} />
       </div>
     );
   }
