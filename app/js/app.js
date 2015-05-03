@@ -1,15 +1,18 @@
 'use strict';
 
-var React      = require('react');
-var Router     = require('react-router');
-var CumulusApp = require('../components/CumulusApp');
+var Remote          = window.require('remote');
 
-var About      = require('../views/about');
-var Collection = require('../views/collection');
-var Feed       = require('../views/feed');
+var React           = require('react');
+var Router          = require('react-router');
 
-var Config       = window.require('remote').require('./lib/config');
-var SoundCloud   = window.SC;
+var CumulusApp      = require('./components/CumulusApp');
+
+var About           = require('../views/about');
+var Collection      = require('../views/collection');
+var Feed            = require('../views/feed');
+
+var Config          = Remote.require('./lib/config');
+var SoundCloud      = window.SC;
 
 /**
  * Router
@@ -26,9 +29,9 @@ var routes = (
 /**
  * Start the router and render Cumulus
  */
-function bootstrap() {
+function run() {
   Router.run(routes, function(Root) {
-    React.render(<Root/>, document.body);
+    React.render(<Root/>, document.getElementById('react'));
   });
 }
 
@@ -41,6 +44,7 @@ Config.get('access_token', function(err, token) {
     throw err;
 
   SoundCloud.initialize({ 'access_token' : token });
-
-  bootstrap();
+  run();
 })
+
+module.exports = CumulusApp;

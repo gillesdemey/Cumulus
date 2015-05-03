@@ -64,11 +64,11 @@ header a.active {
   text-align: center;
 }
 
-.cover__overlay .overlay__play-pause:after {
+.cover__overlay .overlay__play-pause.paused:after {
   content: '►';
 }
 
-.cover__overlay .overlay__play-pause.playing:after {
+.cover__overlay .overlay__play-pause:after {
   content: '❚❚';
 }
 

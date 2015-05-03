@@ -1,7 +1,7 @@
 'use strict';
 
 var React         = require('react');
-var GridItem      = require('../components/GridItem');
+var GridItem      = require('../js/components/GridItem');
 
 var SoundCloud    = window.SC;
 
@@ -30,7 +30,7 @@ var CollectionView = React.createClass({
       // append client key from streaming
       items.map(function(item) {
         if (item.stream_url)
-          item.stream_url += '?client_id=apigee';
+          item.stream_url += '?client_id=f17c1d67b83c86194fad2b1948061c9e';
       })
 
       this.setState({
@@ -43,14 +43,11 @@ var CollectionView = React.createClass({
 
   render: function() {
 
-    var playing = this.props.playing;
-
     return (
       <div>
         {this.state.favorites.map(function(item) {
           return (
             <GridItem
-              playing = {playing}
               key     = {item.id}
               id      = {item.id}
               stream  = {item.stream_url}

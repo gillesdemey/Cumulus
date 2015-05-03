@@ -3,46 +3,57 @@
 var React      = require('react');
 var classNames = require('classnames');
 
-var centralDispatcher = require('../js/centralDispatcher');
+var mediaDispatcher = require('../dispatcher/mediaDispatcher');
 
 var GridItem = React.createClass({
 
   getInitialState: function() {
-
-    var audio     = new window.Audio(this.props.stream);
-    audio.preload = 'metadata';
-
-    return { 'audio' : audio, 'playing' : false };
+    return { 'paused' : true };
   },
 
   handleClick: function() {
-    if (!this.state.playing)
+    if (this.state.paused)
       this.play();
     else
       this.pause();
+  },
 
-    this.setState({ 'playing' : !this.state.playing })
+  componentDidMount: function() {
+    mediaDispatcher.register(function(msg) {
+
+      // message from self
+      if (msg.nowPlaying && msg.nowPlaying.stream === this.props.stream) {
+        this.setState({ 'paused' : msg.action === 'pause' })
+      }
+
+      // message from mediaPlayer
+      if (msg.state && msg.stream === this.props.stream) {
+        this.setState({ 'paused' : msg.state === 'paused' })
+      }
+
+      if (msg.state && msg.stream !== this.props.stream) {
+        this.setState({ 'paused' : true })
+      }
+
+    }.bind(this));
   },
 
   play: function() {
-    centralDispatcher.dispatch({
-      'media.action'     : 'play',
-      'media.nowPlaying' : this.props,
-      'media.audio'      : this.state.audio,
+    mediaDispatcher.dispatch({
+      'action'     : 'play',
+      'nowPlaying' : this.props
     })
   },
 
   pause: function() {
-    centralDispatcher.dispatch({
-      'media.action' : 'pause'
-    })
+    mediaDispatcher.dispatch({ 'action' : 'pause' })
   },
 
   render: function() {
 
     var classes = classNames({
       'overlay__play-pause' : true,
-      'playing'             : this.state.playing
+      'paused'              : this.state.paused
     });
 
     return (
