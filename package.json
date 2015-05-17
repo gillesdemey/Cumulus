@@ -22,8 +22,10 @@
   },
   "dependencies": {
     "classnames": "^1.2.2",
-    "flux": "^2.0.3",
+    "lodash": "^3.8.0",
+    "mcfly": "0.0.10",
     "react": "^0.13.2",
-    "react-router": "^0.13.3"
+    "react-router": "^0.13.3",
+    "request-promise": "^0.4.2"
   }
 }

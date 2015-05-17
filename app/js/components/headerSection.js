@@ -3,7 +3,7 @@
 var React = require('react');
 var Link  = require('react-router').Link;
 
-var Header = React.createClass({
+var HeaderSection = React.createClass({
 
   render: function() {
     return (
@@ -19,4 +19,4 @@ var Header = React.createClass({
 
 });
 
-module.exports = Header;
+module.exports = HeaderSection;

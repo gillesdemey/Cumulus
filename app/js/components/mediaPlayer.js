@@ -1,66 +1,42 @@
 'use strict';
 
-var React       = require('react');
+var React       = require('react')
+var TrackStore  = require('../stores/trackStore')
 
-var mediaDispatcher  = require('../dispatcher/mediaDispatcher');
+function getStateFromStores() {
+  return {
+    'track' : TrackStore.getCurrentTrack()
+  }
+}
 
 var MediaPlayer = React.createClass({
 
-  audio: function() {
-    return React.findDOMNode(this.refs.audio);
-  },
-
   getInitialState: function() {
-    return {
-      'paused' : true,
-    };
+    return getStateFromStores();
   },
 
-  componentDidMount: function() {
-
+  componentWillMount: function() {
+    TrackStore.addChangeListener(this._onChange)
   },
 
-  play: function() {
-    if (!this.props.stream)
-      return;
-
-    this.audio().play();
-    mediaDispatcher.dispatch({
-      'state'  : 'playing',
-      'stream' : this.props.stream
-    });
+  componentWillUnmount: function() {
+    TrackStore.addChangeListener(this._onChange)
   },
 
-  pause: function() {
-    if (!this.props.stream)
-      return;
-
-    this.audio().pause();
-    mediaDispatcher.dispatch({
-      'state'  : 'paused',
-      'stream' : this.props.stream
-    });
+  _onChange: function() {
+    this.setState(getStateFromStores())
   },
 
-  componentWillReceiveProps: function(nextProps) {
-    if (nextProps.paused)
-      this.pause();
-    else if (!nextProps.paused && this.props.stream)
-      this.play();
+  play: function() { },
 
-    this.setState({
-      'paused' : nextProps.paused
-    })
-  },
+  pause: function() { },
 
   render: function() {
-
     return (
       <div className="cumulus__media-player">
-        <img src={this.props.cover} alt={this.props.title} height="30" width="30" />
-        { this.props.title } { this.state.paused ? '►' : '❚❚' }
-        <audio controls autoPlay ref="audio" src={this.props.stream} preload="metadata">
-        </audio>
+        <img src={this.state.track.artwork_url} alt={this.state.track.title} height="30" width="30" />
+        { this.state.track.title } { this.state.paused ? '►' : '❚❚' }
+        <audio controls autoPlay src={this.state.track.stream_url} preload="metadata"></audio>
       </div>
     );
   }

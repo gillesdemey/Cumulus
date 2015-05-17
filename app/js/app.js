@@ -7,12 +7,12 @@ var Router          = require('react-router');
 
 var CumulusApp      = require('./components/CumulusApp');
 
-var About           = require('../views/about');
-var Collection      = require('../views/collection');
-var Feed            = require('../views/feed');
+var About           = require('./components/aboutView');
+var Collection      = require('./components/collectionView');
+var Feed            = require('./components/feedView');
 
 var Config          = Remote.require('./lib/config');
-var SoundCloud      = window.SC;
+var SoundCloud      = require('./utils/soundcloud');
 
 /**
  * Router
@@ -43,7 +43,11 @@ Config.get('access_token', function(err, token) {
   if (err)
     throw err;
 
-  SoundCloud.initialize({ 'access_token' : token });
+  SoundCloud.initialize({
+    'access_token' : token,
+    'client_id'    : 'f17c1d67b83c86194fad2b1948061c9e'
+  });
+
   run();
 })
 

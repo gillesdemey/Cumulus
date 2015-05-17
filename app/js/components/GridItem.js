@@ -2,51 +2,28 @@
 
 var React      = require('react');
 var classNames = require('classnames');
-
-var mediaDispatcher = require('../dispatcher/mediaDispatcher');
+var Actions    = require('../actions/actionCreators')
 
 var GridItem = React.createClass({
 
+  // The audio object is passed to the MediaPlayer component and kept in sync
   getInitialState: function() {
-    return { 'paused' : true };
+    return { 'paused' : true }
   },
 
-  handleClick: function() {
+  playOrPause: function() {
     if (this.state.paused)
-      this.play();
+      this.play()
     else
-      this.pause();
-  },
-
-  componentDidMount: function() {
-    mediaDispatcher.register(function(msg) {
-
-      // message from self
-      if (msg.nowPlaying && msg.nowPlaying.stream === this.props.stream) {
-        this.setState({ 'paused' : msg.action === 'pause' })
-      }
-
-      // message from mediaPlayer
-      if (msg.state && msg.stream === this.props.stream) {
-        this.setState({ 'paused' : msg.state === 'paused' })
-      }
-
-      if (msg.state && msg.stream !== this.props.stream) {
-        this.setState({ 'paused' : true })
-      }
-
-    }.bind(this));
+      this.pause()
   },
 
   play: function() {
-    mediaDispatcher.dispatch({
-      'action'     : 'play',
-      'nowPlaying' : this.props
-    })
+    Actions.playTrack(this.props.track)
   },
 
   pause: function() {
-    mediaDispatcher.dispatch({ 'action' : 'pause' })
+    Actions.pauseTrack(this.props.track)
   },
 
   render: function() {
@@ -59,17 +36,17 @@ var GridItem = React.createClass({
     return (
       <div className="grid-item">
         <div className="item__cover">
-          <img src={this.props.cover} width="200" height="200" />
+          <img src={this.props.track.artwork_url} width="200" height="200" />
           <div className="cover__overlay">
-            <a className={classes} onClick={this.handleClick}></a>
+            <a className={classes} onClick={this.playOrPause}></a>
           </div>
         </div>
-        <span className="title">{this.props.title}</span>
-        <span className="artist">{this.props.artist}</span>
+        <span className="title">{this.props.track.title}</span>
+        <span className="artist">{this.props.track.artist}</span>
       </div>
     );
   }
 
-});
+})
 
 module.exports = GridItem;

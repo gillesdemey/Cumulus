@@ -1,58 +1,31 @@
 'use strict';
 
-var React        = require('react');
-var Router       = require('react-router');
-var RouteHandler = Router.RouteHandler;
+var React        = require('react')
+var RouteHandler = require('react-router').RouteHandler
 
-var Header       = require('../../views/partials/header');
-var MediaPlayer  = require('./mediaPlayer');
+var TrackStore   = require('../stores/TrackStore')
 
-var mediaDispatcher   = require('../dispatcher/mediaDispatcher');
+var Header       = require('./headerSection')
+var MediaPlayer  = require('./mediaPlayer')
 
 var CumulusApp   = React.createClass({
 
-  getInitialState: function () {
-    return {
-      'nowPlaying' : {},
-      'paused'     : true,
-    }
-  },
+  mixins : [TrackStore.mixin],
 
-  componentWillMount: function() {
-    mediaDispatcher.register(function(msg) {
-
-      if (msg.action === 'play') {
-        this.setState({
-          'nowPlaying' : msg.nowPlaying,
-          'paused'     : false
-        });
-      }
-      else if (msg.action === 'pause') {
-        this.setState({ 'paused' : true });
-      }
-
-    }.bind(this))
-  },
-
-  componentWillUnmount: function() {
+  storeDidChange: function() {
 
   },
 
   render: function() {
-
     return (
       <div className="cumulusapp">
         <Header />
         <RouteHandler />
-        <MediaPlayer
-          paused = { this.state.paused }
-          cover  = { this.state.nowPlaying.cover }
-          title  = { this.state.nowPlaying.title }
-          stream = { this.state.nowPlaying.stream } />
+        <MediaPlayer />
       </div>
-    );
+    )
   }
 
-});
+})
 
-module.exports = CumulusApp;
+module.exports = CumulusApp
