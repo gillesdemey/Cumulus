@@ -2,13 +2,13 @@
 
 var McFly = require('../utils/mcfly');
 
-var _track = {}  // Current track information
-var _audio       // Current audio element
+var _track = {}          // Current track information
+var _audio = new Audio() // Current audio element
 
 function _setTrack(track) {
   _track = track
 
-  if (_audio && !_audio.paused)
+  if (!_audio.paused)
     _audio.pause()
 
   _audio = new Audio(track.stream_url)
@@ -38,7 +38,8 @@ var TrackStore = McFly.createStore({
 
     case 'PLAY_TRACK':
 
-      if (_track.id !== payload.track.id) {
+      // We can call 'play' without a track, resume the current active track
+      if (payload.track && _track.id !== payload.track.id) {
         _setTrack(payload.track)
       }
 
@@ -56,7 +57,6 @@ var TrackStore = McFly.createStore({
   return true
 });
 
-// increase max listeners to infinity
-TrackStore.setMaxListeners(0)
+TrackStore.setMaxListeners(0) // increase max listeners to infinity
 
 module.exports = TrackStore
