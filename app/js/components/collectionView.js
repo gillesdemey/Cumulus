@@ -24,7 +24,7 @@ var CollectionView = React.createClass({
   },
 
   componentWillUnmount: function() {
-    TrackStore.addChangeListener(this._onChange)
+    TrackStore.removeChangeListener(this._onChange)
   },
 
   _onChange: function() {
@@ -36,9 +36,6 @@ var CollectionView = React.createClass({
     return (
       <div>
         {this.state.collection.map(function(item) {
-
-          if (!item) return
-
           return (
             <GridItem
               key   = {item.id}

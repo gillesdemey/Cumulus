@@ -1,11 +1,13 @@
 'use strict';
 
-var React       = require('react')
-var TrackStore  = require('../stores/trackStore')
+var React             = require('react')
+var Actions           = require('../actions/actionCreators')
+var CurrentTrackStore = require('../stores/currentTrackStore')
 
 function getStateFromStores() {
   return {
-    'track' : TrackStore.getCurrentTrack()
+    'track' : CurrentTrackStore.getCurrentTrack(),
+    'audio' : CurrentTrackStore.getCurrentAudio()
   }
 }
 
@@ -16,27 +18,34 @@ var MediaPlayer = React.createClass({
   },
 
   componentWillMount: function() {
-    TrackStore.addChangeListener(this._onChange)
+    CurrentTrackStore.addChangeListener(this._onChange)
   },
 
   componentWillUnmount: function() {
-    TrackStore.addChangeListener(this._onChange)
+    CurrentTrackStore.removeChangeListener(this._onChange)
   },
 
   _onChange: function() {
     this.setState(getStateFromStores())
   },
 
-  play: function() { },
+  play: function() {
+    Actions.playTrack(this.state.track)
+  },
 
-  pause: function() { },
+  pause: function() {
+    Actions.pauseTrack(this.state.track)
+  },
 
   render: function() {
+
+    if (!this.state.audio)
+      return (<div className="cumulus__media-player"></div>)
+
     return (
       <div className="cumulus__media-player">
         <img src={this.state.track.artwork_url} alt={this.state.track.title} height="30" width="30" />
-        { this.state.track.title } { this.state.paused ? '►' : '❚❚' }
-        <audio controls autoPlay src={this.state.track.stream_url} preload="metadata"></audio>
+        { this.state.track.title } { this.state.audio.paused ? '►' : '❚❚' }
       </div>
     );
   }

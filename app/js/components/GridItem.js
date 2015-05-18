@@ -1,37 +1,57 @@
 'use strict';
 
-var React      = require('react');
-var classNames = require('classnames');
-var Actions    = require('../actions/actionCreators')
+var React             = require('react')
+var classNames        = require('classnames')
+var Actions           = require('../actions/actionCreators')
+var CurrentTrackStore = require('../stores/currentTrackStore')
 
 var GridItem = React.createClass({
 
-  // The audio object is passed to the MediaPlayer component and kept in sync
   getInitialState: function() {
-    return { 'paused' : true }
+    return {
+      'track'  : this.props.track,
+      'audio' : new window.Audio(this.props.track.stream_url)
+    }
+  },
+
+  componentWillMount: function() {
+    CurrentTrackStore.addChangeListener(this._onChange)
+  },
+
+  componentWillUnmount: function() {
+    CurrentTrackStore.removeChangeListener(this._onChange)
+  },
+
+  _onChange: function() {
+    var currentAudio = CurrentTrackStore.getCurrentAudio()
+
+    // currentAudio is already updated, pause this local audio element
+    if (currentAudio.src !== this.state.audio.src)
+      this.state.audio.pause()
+
   },
 
   playOrPause: function() {
-    if (this.state.paused)
+    if (this.state.audio.paused)
       this.play()
     else
       this.pause()
   },
 
   play: function() {
-    Actions.playTrack(this.props.track)
+    Actions.playTrack(this.state.track, this.state.audio)
   },
 
   pause: function() {
-    Actions.pauseTrack(this.props.track)
+    Actions.pauseTrack()
   },
 
   render: function() {
 
     var classes = classNames({
       'overlay__play-pause' : true,
-      'paused'              : this.state.paused
-    });
+      'paused'              : this.state.audio.paused
+    })
 
     return (
       <div className="grid-item">
@@ -44,9 +64,9 @@ var GridItem = React.createClass({
         <span className="title">{this.props.track.title}</span>
         <span className="artist">{this.props.track.artist}</span>
       </div>
-    );
+    )
   }
 
 })
 
-module.exports = GridItem;
+module.exports = GridItem

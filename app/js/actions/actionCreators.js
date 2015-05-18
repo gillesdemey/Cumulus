@@ -5,25 +5,18 @@ var SoundCloud  = require('../utils/soundcloud')
 
 var actions = McFly.createActions({
 
-  playTrack: function(track) {
+  playTrack: function(track, audio) {
     return {
       'actionType' : 'PLAY_TRACK',
-      'track'      : track
-    };
+      'track'      : track,
+      'audio'      : audio
+    }
   },
 
-  pauseTrack: function(track) {
+  pauseTrack: function() {
     return {
-      'actionType' : 'PAUSE_TRACK',
-      'track'      : track
-    };
-  },
-
-  likeTrack: function(track) {
-    return {
-      'actionType' : 'LIKE_TRACK',
-      'track'      : track
-    };
+      'actionType' : 'PAUSE_TRACK'
+    }
   },
 
   // TODO: maybe separate this into a new actions file for API calls
@@ -37,6 +30,6 @@ var actions = McFly.createActions({
       })
   }
 
-});
+})
 
-module.exports = actions;
+module.exports = actions
