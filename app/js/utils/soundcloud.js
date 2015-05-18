@@ -47,8 +47,6 @@ SoundCloud.prototype.makeRequest = function(shortUrl, options) {
     .promise()
     .map(function(item) {
 
-      console.log(item)
-
       if (item.stream_url) // append client_id for audio stream access
         item.stream_url += '?client_id=' + self._clientId
 

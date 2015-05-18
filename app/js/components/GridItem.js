@@ -8,10 +8,16 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 var GridItem = React.createClass({
 
   getInitialState: function() {
-    return {
-      'track'  : this.props.track,
-      'audio' : new window.Audio(this.props.track.stream_url)
+
+    var audio
+
+    if (CurrentTrackStore.getCurrentAudio().src === this.props.track.stream_url) {
+      audio = CurrentTrackStore.getCurrentAudio()
+    } else {
+      audio = new window.Audio(this.props.track.stream_url)
     }
+
+    return { 'audio' : audio }
   },
 
   componentWillMount: function() {
@@ -39,7 +45,7 @@ var GridItem = React.createClass({
   },
 
   play: function() {
-    Actions.playTrack(this.state.track, this.state.audio)
+    Actions.playTrack(this.props.track, this.state.audio)
   },
 
   pause: function() {
@@ -47,6 +53,8 @@ var GridItem = React.createClass({
   },
 
   render: function() {
+
+    var cover = this.props.track.artwork_url || this.props.track.user.avatar_url
 
     var classes = classNames({
       'overlay__play-pause' : true,
@@ -56,7 +64,7 @@ var GridItem = React.createClass({
     return (
       <div className="grid-item">
         <div className="item__cover">
-          <img src={this.props.track.artwork_url} width="200" height="200" />
+          <img src={cover} width="200" height="200" />
           <div className="cover__overlay">
             <a className={classes} onClick={this.playOrPause}></a>
           </div>

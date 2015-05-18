@@ -51,4 +51,6 @@ var TrackStore = McFly.createStore({
   return true
 });
 
+TrackStore.setMaxListeners(0)
+
 module.exports = TrackStore
