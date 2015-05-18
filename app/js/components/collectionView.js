@@ -20,7 +20,9 @@ var CollectionView = React.createClass({
 
   componentWillMount: function() {
     TrackStore.addChangeListener(this._onChange)
-    Actions.fetchCollection()
+
+    if (TrackStore.getCollection().length === 0)
+      Actions.fetchCollection()
   },
 
   componentWillUnmount: function() {

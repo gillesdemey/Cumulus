@@ -16,6 +16,7 @@
     "trailing": true,
     "smarttabs": false,
     "laxcomma": true,
+    "laxbreak": true,
     "white": true,
     "globals": {
         "document": true,

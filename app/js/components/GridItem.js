@@ -11,8 +11,21 @@ var GridItem = React.createClass({
     return { 'paused' : true }
   },
 
+  getStateFromStores : function() {
+    var currentTrack = CurrentTrackStore.getTrack()
+    var currentAudio = CurrentTrackStore.getAudio()
+
+    var paused = currentTrack.id === this.props.track.id
+      ? currentAudio.paused
+      : true
+
+    return { 'paused' : paused }
+  },
+
   componentWillMount: function() {
     CurrentTrackStore.addChangeListener(this._onChange)
+
+    this.setState(this.getStateFromStores())
   },
 
   componentWillUnmount: function() {

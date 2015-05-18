@@ -20,11 +20,12 @@ var TrackStore = McFly.createStore({
 
     case 'LOADED_COLLECTION':
       _setCollection(payload.collection)
-      break;
+      break
 
   }
 
   TrackStore.emitChange()
+
   return true
 });
 
