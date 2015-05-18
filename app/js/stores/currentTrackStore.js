@@ -2,30 +2,34 @@
 
 var McFly = require('../utils/mcfly');
 
-var _currentTrack = {}                  // Current track information
-var _currentAudio = new window.Audio()  // Current audio element
+var _track = {}  // Current track information
+var _audio       // Current audio element
 
-function _setCurrentTrack(track, audio) {
-  _currentTrack = track
-  _currentAudio = audio
+function _setTrack(track) {
+  _track = track
+
+  if (_audio && !_audio.paused)
+    _audio.pause()
+
+  _audio = new Audio(track.stream_url)
 }
 
-function _pauseCurrentTrack() {
-  _currentAudio.pause()
+function _pause() {
+  _audio.pause()
 }
 
-function _startCurrentTrack() {
-  _currentAudio.play()
+function _play() {
+  _audio.play()
 }
 
 var TrackStore = McFly.createStore({
 
-  getCurrentTrack: function() {
-    return _currentTrack
+  getTrack: function() {
+    return _track
   },
 
-  getCurrentAudio: function() {
-    return _currentAudio
+  getAudio: function() {
+    return _audio
   }
 
 }, function(payload) {
@@ -34,23 +38,25 @@ var TrackStore = McFly.createStore({
 
     case 'PLAY_TRACK':
 
-      if (_currentTrack.id !== payload.track.id) {
-        _setCurrentTrack(payload.track, payload.audio)
+      if (_track.id !== payload.track.id) {
+        _setTrack(payload.track)
       }
 
-      _startCurrentTrack()
+      _play()
       break
 
     case 'PAUSE_TRACK':
-      _pauseCurrentTrack()
+      _pause()
       break
 
   }
 
   TrackStore.emitChange()
+
   return true
 });
 
+// increase max listeners to infinity
 TrackStore.setMaxListeners(0)
 
 module.exports = TrackStore

@@ -6,8 +6,8 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 
 function getStateFromStores() {
   return {
-    'track' : CurrentTrackStore.getCurrentTrack(),
-    'audio' : CurrentTrackStore.getCurrentAudio()
+    'track' : CurrentTrackStore.getTrack(),
+    'audio' : CurrentTrackStore.getAudio()
   }
 }
 
@@ -30,11 +30,11 @@ var MediaPlayer = React.createClass({
   },
 
   play: function() {
-    Actions.playTrack(this.state.track)
+    Actions.playTrack()
   },
 
   pause: function() {
-    Actions.pauseTrack(this.state.track)
+    Actions.pauseTrack()
   },
 
   render: function() {

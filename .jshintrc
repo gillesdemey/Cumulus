@@ -19,6 +19,7 @@
     "white": true,
     "globals": {
         "document": true,
-        "window"  : true
+        "window"  : true,
+        "Audio"   : true
     }
 }

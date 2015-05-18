@@ -8,16 +8,7 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 var GridItem = React.createClass({
 
   getInitialState: function() {
-
-    var audio
-
-    if (CurrentTrackStore.getCurrentAudio().src === this.props.track.stream_url) {
-      audio = CurrentTrackStore.getCurrentAudio()
-    } else {
-      audio = new window.Audio(this.props.track.stream_url)
-    }
-
-    return { 'audio' : audio }
+    return { 'paused' : true }
   },
 
   componentWillMount: function() {
@@ -29,23 +20,23 @@ var GridItem = React.createClass({
   },
 
   _onChange: function() {
-    var currentAudio = CurrentTrackStore.getCurrentAudio()
+    var currentTrack = CurrentTrackStore.getTrack()
 
-    // currentAudio is already updated, pause this local audio element
-    if (currentAudio.src !== this.state.audio.src)
-      this.state.audio.pause()
-
+    if (currentTrack.id === this.props.track.id)
+      this.setState({ 'paused' : !this.state.paused })
+    else
+      this.setState({ 'paused' : true })
   },
 
   playOrPause: function() {
-    if (this.state.audio.paused)
+    if (this.state.paused)
       this.play()
     else
       this.pause()
   },
 
   play: function() {
-    Actions.playTrack(this.props.track, this.state.audio)
+    Actions.playTrack(this.props.track)
   },
 
   pause: function() {
@@ -58,7 +49,7 @@ var GridItem = React.createClass({
 
     var classes = classNames({
       'overlay__play-pause' : true,
-      'paused'              : this.state.audio.paused
+      'paused'              : this.state.paused
     })
 
     return (

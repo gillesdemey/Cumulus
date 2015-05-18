@@ -5,11 +5,10 @@ var SoundCloud  = require('../utils/soundcloud')
 
 var actions = McFly.createActions({
 
-  playTrack: function(track, audio) {
+  playTrack: function(track) {
     return {
       'actionType' : 'PLAY_TRACK',
-      'track'      : track,
-      'audio'      : audio
+      'track'      : track
     }
   },
 
