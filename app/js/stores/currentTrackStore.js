@@ -27,7 +27,6 @@ function _setTrack(track) {
 }
 
 function _setLoading() {
-  console.log('loading')
   _setAudioState({ 'loading' : true })
   TrackStore.emitChange()
 }
