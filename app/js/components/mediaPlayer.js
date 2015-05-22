@@ -4,10 +4,13 @@ var React             = require('react')
 var Actions           = require('../actions/actionCreators')
 var CurrentTrackStore = require('../stores/currentTrackStore')
 
+var classNames        = require('classnames')
+
 function getStateFromStores() {
   return {
-    'track' : CurrentTrackStore.getTrack(),
-    'audio' : CurrentTrackStore.getAudio()
+    'track'      : CurrentTrackStore.getTrack(),
+    'audio'      : CurrentTrackStore.getAudio(),
+    'audioState' : CurrentTrackStore.getState()
   }
 }
 
@@ -30,7 +33,7 @@ var MediaPlayer = React.createClass({
   },
 
   playOrPause: function() {
-    if (this.state.audio.paused)
+    if (this.state.audioState.paused)
       this.play()
     else
       this.pause()
@@ -46,16 +49,50 @@ var MediaPlayer = React.createClass({
 
   render: function() {
 
-    if (!this.state.audio)
-      return (<div className="cumulus__media-player"></div>)
+    var playPause = this.state.audioState.paused ? 'fi fi-play' : 'fi fi-pause'
+
+    var classes = classNames({
+      'cumulus__media-player' : true,
+      'hidden'                : !this.state.audio.src
+    })
 
     return (
-      <div className="cumulus__media-player">
-        <img src={this.state.track.artwork_url} alt={this.state.track.title} height="30" width="30" />
+      <div className={classes}>
+
         <div className="media-player__controls">
-          <a className="controls__play-pause" onClick={this.playOrPause}>
-            { this.state.track.title } { this.state.audio.paused ? '►' : '❚❚' }
-          </a>
+
+          <div className="controls__play-pause-skip">
+
+            <button className="controls__previous">
+              <i className="fi fi-previous"></i>
+            </button>
+
+            <button className="controls__play-pause" onClick={this.playOrPause}>
+              <i className={playPause}></i>
+            </button>
+
+            <button className="controls__next">
+              <i className="fi fi-next"></i>
+            </button>
+
+          </div>
+
+          <div className="controls__timeline">
+
+          </div>
+
+          <div className="controls__volume">
+
+          </div>
+
+        </div>
+
+        <div className="media-player__cover">
+          <img src={this.state.track.artwork_url} alt={this.state.track.title} height="30" width="30" />
+        </div>
+
+        <div className="media-player__meta">
+          { this.state.track.title }
         </div>
 
       </div>

@@ -8,7 +8,7 @@ var querystring   = require('querystring');
 
 var config        = require('./lib/config');
 
-require('crash-reporter').start();
+// require('crash-reporter').start();
 
 var mainWindow  = null;
 var loginWindow = null;
@@ -70,4 +70,5 @@ app.on('ready', function() {
   mainWindow.on('closed', function() {
     mainWindow = null;
   });
+
 });
