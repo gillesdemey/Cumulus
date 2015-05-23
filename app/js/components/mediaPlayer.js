@@ -88,6 +88,10 @@ var MediaPlayer = React.createClass({
       'hidden'                : !this.state.audio.src
     })
 
+    var cover = this.state.track.artwork_url || (this.state.track.user
+      ? this.state.track.user.avatar_url
+      : null)
+
     var playPause = this.state.audio.paused ? 'fi fi-play' : 'fi fi-pause'
 
     var progress = Math.round
@@ -153,7 +157,7 @@ var MediaPlayer = React.createClass({
         </div>
 
         <div className="media-player__cover">
-          <img src={this.state.track.artwork_url} alt={this.state.track.title} height="30" width="30" />
+          <img src={cover} alt={this.state.track.title} height="30" width="30" />
         </div>
 
         <div className="media-player__meta">

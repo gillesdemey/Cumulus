@@ -43,6 +43,7 @@ header a.active {
   height: 200px;
 
   overflow: hidden;
+  background-size: cover;
   background-position: center center;
 
   margin-bottom: 5px;

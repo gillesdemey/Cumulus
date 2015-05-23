@@ -53,6 +53,9 @@ SoundCloud.prototype.makeRequest = function(shortUrl, options) {
       if (item.artwork_url) // high-resolution artwork
         item.artwork_url = item.artwork_url.replace('-large', '-t200x200');
 
+      if (item.user.avatar_url)
+        item.user.avatar_url = item.user.avatar_url.replace('-large', '-t200x200');
+
       return item
     })
     .catch(function(ex) {
