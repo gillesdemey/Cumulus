@@ -73,7 +73,7 @@ header a.active {
   width: 100%;
   height: 100%;
 
-  color: white;
+  color: #fff;
   font-size: 60px;
 
   line-height: 200px;
@@ -86,7 +86,10 @@ header a.active {
 }
 
 .cover__overlay .overlay__play-pause.loading:before {
-  content: '\f16b' !important;
+  content: '' !important;
+  background: url('http://labs.voronianski.com/react-soundplayer/assets/preloader.svg');
+  width: 32px;
+  height: 32px;
 }
 
 .cover__overlay .overlay__play-pause.error:before {
@@ -221,6 +224,8 @@ header a.active {
   width: 46px;
   text-align: center;
   cursor: default;
+
+  -webkit-user-select: none;
 }
 
 .controls__timeline .timeline__current {
@@ -254,39 +259,39 @@ header a.active {
   cursor: pointer;
 }
 
-.timeline__seeker .seeker__progress-bar-background {
+.timeline__seeker .seeker__progress-bar {
+  -webkit-appearance: none;
   position: absolute;
 
-  height: 1px;
   width: 100%;
-
-  background: #C1C1C1;
-}
-
-.timeline__seeker .seeker__progress-bar {
-  position: relative;
-
-  width: 200px;
   height: 1px;
-
-  background: orangered;
 }
 
-.timeline__seeker .seeker__progress-handle {
+.seeker__progress-bar::-webkit-progress-bar {
+  background-color: #C1C1C1;
+}
+
+.seeker__progress-bar::-webkit-progress-value {
+  background-color: orangered;
+  transition: all 250ms;
+}
+
+.seeker__progress-bar::-webkit-progress-value::after {
+  content: '';
   position: relative;
 
   width: 9px;
   height: 9px;
 
-  margin-left: -5px;
-  margin-top: -5px;
+  margin-left: -4.5px;
+  margin-top: -4.5px;
 
-  background: orangered;
+  float: right;
+
+  background-color: orangered;
 
   border-radius: 100%;
   cursor: pointer;
-
-  transform: translateX(200px);
 }
 
 .media-player__controls .controls__previous,

@@ -9,11 +9,19 @@ var TrackStore
 var _track = {}          // Current track information
 var _audio = new Audio() // Current audio element
 
+function _showNotification(track) {
+  new Notification(track.title, {
+    body : track.user.username,
+    icon : track.artwork_url,
+  })
+}
+
 function _setTrack(track) {
   _track = track
 
   _audio.src = track.stream_url
   _audio.load() // load the new stream source
+  _showNotification(track)
 }
 
 function _setLoading() {
@@ -70,6 +78,7 @@ function _previousTrack() {
   })
 
   _audio.addEventListener('error', function() {
+    _audio.loading = false
     TrackStore.emitChange()
     _nextTrack()
   })

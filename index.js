@@ -1,6 +1,6 @@
 'use strict';
 
-var app            = require('app')
+// var app            = require('app')
 var BrowserWindow  = require('browser-window')
 var globalShortcut = require('global-shortcut')
 
@@ -9,13 +9,20 @@ var querystring    = require('querystring')
 
 var config         = require('./lib/config')
 
+var menubar        = require('menubar')
+var mb             = menubar({
+  dir           : './app/',
+  preloadWindow : true,
+  width         : 400,
+  height        : 600,
+})
+
 /**
  * Window references
  */
-var mainWindow  = null
 var loginWindow = null
 
-app.on('ready', function() {
+mb.on('ready', function() {
 
   function doLogin() {
 
@@ -33,8 +40,7 @@ app.on('ready', function() {
     if (loginWindow)
       loginWindow.close()
 
-    mainWindow.loadUrl('file://' + __dirname + '/app/index.html')
-    mainWindow.show()
+    mb.window.loadUrl('file://' + __dirname + '/app/index.html')
   }
 
   /**
@@ -67,34 +73,20 @@ app.on('ready', function() {
       doLogin()
   })
 
-
-  mainWindow = new BrowserWindow({
-    'width'    : 960,
-    'height'   : 600,
-    'min-width': 900,
-  })
-
   globalShortcut.register('MediaPlayPause', function() {
-    mainWindow.webContents.send('GlobalShortcuts', 'MediaPlayPause')
+    mb.window.webContents.send('GlobalShortcuts', 'MediaPlayPause')
   })
 
   globalShortcut.register('MediaNextTrack', function() {
-    mainWindow.webContents.send('GlobalShortcuts', 'MediaNextTrack')
+    mb.window.webContents.send('GlobalShortcuts', 'MediaNextTrack')
   })
 
   globalShortcut.register('MediaPreviousTrack', function() {
-    mainWindow.webContents.send('GlobalShortcuts', 'MediaPreviousTrack')
-  })
-
-  mainWindow.hide()
-
-  mainWindow.on('closed', function() {
-    mainWindow = null
+    mb.window.webContents.send('GlobalShortcuts', 'MediaPreviousTrack')
   })
 
 })
 
-app.on('window-all-closed', function() {
-  if (process.platform !== 'darwin')
-    app.quit()
+mb.on('after-show', function() {
+  mb.window.openDevTools()
 })

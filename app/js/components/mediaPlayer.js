@@ -29,21 +29,12 @@ var MediaPlayer = React.createClass({
 
   componentWillMount: function() {
     CurrentTrackStore.addChangeListener(this._onChange)
-
-    // only mediaPlayer needs to know about currentTime updates
     this.state.audio.addEventListener('timeupdate', this.updateHandler)
   },
 
   componentWillUnmount: function() {
     CurrentTrackStore.removeChangeListener(this._onChange)
     this.state.audio.removeEventListener('timeupdate', this.updateHandler)
-  },
-
-  componentDidMount: function() {
-    // TODO: don't set this as state
-    this.setState({
-      'seekerWidth' : this.refs.seeker.getDOMNode().getBoundingClientRect().width
-    })
   },
 
   _onChange: function() {
@@ -94,24 +85,12 @@ var MediaPlayer = React.createClass({
 
     var playPause = this.state.audio.paused ? 'fi fi-play' : 'fi fi-pause'
 
-    var progress = Math.round
-      ((this.state.audio.currentTime / (this.state.track.duration / 1000))
-        *  this.state.seekerWidth)
-      || 0
-
     var currentTime = time.formatDuration(this.state.audio.currentTime)
 
     var duration = this.state.timeLeft
-      ? '-' + (time.formatDuration((this.state.track.duration / 1000) - this.state.audio.currentTime))
+      ? '-' + (time.formatDuration((this.state.track.duration / 1000)
+         - this.state.audio.currentTime))
       : time.formatDuration(this.state.track.duration / 1000)
-
-    var handle = {
-      'transform' : 'translateX(' + progress + 'px)'
-    }
-
-    var progressBar = {
-      'width' : progress
-    }
 
     return (
       <div className={classes}>
@@ -135,19 +114,25 @@ var MediaPlayer = React.createClass({
           </div>
 
           <div className="controls__timeline">
+
             <div className="timeline__current">
               { currentTime }
             </div>
+
             <div className="timeline__seeker">
               <div className="seeker__wrapper" ref="seeker" onClick={this.seek}>
-                <div className="seeker__progress-bar-background"></div>
-                <div className="seeker__progress-bar" style={progressBar}></div>
-                <div className="seeker__progress-handle" style={handle}></div>
+                <progress
+                  className="seeker__progress-bar"
+                  value={ this.state.audio.currentTime }
+                  max={ (this.state.track.duration / 1000) || 0 }>
+                </progress>
               </div>
             </div>
+
             <div className="timeline__duration" onClick={this.toggleTimeLeft}>
               { duration }
             </div>
+
           </div>
 
           <div className="controls__volume">
