@@ -86,11 +86,13 @@ header a.active {
 }
 
 .cover__overlay .overlay__play-pause.loading::before {
+  $size: 70px;
+
   background-image: url('../assets/loader.svg');
   background-size: contain;
-  width: 70px;
-  height: 70px;
-  line-height: 70px;
+  width: $size;
+  height: $size;
+  line-height: $size;
 }
 
 .cover__overlay .overlay__play-pause.error::before {

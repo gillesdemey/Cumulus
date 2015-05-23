@@ -3,12 +3,16 @@
   "version": "0.1.0",
   "main": "index.js",
   "scripts": {
-    "start": "watchify -o app/js/bundle.js -v -d app/js/app.js",
+    "start": "grunt",
     "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js"
   },
   "devDependencies": {
     "browserify": "^10.0.0",
     "envify": "^3.4.0",
+    "grunt": "^0.4.5",
+    "grunt-browserify": "^3.8.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-sass": "^1.0.0",
     "reactify": "^1.1.0",
     "uglify-js": "^2.4.20",
     "watchify": "^3.2.1"
