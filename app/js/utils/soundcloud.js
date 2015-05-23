@@ -64,6 +64,19 @@ SoundCloud.prototype.makeRequest = function(shortUrl, options) {
 
 }
 
+SoundCloud.prototype.fetchVisual = function(trackId) {
+  return rp('https://visuals.soundcloud.com/visuals?urn=soundcloud:sounds:' + trackId, {
+    json: true,
+    transform: function(body, response) {
+      return body.visuals ? body.visuals[0].visual_url : null;
+    }
+  })
+    .promise()
+    .catch(function(ex) {
+      console.error(ex)
+    });
+};
+
 SoundCloud.prototype.fetchCollection = function() {
   return SoundCloud.prototype.makeRequest.call(this, 'me/favorites')
 }
