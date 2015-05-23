@@ -85,14 +85,14 @@ header a.active {
   cursor: pointer;
 }
 
-.cover__overlay .overlay__play-pause.loading:before {
+.cover__overlay .overlay__play-pause.loading::before {
   content: '' !important;
   background: url('http://labs.voronianski.com/react-soundplayer/assets/preloader.svg');
   width: 32px;
   height: 32px;
 }
 
-.cover__overlay .overlay__play-pause.error:before {
+.cover__overlay .overlay__play-pause.error::before {
   content: '\f217' !important;
 }
 
@@ -137,7 +137,7 @@ header a.active {
   margin-top: 15px;
 }
 
-.item__footer:after {
+.item__footer::after {
   content: '';
   clear: both;
   display: table;
