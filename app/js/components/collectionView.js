@@ -1,7 +1,7 @@
 'use strict';
 
 var React         = require('react')
-var GridItem      = require('./GridItem')
+var ListItem      = require('./ListItem')
 
 var Actions       = require('../actions/actionCreators')
 var TrackStore    = require('../stores/trackStore')
@@ -39,11 +39,11 @@ var CollectionView = React.createClass({
       <div>
         {this.state.collection.map(function(item) {
           return (
-            <GridItem
+            <ListItem
               key   = {item.id}
               track = {item}
             >
-            </GridItem>
+            </ListItem>
           )
         })}
       </div>
