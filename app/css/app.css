@@ -203,6 +203,91 @@ header a.active {
   margin: 0 10px;
 }
 
+.media-player__controls .controls__play-pause-skip,
+.media-player__controls .controls__timeline {
+  float: left;
+}
+
+.media-player__controls .controls__timeline {
+  width: 500px;
+}
+
+.controls__timeline .timeline__current,
+.controls__timeline .timeline__duration {
+  font-size: 11px;
+  line-height: 50px;
+
+  width: 46px;
+  text-align: center;
+  cursor: default;
+}
+
+.controls__timeline .timeline__current {
+  float: left;
+}
+
+.controls__timeline .timeline__duration {
+  float: right;
+}
+
+.controls__timeline .timeline__seeker {
+  height: 46px;
+  width: 408px;
+
+  left: 46px;
+  right: 46px;
+
+  float: left;
+
+  padding: 0 20px;
+}
+
+.timeline__seeker .seeker__wrapper {
+  position: relative;
+  padding: 10px 0;
+
+  height: 10px;
+  top: 50%;
+
+  margin-top: -10px;
+  cursor: pointer;
+}
+
+.timeline__seeker .seeker__progress-bar-background {
+  position: absolute;
+
+  height: 1px;
+  width: 100%;
+
+  background: #C1C1C1;
+}
+
+.timeline__seeker .seeker__progress-bar {
+  position: relative;
+
+  width: 200px;
+  height: 1px;
+
+  background: orangered;
+}
+
+.timeline__seeker .seeker__progress-handle {
+  position: relative;
+
+  width: 9px;
+  height: 9px;
+
+  margin-left: -5px;
+  margin-top: -5px;
+
+  background: orangered;
+
+  border-radius: 100%;
+  cursor: pointer;
+
+  transform: translateX(200px);
+}
+
 .media-player__controls .controls__previous,
 .media-player__controls .controls__next {
 
@@ -213,4 +298,10 @@ header a.active {
   color: #666;
 
   line-height: 48px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  width: 190px;
 }

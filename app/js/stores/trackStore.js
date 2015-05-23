@@ -1,6 +1,7 @@
 'use strict';
 
-var McFly = require('../utils/mcfly');
+var McFly   = require('../utils/mcfly');
+var Actions = require('../actions/actionCreators')
 
 var _collection   = []
 
@@ -20,6 +21,7 @@ var TrackStore = McFly.createStore({
 
     case 'LOADED_COLLECTION':
       _setCollection(payload.collection)
+      Actions.setPlaylist(payload.collection)
       break
 
   }

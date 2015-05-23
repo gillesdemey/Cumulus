@@ -43,6 +43,9 @@ Config.get('access_token', function(err, token) {
   if (err)
     throw err;
 
+  if (!token)
+    throw new Error('Refusing to initialize application, authentication token not found.')
+
   SoundCloud.initialize({
     'access_token' : token,
     'client_id'    : 'f17c1d67b83c86194fad2b1948061c9e'

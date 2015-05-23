@@ -1,33 +1,23 @@
 'use strict';
 
-var McFly = require('../utils/mcfly');
+var _             = require('lodash')
+var McFly         = require('../utils/mcfly')
+var playlistStore = require('./playlistStore')
 
 var TrackStore
 
 var _track = {}          // Current track information
 var _audio = new Audio() // Current audio element
 
-var _audioState = {      // Current audio state, audio object is unreliable(!)
-  'paused'  : true,
-  'loading' : false,
-  'error'   : false
-};
-
-function _setAudioState(obj) {
-  for (var key in obj)
-    _audioState[key] = obj[key]
-}
-
 function _setTrack(track) {
   _track = track
-  _setAudioState({ 'error' : false, 'loading' : false })
 
   _audio.src = track.stream_url
   _audio.load() // load the new stream source
 }
 
 function _setLoading() {
-  _setAudioState({ 'loading' : true })
+  _audio.loading = true
   TrackStore.emitChange()
 }
 
@@ -35,8 +25,38 @@ function _pause() {
   _audio.pause()
 }
 
-function _play() {
+function _play(track) {
+  if (track && track.id !== _track.id)
+    _setTrack(track)
+
   _audio.play()
+}
+
+function _seek(seconds) {
+  _audio.currentTime = seconds
+
+  if (_audio.paused)
+    _play()
+}
+
+function _nextTrack() {
+  var nextTrack = playlistStore.nextTrack()
+
+  if (!nextTrack)
+    return
+
+  _play(nextTrack)
+  TrackStore.emitChange()
+}
+
+function _previousTrack() {
+  var previousTrack = playlistStore.previousTrack()
+
+  if (!previousTrack)
+    return
+
+  _play(previousTrack)
+  TrackStore.emitChange()
 }
 
 (function addListeners() {
@@ -44,20 +64,17 @@ function _play() {
   _audio.addEventListener('loadstart', _setLoading)
   _audio.addEventListener('waiting',   _setLoading)
 
-  _audio.addEventListener('error', function(e) {
-    _setAudioState({ 'paused' : true, 'error' : true, 'loading' : false })
-    TrackStore.emitChange()
-  })
-
   _audio.addEventListener('playing', function() {
-    _setAudioState({ 'paused' : false, 'loading' : false })
+    _audio.loading = false
     TrackStore.emitChange()
   })
 
-  _audio.addEventListener('pause', function() {
-    _setAudioState({ 'paused' : true })
+  _audio.addEventListener('error', function() {
     TrackStore.emitChange()
+    _nextTrack()
   })
+
+  _audio.addEventListener('ended', _nextTrack)
 
 })()
 
@@ -71,26 +88,33 @@ TrackStore = McFly.createStore({
     return _audio
   },
 
-  getState: function() {
-    return _audioState
-  }
-
 }, function(payload) {
 
   switch (payload.actionType) {
 
     case 'PLAY_TRACK':
 
-      // If we call 'play' without a track, resume the current active track
-      if (payload.track && payload.track.id !== _track.id) {
-        _setTrack(payload.track)
-      }
+      if (!payload.track && _.isEmpty(_audio.src))
+        _play(playlistStore.getPlaylist()[0])
+      else
+        _play(payload.track)
 
-      _play()
       break
 
     case 'PAUSE_TRACK':
       _pause()
+      break
+
+    case 'SEEK_TRACK':
+      _seek(payload.time)
+      break
+
+    case 'NEXT_TRACK':
+      _nextTrack()
+      break
+
+    case 'PREVIOUS_TRACK':
+      _previousTrack()
       break
 
   }

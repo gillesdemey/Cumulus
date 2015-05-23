@@ -12,11 +12,11 @@ var GridItem = React.createClass({
   },
 
   getStateFromStores : function() {
-    var currentTrack = CurrentTrackStore.getTrack()
-    var audioState   = CurrentTrackStore.getState()
+    var track = CurrentTrackStore.getTrack()
+    var audio = CurrentTrackStore.getAudio()
 
-    var paused = currentTrack.id === this.props.track.id
-      ? audioState.paused
+    var paused = track.id === this.props.track.id
+      ? audio.paused
       : true
 
     return { 'paused' : paused }
@@ -33,13 +33,18 @@ var GridItem = React.createClass({
   },
 
   _onChange: function() {
-    var currentTrack = CurrentTrackStore.getTrack()
-    var audioState   = CurrentTrackStore.getState()
+    var track = CurrentTrackStore.getTrack()
+    var audio = CurrentTrackStore.getAudio()
 
-    if (currentTrack.id !== this.props.track.id)
+    if (track.id !== this.props.track.id)
       return this.setState({ 'paused' : true })
 
-    this.setState(audioState)
+    this.setState({
+      'error'   : audio.error,
+      'paused'  : audio.paused,
+      'loading' : audio.loading,
+    })
+
   },
 
   playOrPause: function() {
