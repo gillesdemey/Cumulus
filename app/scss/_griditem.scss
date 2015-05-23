@@ -1,0 +1,128 @@
+/**
+ * Grid Item
+ */
+.grid-item {
+  display: inline-block;
+  overflow: hidden;
+
+  max-width: 200px;
+  margin: 12px 10px;
+}
+
+.grid-item .item__cover {
+  position: relative;
+
+  width: 200px;
+  height: 200px;
+
+  overflow: hidden;
+  background-size: cover;
+  background-position: center center;
+
+  margin-bottom: 5px;
+}
+
+.item__cover img,
+.item__cover .cover__overlay,
+.item__cover .cover__overlay > * {
+  position: absolute;
+}
+
+.grid-item .cover__overlay {
+  width: 100%;
+  height: 100%;
+
+  background-color: rgba(0, 0, 0, .3);
+
+  transition: all 150ms;
+  opacity: 0;
+}
+
+.grid-item .cover__overlay:hover {
+  opacity: 1;
+}
+
+.cover__overlay .overlay__play-pause {
+  width: 100%;
+  height: 100%;
+
+  color: #fff;
+  font-size: 60px;
+
+  line-height: 200px;
+  text-align: center;
+
+  background: none;
+  border: none;
+
+  cursor: pointer;
+}
+
+.cover__overlay .overlay__play-pause.loading::before {
+  $size: 70px;
+
+  background-image: url('../assets/loader.svg');
+  background-size: contain;
+  width: $size;
+  height: $size;
+  line-height: $size;
+}
+
+.cover__overlay .overlay__play-pause.error::before {
+  content: '\f217' !important;
+}
+
+.grid-item .item__title,
+.grid-item .item__artist {
+  display: block;
+  overflow: hidden;
+
+  max-width: 85%;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  line-height: 1.5em;
+  font-size: 13px;
+
+  padding: 2px 5px 0px 5px;
+
+  position: absolute;
+  color: #fff;
+
+  background-color: rgba(0, 0, 0, 0.85);
+
+  left: 10px;
+  pointer-events: none;
+}
+
+.grid-item .item__title {
+  bottom: 10px;
+}
+
+.grid-item .item__artist {
+  bottom: 33px;
+  color: #C1C1C1;
+}
+
+.item__footer {
+  height: 16px;
+  font-size: 12px;
+  color: #666;
+
+  margin-top: 15px;
+}
+
+.item__footer::after {
+  content: '';
+  clear: both;
+  display: table;
+}
+
+.item__playback_count {
+  float: left;
+}
+
+.item__favoritings_count {
+  float: right;
+}

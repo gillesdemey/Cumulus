@@ -1,0 +1,160 @@
+/**
+ * Media Player
+ */
+.cumulus__media-player {
+  position: fixed;
+  bottom: 0;
+
+  width: 100%;
+
+  background: white;
+
+  background-color: #f2f2f2;
+  border-top: 1px solid rgba(0, 0, 0, .15);
+  height: 46px;
+
+  transition: transform 300ms;
+  transform: translateY(0);
+
+  z-index: 999;
+}
+
+.cumulus__media-player.hidden {
+  transform: translateY(100%);
+}
+
+.cumulus__media-player .media-player__cover {
+  padding: 8px;
+}
+
+.cumulus__media-player > div {
+  float: left;
+  height: 46px;
+}
+
+.media-player__controls button {
+  border: none;
+  background: none;
+
+  cursor: pointer;
+
+  font-size: 28px;
+
+  color: #383838;
+
+  width: 46px;
+  height: 46px;
+}
+
+.media-player__controls button:focus {
+  outline: none;
+}
+
+.media-player__controls .controls__play-pause-skip {
+  margin: 0 10px;
+}
+
+.media-player__controls .controls__play-pause-skip,
+.media-player__controls .controls__timeline {
+  float: left;
+}
+
+.media-player__controls .controls__timeline {
+  width: 500px;
+}
+
+.controls__timeline .timeline__current,
+.controls__timeline .timeline__duration {
+  font-size: 11px;
+  line-height: 50px;
+
+  width: 46px;
+  text-align: center;
+  cursor: default;
+
+  -webkit-user-select: none;
+}
+
+.controls__timeline .timeline__current {
+  float: left;
+}
+
+.controls__timeline .timeline__duration {
+  float: right;
+}
+
+.controls__timeline .timeline__seeker {
+  height: 46px;
+  width: 408px;
+
+  left: 46px;
+  right: 46px;
+
+  float: left;
+
+  padding: 0 20px;
+}
+
+.timeline__seeker .seeker__wrapper {
+  position: relative;
+  padding: 10px 0;
+
+  height: 10px;
+  top: 50%;
+
+  margin-top: -10px;
+  cursor: pointer;
+}
+
+.timeline__seeker .seeker__progress-bar {
+  -webkit-appearance: none;
+  position: absolute;
+
+  width: 100%;
+  height: 1px;
+}
+
+.seeker__progress-bar::-webkit-progress-bar {
+  background-color: #C1C1C1;
+}
+
+.seeker__progress-bar::-webkit-progress-value {
+  background-color: orangered;
+  transition: all 250ms;
+}
+
+.seeker__progress-bar::-webkit-progress-value::after {
+  content: '';
+  position: relative;
+
+  width: 9px;
+  height: 9px;
+
+  margin-left: -4.5px;
+  margin-top: -4.5px;
+
+  float: right;
+
+  background-color: orangered;
+
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.media-player__controls .controls__previous,
+.media-player__controls .controls__next {
+
+}
+
+.media-player__meta {
+  font-size: 13px;
+  color: #666;
+
+  line-height: 48px;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+
+  width: 190px;
+}
