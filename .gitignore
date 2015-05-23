@@ -30,5 +30,5 @@ node_modules
 
 *.sublime-*
 
-app/css/app.css
+app/css
 app/js/bundle.js
