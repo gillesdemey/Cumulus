@@ -46,7 +46,7 @@ module.exports = function(grunt) {
         tasks: ['browserify:dev']
       },
       sass: {
-        files: ['app/css/**/*.scss'],
+        files: ['app/scss/**/*.scss'],
         tasks: ['sass:dev']
       }
     }
