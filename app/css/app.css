@@ -86,10 +86,11 @@ header a.active {
 }
 
 .cover__overlay .overlay__play-pause.loading::before {
-  content: '' !important;
-  background: url('http://labs.voronianski.com/react-soundplayer/assets/preloader.svg');
-  width: 32px;
-  height: 32px;
+  background-image: url('../assets/loader.svg');
+  background-size: contain;
+  width: 70px;
+  height: 70px;
+  line-height: 70px;
 }
 
 .cover__overlay .overlay__play-pause.error::before {
