@@ -42,7 +42,10 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts: {
-        files: ['app/js/**/*.js'],
+        files: [
+          'app/js/**/*.js',
+          '!app/js/bundle.js'
+        ],
         tasks: ['browserify:dev']
       },
       sass: {
