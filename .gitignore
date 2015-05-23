@@ -29,3 +29,5 @@ node_modules
 *.DS_Store
 
 *.sublime-*
+
+app/js/bundle.js
