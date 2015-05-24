@@ -52,6 +52,17 @@ var PlaylistStore = McFly.createStore({
     return _playlist
   },
 
+  setPlaylist: function(tracks) {
+    _playlist = tracks
+  },
+
+  setIndex: function(trackOrId) {
+    if (isFinite(trackOrId))
+      _setIndex(trackOrId)
+    else
+      _index = _getIndexById(trackOrId)
+  },
+
   nextTrack: function() {
     return _nextTrack()
   },
@@ -70,10 +81,6 @@ var PlaylistStore = McFly.createStore({
 
     case 'SET_PLAYLIST':
       _setPlaylist(payload.tracks)
-      break
-
-    case 'PLAY_TRACK':
-      _setIndex(_getIndexById(payload.track))
       break
 
   }

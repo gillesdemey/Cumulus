@@ -1,7 +1,7 @@
 'use strict';
 
-var McFly   = require('../utils/mcfly');
-var Actions = require('../actions/actionCreators')
+var McFly         = require('../utils/mcfly');
+// var Actions       = require('../actions/actionCreators')
 
 var _playlists   = []
 
@@ -22,7 +22,7 @@ var PlaylistsStore = McFly.createStore({
     case 'LOADED_PLAYLISTS':
       _setPlaylists(payload.playlists)
       // TODO: map playlists to list of tracks
-      Actions.setPlaylist(payload.playlists)
+      // Actions.setPlaylist(payload.playlists)
       break
 
   }
