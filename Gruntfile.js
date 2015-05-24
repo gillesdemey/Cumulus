@@ -5,6 +5,7 @@ module.exports = function(grunt) {
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-electron');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
@@ -12,8 +13,12 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    env: {
+      dev  : { 'NODE_ENV' : 'development' },
+      dist : { 'NODE_ENV' : 'production' }
+    },
     clean: {
-      dist: ['dist/'],
+      dist: ['dist/*'],
     },
     browserify: {
       options: {
@@ -74,6 +79,6 @@ module.exports = function(grunt) {
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['browserify:dev', 'sass:dev', 'watch']);
-  grunt.registerTask('build',   ['clean:dist', 'browserify:dist', 'sass:dist', 'electron']);
+  grunt.registerTask('default', ['env:dev' ,'browserify:dev', 'sass:dev', 'watch']);
+  grunt.registerTask('build',   ['env:dist', 'clean:dist', 'browserify:dist', 'sass:dist', 'electron']);
 };
