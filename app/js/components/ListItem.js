@@ -10,7 +10,7 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 var ListItem = React.createClass({
 
   getInitialState: function() {
-    return { 'paused' : true }
+    return { 'paused' : true, 'active' : false, 'loading' : false }
   },
 
   getStateFromStores : function() {
@@ -32,27 +32,34 @@ var ListItem = React.createClass({
     CurrentTrackStore.removeChangeListener(this._onChange)
   },
 
+  componentDidMount: function() {
+    if (this.state.active)
+      this.focus()
+  },
+
   _onChange: function() {
     var audio = CurrentTrackStore.getAudio()
 
     if (audio.src !== this.props.track.stream_url)
-      return this.setState({ 'paused' : true, 'active' : false })
+      return this.setState(this.getInitialState())
 
     this.setState({
       'error'   : audio.error,
       'paused'  : audio.paused,
       'loading' : audio.loading,
-      'active'  : true
+      'active'  : !audio.error ? true : false,
     })
 
-    // non-standard DOM method (!)
-    this.refs.item.getDOMNode().scrollIntoViewIfNeeded()
+    this.focus()
   },
 
   playOrPause: function() {
 
     if (this.state.error)
       return
+
+    this.setState({ 'active' : true })
+    this.focus()
 
     if (this.state.paused)
       this.play()
@@ -66,6 +73,11 @@ var ListItem = React.createClass({
 
   pause: function() {
     Actions.pauseTrack()
+  },
+
+  focus: function() {
+    if (this.state.active)
+      this.refs.item.getDOMNode().scrollIntoViewIfNeeded() // non-standard DOM method
   },
 
   render: function() {
