@@ -50,7 +50,8 @@ var ListItem = React.createClass({
       'active'  : !audio.error ? true : false,
     })
 
-    this.focus()
+    if (!this.state.focused)
+      this.focus()
   },
 
   playOrPause: function() {
@@ -58,7 +59,6 @@ var ListItem = React.createClass({
     if (this.state.error)
       return
 
-    this.setState({ 'active' : true })
     this.focus()
 
     if (this.state.paused)
@@ -76,8 +76,8 @@ var ListItem = React.createClass({
   },
 
   focus: function() {
-    if (this.state.active)
-      this.refs.item.getDOMNode().scrollIntoViewIfNeeded() // non-standard DOM method
+    this.refs.item.getDOMNode().scrollIntoViewIfNeeded() // non-standard DOM method
+    this.setState({ 'focused' : true })
   },
 
   render: function() {

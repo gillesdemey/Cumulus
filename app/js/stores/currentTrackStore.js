@@ -10,8 +10,8 @@ var _track = {}          // Current track information
 var _audio = new Audio() // Current audio element
 
 function _showNotification(track) {
-  new Notification(track.title, {
-    body : track.user.username,
+  new window.Notification(track.user.username, {
+    body : track.title,
     icon : track.artwork_url,
   })
 }

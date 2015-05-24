@@ -7,17 +7,21 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-electron');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    clean: {
+      dist: ['dist/'],
+    },
     browserify: {
       options: {
-        debug: true,
         transform: ['reactify', 'envify']
       },
       dev: {
         options: {
+          debug: true,
           alias: ['react:']  // Make React available externally for dev tools
         },
         src: ['app/js/app.js'],
@@ -25,7 +29,7 @@ module.exports = function(grunt) {
       },
       dist: {
         options: {
-          debug: false
+          debug: false,
         },
         src: '<%= browserify.dev.src %>',
         dest: 'app/js/bundle.js'
@@ -56,15 +60,14 @@ module.exports = function(grunt) {
       }
     },
     electron: {
-      osxBuild: {
+      osx: {
         options: {
           name     : 'Cumulus',
-          dir      : 'app',
+          dir      : '.',
           out      : 'dist',
-          version  : '0.1.0',
+          version  : '0.26.1',
           platform : 'darwin',
-          arch     : 'x64',
-          ignore   : 'node_modules/'
+          arch     : 'x64'
         }
       }
     }
@@ -72,5 +75,5 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['browserify:dev', 'sass:dev', 'watch']);
-  grunt.registerTask('build',   ['browserify:dist', 'sass:dist', 'electron']);
+  grunt.registerTask('build',   ['clean:dist', 'browserify:dist', 'sass:dist', 'electron']);
 };

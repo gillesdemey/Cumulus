@@ -3,12 +3,15 @@
 var React         = require('react')
 var ListItem      = require('./ListItem')
 
+var classNames    = require('classnames')
+
 var Actions       = require('../actions/actionCreators')
-var TrackStore    = require('../stores/trackStore')
+var LikesStore    = require('../stores/likesStore')
 
 function getStateFromStores() {
   return {
-    'collection' : TrackStore.getCollection(),
+    'collection' : LikesStore.getLikes(),
+    'loading'    : LikesStore.getLikes().length === 0
   }
 }
 
@@ -19,14 +22,14 @@ var CollectionView = React.createClass({
   },
 
   componentWillMount: function() {
-    TrackStore.addChangeListener(this._onChange)
+    LikesStore.addChangeListener(this._onChange)
 
-    if (TrackStore.getCollection().length === 0)
-      Actions.fetchCollection()
+    if (LikesStore.getLikes().length === 0)
+      Actions.fetchLikes()
   },
 
   componentWillUnmount: function() {
-    TrackStore.removeChangeListener(this._onChange)
+    LikesStore.removeChangeListener(this._onChange)
   },
 
   _onChange: function() {
@@ -35,8 +38,13 @@ var CollectionView = React.createClass({
 
   render: function() {
 
+    var classes = classNames({
+      'content__view__collection' : true,
+      'loading'                   : this.state.loading
+    })
+
     return (
-      <div>
+      <div className={classes}>
         {this.state.collection.map(function(item) {
           return (
             <ListItem

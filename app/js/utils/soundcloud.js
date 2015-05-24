@@ -44,24 +44,19 @@ SoundCloud.prototype.makeRequest = function(shortUrl, options) {
   options = _.assign(defaults, options)
 
   return rp(options)
-    .promise()
-    .map(function(item) {
+}
 
-      if (item.stream_url) // append client_id for audio stream access
-        item.stream_url += '?client_id=' + self._clientId
+SoundCloud.prototype._mapTracks = function(track) {
+  if (track.stream_url) // append client_id for audio stream access
+    track.stream_url += '?client_id=' + this._clientId
 
-      if (item.artwork_url) // high-resolution artwork
-        item.artwork_url = item.artwork_url.replace('-large', '-t500x500');
+  if (track.artwork_url) // high-resolution artwork
+    track.artwork_url = track.artwork_url.replace('-large', '-t500x500');
 
-      if (item.user.avatar_url)
-        item.user.avatar_url = item.user.avatar_url.replace('-large', '-t500x500');
+  if (track.user.avatar_url)
+    track.user.avatar_url = track.user.avatar_url.replace('-large', '-t500x500');
 
-      return item
-    })
-    .catch(function(ex) {
-      console.error(ex)
-    })
-
+  return track
 }
 
 SoundCloud.prototype.fetchVisual = function(trackId) {
@@ -77,8 +72,39 @@ SoundCloud.prototype.fetchVisual = function(trackId) {
   });
 };
 
-SoundCloud.prototype.fetchCollection = function() {
-  return SoundCloud.prototype.makeRequest.call(this, 'me/favorites')
+SoundCloud.prototype.fetchLikes = function() {
+  var self = this
+  return SoundCloud.prototype.makeRequest.call(self, 'me/favorites')
+    .then()
+    .map(SoundCloud.prototype._mapTracks.bind(self))
+    .catch(function(ex) {
+      console.error(ex)
+    })
+}
+
+SoundCloud.prototype.fetchFeed = function() {
+  var self = this
+  return SoundCloud.prototype.makeRequest.call(self, 'me/activities')
+    .then(function(resp) {
+      return resp.collection
+    })
+    .map(function(item) {
+      return item.origin
+    })
+    .map(SoundCloud.prototype._mapTracks.bind(self))
+    .catch(function(ex) {
+      console.error(ex)
+    })
+}
+
+SoundCloud.prototype.fetchPlaylists = function() {
+  var self = this
+  return SoundCloud.prototype.makeRequest.call(self, 'me/playlists')
+    .then()
+    .map(SoundCloud.prototype._mapTracks.bind(self))
+    .catch(function(ex) {
+      console.error(ex)
+    })
 }
 
 module.exports = new SoundCloud()

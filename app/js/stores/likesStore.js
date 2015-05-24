@@ -9,9 +9,9 @@ function _setCollection(tracks) {
   _collection = tracks
 }
 
-var TrackStore = McFly.createStore({
+var LikesStore = McFly.createStore({
 
-  getCollection: function() {
+  getLikes: function() {
     return _collection
   },
 
@@ -26,9 +26,9 @@ var TrackStore = McFly.createStore({
 
   }
 
-  TrackStore.emitChange()
+  LikesStore.emitChange()
 
   return true
 });
 
-module.exports = TrackStore
+module.exports = LikesStore

@@ -19,6 +19,10 @@ body {
   position: absolute;
 }
 
+a:focus, button:focus {
+  outline: 0;
+}
+
 i[data-icon] {
   font-style: normal !important;
 }
@@ -40,7 +44,43 @@ i[data-icon] {
   overflow: scroll;
   flex: 1;
 
-  position: initial !important;
+  position: relative;
+}
+
+/**
+ * Views loading styles
+ */
+[class^=content__view] {
+
+  &.loading {
+    background-color: #fff;
+    pointer-events: none;
+
+    * { opacity: 0; }
+  }
+
+  &.loading::after {
+    $loader-size: 100px;
+
+    content: '';
+    display: block;
+
+    position: absolute;
+
+    background-color: orangered;
+    -webkit-mask: url('../assets/loader.svg') no-repeat 50% 50%;
+    -webkit-mask-size: cover;
+
+    width: $loader-size;
+    height: $loader-size;
+
+    left: 50%;
+    top: 50%;
+
+    margin-left: -$loader-size / 2;
+    margin-top: -$loader-size / 2;
+  }
+
 }
 
 .cumulus__media-player {

@@ -4,15 +4,17 @@
   "main": "index.js",
   "scripts": {
     "start": "grunt",
-    "build": "browserify . -t [envify --NODE_ENV production] | uglifyjs -cm > js/bundle.min.js"
+    "build": "grunt build"
   },
   "devDependencies": {
     "browserify": "^10.0.0",
     "envify": "^3.4.0",
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.8.0",
+    "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-electron": "^1.0.0",
+    "grunt-env": "^0.4.4",
     "grunt-sass": "^1.0.0",
     "reactify": "^1.1.0",
     "uglify-js": "^2.4.20",
