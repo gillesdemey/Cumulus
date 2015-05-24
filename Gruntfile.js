@@ -42,7 +42,7 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts: {
-        files: ['app/js/**/*.js'],
+        files: ['app/js/**/*.js', '!app/js/bundle.js'],
         tasks: ['browserify:dev']
       },
       sass: {
@@ -53,5 +53,5 @@ module.exports = function(grunt) {
   });
 
   // Default task(s).
-  grunt.registerTask('default', ['sass:dev', 'watch']);
+  grunt.registerTask('default', ['browserify:dev', 'sass:dev', 'watch']);
 };

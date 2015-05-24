@@ -13,16 +13,25 @@ var menubar        = require('menubar')
 var mb             = menubar({
   dir           : './app/',
   preloadWindow : true,
-  width         : 400,
-  height        : 600,
+  width         : 300,
+  height        : 500,
+  resizable     : false
 })
 
 /**
  * Window references
  */
 var loginWindow = null
+var debugWindow = null
 
 mb.on('ready', function() {
+
+  var debugWindow = new BrowserWindow({
+    width  : 800,
+    height : 600,
+    type   : 'desktop',
+    frame  : true
+  })
 
   function doLogin() {
 
@@ -41,6 +50,10 @@ mb.on('ready', function() {
       loginWindow.close()
 
     mb.window.loadUrl('file://' + __dirname + '/app/index.html')
+
+    debugWindow.loadUrl('file://' + __dirname + '/app/index.html')
+    debugWindow.show()
+    debugWindow.openDevTools()
   }
 
   /**
@@ -85,8 +98,4 @@ mb.on('ready', function() {
     mb.window.webContents.send('GlobalShortcuts', 'MediaPreviousTrack')
   })
 
-})
-
-mb.on('after-show', function() {
-  mb.window.openDevTools()
 })

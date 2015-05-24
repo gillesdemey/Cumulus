@@ -81,9 +81,11 @@ var MediaPlayer = React.createClass({
 
     var cover = this.state.track.artwork_url || (this.state.track.user
       ? this.state.track.user.avatar_url
-      : null)
+      : '')
 
-    var playPause = this.state.audio.paused ? 'fi fi-play' : 'fi fi-pause'
+    var playPause = this.state.audio.paused || this.state.audio.error
+      ? 'fi fi-play'
+      : 'fi fi-pause'
 
     var currentTime = time.formatDuration(this.state.audio.currentTime)
 
@@ -92,24 +94,43 @@ var MediaPlayer = React.createClass({
          - this.state.audio.currentTime))
       : time.formatDuration(this.state.track.duration / 1000)
 
+    var coverStyle = {
+      'backgroundImage' : 'url(' + cover + ')'
+    }
+
     return (
       <div className={classes}>
+
+        <div className="media-player__cover" style={coverStyle}>
+          <div className="media-player__meta">
+            <div className="meta__artist">
+              <span>
+                { this.state.track.user ? this.state.track.user.username : null }
+              </span>
+            </div>
+            <div className="meta__title">
+              <span>{ this.state.track.title }</span>
+            </div>
+          </div>
+        </div>
 
         <div className="media-player__controls">
 
           <div className="controls__play-pause-skip">
 
-            <button className="controls__previous">
-              <i className="fi fi-previous"></i>
-            </button>
+            <div className="play-pause-skip__wrapper">
+              <button className="controls__previous">
+                <i className="fi fi-previous"></i>
+              </button>
 
-            <button className="controls__play-pause" onClick={this.playOrPause}>
-              <i className={playPause}></i>
-            </button>
+              <button className="controls__play-pause" onClick={this.playOrPause}>
+                <i className={playPause}></i>
+              </button>
 
-            <button className="controls__next">
-              <i className="fi fi-next"></i>
-            </button>
+              <button className="controls__next">
+                <i className="fi fi-next"></i>
+              </button>
+            </div>
 
           </div>
 
@@ -139,14 +160,6 @@ var MediaPlayer = React.createClass({
 
           </div>
 
-        </div>
-
-        <div className="media-player__cover">
-          <img src={cover} alt={this.state.track.title} height="30" width="30" />
-        </div>
-
-        <div className="media-player__meta">
-          { this.state.track.title }
         </div>
 
       </div>

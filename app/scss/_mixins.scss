@@ -1,0 +1,15 @@
+@mixin truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin no-selection {
+  -webkit-user-select: none;
+}
+
+@mixin clear-fix {
+  content: '';
+  display: table;
+  clear: both;
+}

@@ -20,7 +20,7 @@ var CumulusApp   = React.createClass({
     return (
       <div className="cumulusapp">
         <div className="content__wrapper">
-          <Header />
+          {/* <Header /> */}
           <RouteHandler />
         </div>
         <MediaPlayer />

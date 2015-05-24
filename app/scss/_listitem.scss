@@ -1,0 +1,103 @@
+@import 'mixins';
+
+.list-item {
+  $height: 64px;
+
+  height: $height;
+  overflow: hidden;
+
+  cursor: pointer;
+
+  &:nth-child(odd) { background-color: #FCFCFC; }
+
+  &:hover, &.active {
+    background-color: rgba(orangered, 0.05);
+  }
+
+  &.active {
+    .item__title { color: orangered; }
+    .cover__overlay { opacity: 1; }
+  }
+
+  .item__cover {
+    float: left;
+
+    position: relative;
+
+    height: $height;
+    width: $height;
+  }
+
+  .cover__overlay {
+    width: 100%;
+    height: 100%;
+
+    // background-color: rgba(black, 0.5);
+    background-color: rgba(orangered, 0.85);
+
+    transition: all 100ms;
+    opacity: 0;
+  }
+
+  &:hover .cover__overlay { opacity: 1; }
+
+  .overlay__play-pause {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    color: #fff;
+    font-size: 35px;
+
+    line-height: $height;
+    text-align: center;
+
+    background: none;
+    border: none;
+
+    &:focus { outline: 0; }
+  }
+
+  .overlay__play-pause.loading::before {
+    $size: 35px;
+
+    background-image: url('../assets/loader.svg');
+    background-size: contain;
+    width: $size;
+    height: $size;
+    line-height: $size;
+  }
+
+  .overlay__play-pause.error::before {
+    content: '\f217' !important;
+  }
+
+  .item__meta {
+    height: 100%;
+
+    padding: 10px;
+    margin-left: 64px;
+
+    font-size: 13px;
+  }
+
+  .item__artist {
+    color: #888;
+  }
+
+  .item__title {}
+
+  .item__artist,
+  .item__title {
+    @include truncate();
+    line-height: 1.5em;
+  }
+
+  &::after {
+    content: '';
+    clear: both;
+    display: block;
+  }
+
+}
