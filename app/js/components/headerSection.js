@@ -9,9 +9,9 @@ var HeaderSection = React.createClass({
     return (
       <header>
         <ul>
-          <li><Link to="feed">Home</Link></li>
-          <li><Link to="collection">Collection</Link></li>
-          <li><Link to="about">About</Link></li>
+          <li><Link to="feed">Feed</Link></li>
+          <li><Link to="collection">Likes</Link></li>
+          <li><Link to="playlists">Playlists</Link></li>
         </ul>
       </header>
     );

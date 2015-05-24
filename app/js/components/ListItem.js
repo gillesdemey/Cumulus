@@ -3,6 +3,7 @@
 var React             = require('react')
 var classNames        = require('classnames')
 var Actions           = require('../actions/actionCreators')
+var time              = require('../utils/time')
 
 var CurrentTrackStore = require('../stores/currentTrackStore')
 
@@ -16,11 +17,10 @@ var ListItem = React.createClass({
     var track = CurrentTrackStore.getTrack()
     var audio = CurrentTrackStore.getAudio()
 
-    var paused = track.id === this.props.track.id
-      ? audio.paused
-      : true
+    var active = track.id === this.props.track.id
+    var paused = active ? audio.paused : true
 
-    return { 'paused' : paused }
+    return { 'paused' : paused, 'active' : active }
   },
 
   componentWillMount: function() {
@@ -33,10 +33,9 @@ var ListItem = React.createClass({
   },
 
   _onChange: function() {
-    var track = CurrentTrackStore.getTrack()
     var audio = CurrentTrackStore.getAudio()
 
-    if (track.id !== this.props.track.id)
+    if (audio.src !== this.props.track.stream_url)
       return this.setState({ 'paused' : true, 'active' : false })
 
     this.setState({
@@ -46,6 +45,8 @@ var ListItem = React.createClass({
       'active'  : true
     })
 
+    // non-standard DOM method (!)
+    this.refs.item.getDOMNode().scrollIntoViewIfNeeded()
   },
 
   playOrPause: function() {
@@ -84,7 +85,7 @@ var ListItem = React.createClass({
     })
 
     return (
-      <div className={listItemClasses} onClick={this.playOrPause}>
+      <div className={listItemClasses} onClick={this.playOrPause} ref="item">
 
         <div className="item__cover">
           <img src={cover} alt={this.props.track.title} width="64" height="64" />
@@ -96,6 +97,9 @@ var ListItem = React.createClass({
         <div className="item__meta">
           <div className="item__artist">{this.props.track.user.username}</div>
           <div className="item__title">{this.props.track.title}</div>
+          <span className="item__duration">
+            { time.formatDuration(this.props.track.duration / 1000) }
+          </span>
         </div>
 
       </div>

@@ -5,12 +5,11 @@
   @include no-selection();
 }
 
+html {
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+}
+
 body {
-  font-family: 'Helvetica', 'Arial', sans-serif;
-
-  margin: 0;
-  padding: 0;
-
   -webkit-font-smoothing: antialiased;
 
   height: 100%;

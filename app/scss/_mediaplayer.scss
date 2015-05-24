@@ -14,9 +14,12 @@
 
     .controls__play-pause-skip {
       display: flex;
-      height: 24px;
+      height: 32px;
+      padding-top: 8px;
 
-      .play-pause-skip__wrapper { margin: 0 auto; }
+      .play-pause-skip__wrapper {
+        margin: 0 auto;
+      }
 
       &:after { @include clear-fix(); }
     }
@@ -39,10 +42,11 @@
     .controls__next,
     .controls__previous {
       font-size: 21px;
+      padding: 5px;
     }
 
     .controls__timeline {
-      $timelineHeight: 32px;
+      $timelineHeight: 28px;
       display: flex;
       padding: 0 10px;
 

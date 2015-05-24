@@ -149,7 +149,7 @@ var MediaPlayer = React.createClass({
             </div>
 
             <div className="timeline__seeker">
-              <div className="seeker__wrapper" ref="seeker" onClick={this.seek}>
+              <div className="seeker__wrapper" onClick={this.seek}>
                 <progress
                   className="seeker__progress-bar"
                   value={ this.state.audio.currentTime }

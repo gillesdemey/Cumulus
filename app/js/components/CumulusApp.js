@@ -19,8 +19,8 @@ var CumulusApp   = React.createClass({
   render: function() {
     return (
       <div className="cumulusapp">
+        <Header />
         <div className="content__wrapper">
-          {/* <Header /> */}
           <RouteHandler />
         </div>
         <MediaPlayer />

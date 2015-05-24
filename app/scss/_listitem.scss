@@ -79,6 +79,7 @@
     margin-left: 64px;
 
     font-size: 13px;
+    position: relative;
   }
 
   .item__artist {
@@ -90,7 +91,18 @@
   .item__artist,
   .item__title {
     @include truncate();
-    line-height: 1.5em;
+    line-height: 22px;
+  }
+
+  .item__duration {
+    position: absolute;
+
+    font-size: 11px;
+    color: #666;
+
+    right: 13px;
+    top: 13px;
+
   }
 
   &::after {
