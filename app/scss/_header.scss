@@ -2,9 +2,35 @@
  * Header styles
  */
 header {
+  $height: 46px;
+  background: rgba(0, 0, 0, .8);
+
+  height: $height;
+  line-height: $height;
+
+  ul {
+    width: 100%;
+    display: flex;
+  }
+
+  li { flex: 1; }
+
+  a {
+    display: block;
+    height: $height;
+
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+
+    letter-spacing: 0.5px;
+
+    &.active { border-bottom: solid 2px orangered; }
+  }
+
 }
 
-header a.active {
-  color: black;
-  background: #ccc;
-}
