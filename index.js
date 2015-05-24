@@ -11,7 +11,7 @@ var config         = require('./lib/config')
 var menubar        = require('menubar')
 var mb             = menubar({
   dir           : __dirname + '/app',
-  preloadWindow : true, // TODO: enable if already logged in
+  preloadWindow : false, // TODO: enable if already logged in
   width         : 300,
   height        : 500,
   resizable     : false
