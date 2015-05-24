@@ -22,16 +22,16 @@ var mb             = menubar({
  * Window references
  */
 var loginWindow = null
-var debugWindow = null
+// var debugWindow = null
 
 mb.on('ready', function() {
 
-  var debugWindow = new BrowserWindow({
-    width  : 800,
-    height : 600,
-    type   : 'desktop',
-    frame  : true
-  })
+  // var debugWindow = new BrowserWindow({
+  //   width  : 800,
+  //   height : 600,
+  //   type   : 'desktop',
+  //   frame  : true
+  // })
 
   function doLogin() {
 
@@ -49,11 +49,9 @@ mb.on('ready', function() {
     if (loginWindow)
       loginWindow.close()
 
-    mb.window.loadUrl('file://' + __dirname + '/app/index.html')
-
-    debugWindow.loadUrl('file://' + __dirname + '/app/index.html')
-    debugWindow.show()
-    debugWindow.openDevTools()
+    // debugWindow.loadUrl('file://' + __dirname + '/app/index.html')
+    // debugWindow.show()
+    // debugWindow.openDevTools()
   }
 
   /**

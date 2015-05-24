@@ -12,6 +12,12 @@ body {
   padding: 0;
 
   -webkit-font-smoothing: antialiased;
+
+  height: 100%;
+  width: 100%;
+
+  overflow: hidden;
+  position: absolute;
 }
 
 i[data-icon] {
@@ -19,7 +25,27 @@ i[data-icon] {
 }
 
 .cumulusapp {
-  padding-bottom: 46px;
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+}
+
+.content__wrapper {
+  height: 100%;
+  width: 100%;
+
+  overflow: scroll;
+  flex: 1;
+
+  position: initial !important;
+}
+
+.cumulus__media-player {
+  position: initial !important;
 }
 
 @import 'griditem';

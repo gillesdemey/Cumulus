@@ -51,10 +51,10 @@ SoundCloud.prototype.makeRequest = function(shortUrl, options) {
         item.stream_url += '?client_id=' + self._clientId
 
       if (item.artwork_url) // high-resolution artwork
-        item.artwork_url = item.artwork_url.replace('-large', '-t200x200');
+        item.artwork_url = item.artwork_url.replace('-large', '-t500x500');
 
       if (item.user.avatar_url)
-        item.user.avatar_url = item.user.avatar_url.replace('-large', '-t200x200');
+        item.user.avatar_url = item.user.avatar_url.replace('-large', '-t500x500');
 
       return item
     })
@@ -65,16 +65,16 @@ SoundCloud.prototype.makeRequest = function(shortUrl, options) {
 }
 
 SoundCloud.prototype.fetchVisual = function(trackId) {
-  return rp('https://visuals.soundcloud.com/visuals?urn=soundcloud:sounds:' + trackId, {
-    json: true,
-    transform: function(body, response) {
+  return rp({
+    url  : 'https://visuals.soundcloud.com/visuals?urn=soundcloud:sounds:' + trackId,
+    json : true,
+    transform: function(body) {
       return body.visuals ? body.visuals[0].visual_url : null;
     }
   })
-    .promise()
-    .catch(function(ex) {
-      console.error(ex)
-    });
+  .catch(function(ex) {
+    console.error(ex)
+  });
 };
 
 SoundCloud.prototype.fetchCollection = function() {

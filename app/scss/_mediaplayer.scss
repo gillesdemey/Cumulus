@@ -2,21 +2,12 @@
  * Media Player
  */
 .cumulus__media-player {
-  position: fixed;
-  bottom: 0;
-
   width: 100%;
-
-  background: #fff;
+  height: 210px;
 
   background-color: #f2f2f2;
-  // border-top: 1px solid rgba(0, 0, 0, .15);
-  height: auto;
 
-  transition: transform 300ms;
-  transform: translateY(0);
-
-  z-index: 999;
+  transition: transform 300ms, height 300ms;
 
   .media-player__controls {
     position: relative;
@@ -67,12 +58,15 @@
 
     background-size: cover;
     background-position: center center;
+
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
 }
 
 .cumulus__media-player.hidden {
-  transform: translateY(100%);
+  // transform: translateY(100%);
+  height: 0;
 }
 
 .media-player__controls button:focus {
@@ -122,7 +116,7 @@
 
 .seeker__progress-bar::-webkit-progress-value {
   background-color: orangered;
-  transition: all 250ms;
+  transition: all 200ms;
 }
 
 .seeker__progress-bar::-webkit-progress-value::after {
@@ -162,7 +156,9 @@
     > span {
       background-color: rgba(0, 0, 0, .9);
       padding: 4px 6px;
-      line-height: 2em;
+      line-height: 25px;
+
+      -webkit-font-smoothing: initial;
     }
   }
 }
