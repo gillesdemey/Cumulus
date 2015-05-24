@@ -91,14 +91,17 @@ mb.on('ready', function() {
   })
 
   globalShortcut.register('MediaPlayPause', function() {
+    if (!mb.window) return
     mb.window.webContents.send('GlobalShortcuts', 'MediaPlayPause')
   })
 
   globalShortcut.register('MediaNextTrack', function() {
+    if (!mb.window) return
     mb.window.webContents.send('GlobalShortcuts', 'MediaNextTrack')
   })
 
   globalShortcut.register('MediaPreviousTrack', function() {
+    if (!mb.window) return
     mb.window.webContents.send('GlobalShortcuts', 'MediaPreviousTrack')
   })
 
