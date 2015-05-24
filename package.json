@@ -12,6 +12,7 @@
     "grunt": "^0.4.5",
     "grunt-browserify": "^3.8.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-electron": "^1.0.0",
     "grunt-sass": "^1.0.0",
     "reactify": "^1.1.0",
     "uglify-js": "^2.4.20",

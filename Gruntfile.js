@@ -5,6 +5,7 @@ module.exports = function(grunt) {
   // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-electron');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
   // Project configuration.
@@ -22,7 +23,7 @@ module.exports = function(grunt) {
         src: ['app/js/app.js'],
         dest: 'app/js/bundle.js'
       },
-      production: {
+      dist: {
         options: {
           debug: false
         },
@@ -32,9 +33,13 @@ module.exports = function(grunt) {
     },
     sass: {
       dev: {
-        options: {
-          outputStyle: 'expanded'
-        },
+        options: { outputStyle: 'expanded' },
+        files: {
+          'app/css/app.css': 'app/scss/app.scss'
+        }
+      },
+      dist: {
+        options: { outputStyle: 'compressed' },
         files: {
           'app/css/app.css': 'app/scss/app.scss'
         }
@@ -49,9 +54,23 @@ module.exports = function(grunt) {
         files: ['app/scss/**/*.scss'],
         tasks: ['sass:dev']
       }
+    },
+    electron: {
+      osxBuild: {
+        options: {
+          name     : 'Cumulus',
+          dir      : 'app',
+          out      : 'dist',
+          version  : '0.1.0',
+          platform : 'darwin',
+          arch     : 'x64',
+          ignore   : 'node_modules/'
+        }
+      }
     }
   });
 
   // Default task(s).
   grunt.registerTask('default', ['browserify:dev', 'sass:dev', 'watch']);
+  grunt.registerTask('build',   ['browserify:dist', 'sass:dist', 'electron']);
 };
