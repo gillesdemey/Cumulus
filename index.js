@@ -90,19 +90,21 @@ mb.on('ready', function() {
       doLogin()
   })
 
-  globalShortcut.register('MediaPlayPause', function() {
+  function _sendGlobalShortcut(accelerator) {
     if (!mb.window) return
-    mb.window.webContents.send('GlobalShortcuts', 'MediaPlayPause')
+    mb.window.webContents.send('GlobalShortcuts', accelerator)
+  }
+
+  globalShortcut.register('MediaPlayPause', function() {
+    _sendGlobalShortcut('MediaPlayPause')
   })
 
   globalShortcut.register('MediaNextTrack', function() {
-    if (!mb.window) return
-    mb.window.webContents.send('GlobalShortcuts', 'MediaNextTrack')
+    _sendGlobalShortcut('MediaNextTrack')
   })
 
   globalShortcut.register('MediaPreviousTrack', function() {
-    if (!mb.window) return
-    mb.window.webContents.send('GlobalShortcuts', 'MediaPreviousTrack')
+    _sendGlobalShortcut('MediaPreviousTrack')
   })
 
 })
