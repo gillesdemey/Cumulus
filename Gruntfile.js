@@ -1,5 +1,7 @@
 'use strict';
 
+var packageJson = require('./package.json')
+
 module.exports = function(grunt) {
 
   // Load the plugin that provides the "uglify" task.
@@ -67,12 +69,14 @@ module.exports = function(grunt) {
     electron: {
       osx: {
         options: {
-          name     : 'Cumulus',
-          dir      : '.',
-          out      : 'dist',
-          version  : '0.26.1',
-          platform : 'darwin',
-          arch     : 'x64'
+          name            : 'Cumulus',
+          dir             : '.',
+          out             : 'dist',
+          version         : '0.26.1',
+          platform        : 'darwin',
+          arch            : 'x64',
+          'app-version'   : packageJson.version,
+          'app-bundle-id' : 'be.gillesdemey.cumulus'
         }
       }
     }
