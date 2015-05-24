@@ -60,6 +60,14 @@ var MediaPlayer = React.createClass({
     Actions.pauseTrack()
   },
 
+  nextTrack: function() {
+    Actions.nextTrack()
+  },
+
+  previousTrack: function() {
+    Actions.previousTrack()
+  },
+
   seek: function(event) {
     var pct = (event.pageX - event.currentTarget.offsetLeft) /
       event.currentTarget.getBoundingClientRect().width
@@ -120,7 +128,7 @@ var MediaPlayer = React.createClass({
 
             <div className="play-pause-skip__wrapper">
               <button className="controls__previous">
-                <i className="fi fi-previous"></i>
+                <i className="fi fi-previous" onClick={this.previousTrack}></i>
               </button>
 
               <button className="controls__play-pause" onClick={this.playOrPause}>
@@ -128,7 +136,7 @@ var MediaPlayer = React.createClass({
               </button>
 
               <button className="controls__next">
-                <i className="fi fi-next"></i>
+                <i className="fi fi-next" onClick={this.nextTrack}></i>
               </button>
             </div>
 
