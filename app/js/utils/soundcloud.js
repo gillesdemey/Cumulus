@@ -92,6 +92,10 @@ SoundCloud.prototype.fetchFeed = function() {
       return item.origin
     })
     .map(SoundCloud.prototype._mapTracks.bind(self))
+    .then(function(tracks) {
+      // SoundCloud activities can return multiple of the same track
+      return _.uniq(tracks, 'id')
+    })
     .catch(function(ex) {
       console.error(ex)
     })
