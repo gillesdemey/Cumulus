@@ -30,7 +30,7 @@ mb.on('ready', function() {
 
   if (debug)
     debugWindow = new BrowserWindow({
-      width  : 800,
+      width  : 995,
       height : 600,
       type   : 'desktop',
       frame  : true

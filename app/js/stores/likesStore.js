@@ -23,7 +23,7 @@ var LikesStore = McFly.createStore({
 
     case 'LOADED_COLLECTION':
       _setCollection(payload.collection)
-      if (PlaylistStore.getPlaylist.length === 0)
+      if (PlaylistStore.getPlaylist().length === 0)
         Actions.setPlaylist(payload.collection)
       break
 

@@ -24,8 +24,8 @@ function _setTrack(track) {
   _showNotification(track)
 }
 
-function _setLoading() {
-  _audio.loading = true
+function _setLoading(bool) {
+  _audio.loading = bool
   TrackStore.emitChange()
 }
 
@@ -49,36 +49,34 @@ function _seek(seconds) {
 }
 
 function _nextTrack() {
-  var nextTrack = playlistStore.nextTrack()
+  var nextTrack = playlistStore.getNextTrack()
 
-  if (!nextTrack)
-    return
-
+  if (nextTrack)
   _play(nextTrack)
 }
 
 function _previousTrack() {
-  var previousTrack = playlistStore.previousTrack()
+  var previousTrack = playlistStore.getPreviousTrack()
 
-  if (!previousTrack)
-    return
-
+  if (previousTrack)
   _play(previousTrack)
 }
 
 (function addListeners() {
 
-  _audio.addEventListener('loadstart', _setLoading)
-  _audio.addEventListener('waiting',   _setLoading)
+  _audio.addEventListener('loadstart', function() {
+    _setLoading(true)
+  })
+  _audio.addEventListener('waiting',   function() {
+    _setLoading(true)
+  })
 
   _audio.addEventListener('playing', function() {
-    _audio.loading = false
-    TrackStore.emitChange()
+    _setLoading(false)
   })
 
   _audio.addEventListener('error', function() {
-    _audio.loading = false
-    TrackStore.emitChange()
+    _setLoading(false)
     _nextTrack()
   })
 

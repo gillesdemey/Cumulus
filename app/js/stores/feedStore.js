@@ -23,7 +23,7 @@ var FeedStore = McFly.createStore({
 
     case 'LOADED_FEED':
       _setFeed(payload.feed)
-      if (PlaylistStore.getPlaylist.length === 0)
+      if (PlaylistStore.getPlaylist().length === 0)
         Actions.setPlaylist(payload.feed)
       break
 
