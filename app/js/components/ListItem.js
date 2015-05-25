@@ -43,7 +43,7 @@ var ListItem = React.createClass({
   },
 
   focus: function() {
-    this.refs.item.getDOMNode().scrollIntoViewIfNeeded() // non-standard DOM method
+    this.getDOMNode().scrollIntoViewIfNeeded() // non-standard DOM method
     this.setState({ 'focused' : true })
   },
 
@@ -64,7 +64,7 @@ var ListItem = React.createClass({
     })
 
     return (
-      <div className={listItemClasses} onClick={this.playOrPause} ref="item">
+      <div className={listItemClasses} onClick={this.playOrPause}>
 
         <div className="item__cover">
           <img src={cover} alt={this.props.track.title} width="64" height="64" />
