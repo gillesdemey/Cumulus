@@ -11,8 +11,8 @@ var config         = require('./lib/config')
 var menubar        = require('menubar')
 var mb             = menubar({
   dir           : __dirname + '/app',
-  preloadWindow : false, // TODO: enable if already logged in
-  width         : 320,
+  preloadWindow : true, // TODO: enable if already logged in
+  width         : 400,
   height        : 500,
   resizable     : false
 })
@@ -22,9 +22,7 @@ var debug = process.env.NODE_ENV === 'development'
 /**
  * Window references
  */
-var loginWindow = null
 var debugWindow = null
-
 
 mb.on('ready', function() {
 
@@ -38,26 +36,21 @@ mb.on('ready', function() {
 
   function doLogin() {
 
-    loginWindow = new BrowserWindow({
-      width  : 500,
-      height : 500,
-      center : true,
-      type   : 'splash'
-    })
-
-    loginWindow.loadUrl('https://soundcloud.com/connect?client_id=f17c1d67b83c86194fad2b1948061c9e&response_type=token&scope=non-expiring&display=next&redirect_uri=cumulus://oauth/callback')
+    mb.window.loadUrl('https://soundcloud.com/connect?client_id=f17c1d67b83c86194fad2b1948061c9e&response_type=token&scope=non-expiring&display=next&redirect_uri=cumulus://oauth/callback')
   }
 
   function initialize() {
-    if (loginWindow)
-      loginWindow.close()
 
     if (debug) {
-      debugWindow.loadUrl('file://' + __dirname + '/app/index.html')
       debugWindow.openDevTools()
-      debugWindow.show()
+      debugWindow.loadUrl('file://' + __dirname + '/app/index.html')
     }
 
+    mb.window.setSize(320, 500)
+    mb.window.setMaximumSize(320, 600)
+    mb.window.setMinimumSize(320, 400)
+    mb.window.setResizable(true)
+    mb.window.loadUrl('file://' + __dirname + '/app/index.html')
   }
 
   /**
