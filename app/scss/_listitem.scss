@@ -57,7 +57,7 @@
   }
 
   .overlay__play-pause.loading::before {
-    $size: 35px;
+    $size: 40px;
 
     background-image: url('../assets/loader.svg');
     background-size: contain;
