@@ -11,7 +11,7 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 
 function getStateFromStores() {
   return {
-    'likes'        : LikesStore.getLikes(),
+    'tracks'       : LikesStore.getLikes(),
     'loading'      : LikesStore.getLikes().length === 0,
     'currentTrack' : CurrentTrackStore.getTrack(),
     'currentAudio' : CurrentTrackStore.getAudio()
@@ -42,7 +42,6 @@ var LikesView = React.createClass({
   },
 
   render: function() {
-    var state = this.state
 
     var classes = classNames({
       'content__view__likes' : true,
@@ -51,12 +50,12 @@ var LikesView = React.createClass({
 
     return (
       <div className={classes}>
-        {state.likes.map(function(track) {
+        {this.state.tracks.map(function(track) {
 
-          var active  = state.currentTrack.id === track.id
-          var paused  = active ? state.currentAudio.paused  : true
-          var loading = active ? state.currentAudio.loading : false
-          var error   = active ? state.currentAudio.error   : false
+          var active  = this.state.currentTrack.id === track.id
+          var paused  = active ? this.state.currentAudio.paused  : true
+          var loading = active ? this.state.currentAudio.loading : false
+          var error   = active ? this.state.currentAudio.error   : false
 
           return (
             <ListItem
@@ -69,7 +68,7 @@ var LikesView = React.createClass({
             >
             </ListItem>
           )
-        })}
+        }, this)}
       </div>
     );
   }

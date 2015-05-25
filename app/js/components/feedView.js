@@ -11,7 +11,7 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 
 function getStateFromStores() {
   return {
-    'feed'         : FeedStore.getFeed(),
+    'tracks'       : FeedStore.getFeed(),
     'loading'      : FeedStore.getFeed().length === 0,
     'currentTrack' : CurrentTrackStore.getTrack(),
     'currentAudio' : CurrentTrackStore.getAudio()
@@ -42,7 +42,6 @@ var FeedView = React.createClass({
   },
 
   render: function() {
-    var state = this.state
 
     var classes = classNames({
       'content__view__feed' : true,
@@ -51,12 +50,12 @@ var FeedView = React.createClass({
 
     return (
       <div className={classes}>
-        {this.state.feed.map(function(track) {
+        {this.state.tracks.map(function(track) {
 
-          var active  = state.currentTrack.id === track.id
-          var paused  = active ? state.currentAudio.paused  : true
-          var loading = active ? state.currentAudio.loading : false
-          var error   = active ? state.currentAudio.error   : false
+          var active  = this.state.currentTrack.id === track.id
+          var paused  = active ? this.state.currentAudio.paused  : true
+          var loading = active ? this.state.currentAudio.loading : false
+          var error   = active ? this.state.currentAudio.error   : false
 
           return (
             <ListItem
@@ -69,7 +68,7 @@ var FeedView = React.createClass({
             >
             </ListItem>
           )
-        })}
+        }, this)}
       </div>
     );
   }
