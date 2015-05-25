@@ -37,11 +37,12 @@ SoundCloud.prototype.makeRequest = function(shortUrl, options) {
     'json'          : true,
     'qs'            : {
       'client_id'   : self._clientId,
-      'oauth_token' : self._token
+      'oauth_token' : self._token,
+      'limit'       : 50,
     }
   }
 
-  options = _.assign(defaults, options)
+  options = _.defaults(options, defaults)
 
   return rp(options)
 }
