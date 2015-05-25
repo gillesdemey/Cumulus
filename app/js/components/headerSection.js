@@ -13,7 +13,7 @@ var HeaderSection = React.createClass({
             <Link to="feed">Feed</Link>
           </li>
           <li>
-            <Link to="collection">Likes</Link>
+            <Link to="likes">Likes</Link>
           </li>
           <li>
             <Link to="playlists">Playlists</Link>

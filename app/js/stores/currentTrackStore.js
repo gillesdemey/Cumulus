@@ -38,6 +38,7 @@ function _play(track) {
     _setTrack(track)
 
   _audio.play()
+  TrackStore.emitChange()
 }
 
 function _seek(seconds) {
@@ -54,7 +55,6 @@ function _nextTrack() {
     return
 
   _play(nextTrack)
-  TrackStore.emitChange()
 }
 
 function _previousTrack() {
@@ -64,7 +64,6 @@ function _previousTrack() {
     return
 
   _play(previousTrack)
-  TrackStore.emitChange()
 }
 
 (function addListeners() {
@@ -83,7 +82,10 @@ function _previousTrack() {
     _nextTrack()
   })
 
-  _audio.addEventListener('ended', _nextTrack)
+  _audio.addEventListener('ended', function() {
+    TrackStore.emitChange()
+    _nextTrack()
+  })
 
 })()
 

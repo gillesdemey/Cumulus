@@ -8,7 +8,7 @@ var Router          = require('react-router');
 var CumulusApp      = require('./components/CumulusApp');
 
 var About           = require('./components/aboutView');
-var Collection      = require('./components/likesView');
+var Likes           = require('./components/likesView');
 var Feed            = require('./components/feedView');
 var Playlists       = require('./components/playlistsView');
 
@@ -21,8 +21,8 @@ var SoundCloud      = require('./utils/soundcloud');
 var Route  = Router.Route;
 var routes = (
   <Route handler={CumulusApp} >
-    <Router.DefaultRoute name="collection" handler={Collection}/>
-    <Route name="feed"  handler={Feed}/>
+    <Router.DefaultRoute name="feed" handler={Feed}/>
+    <Route name="likes" handler={Likes}/>
     <Route name="playlists" handler={Playlists}/>
     <Route name="about" handler={About}/>
   </Route>

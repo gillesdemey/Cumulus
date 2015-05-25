@@ -28,7 +28,7 @@ var LikesStore = McFly.createStore({
       break
 
     case 'PLAY_TRACK':
-      if (!_.detect(_favorites, { 'id' : payload.track.id }))
+      if (!payload.track || !_.detect(_favorites, { 'id' : payload.track.id }))
         return
 
       PlaylistStore.setPlaylist(_favorites)
