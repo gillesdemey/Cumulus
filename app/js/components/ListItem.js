@@ -5,63 +5,30 @@ var classNames        = require('classnames')
 var Actions           = require('../actions/actionCreators')
 var time              = require('../utils/time')
 
-var CurrentTrackStore = require('../stores/currentTrackStore')
-
 var ListItem = React.createClass({
 
   getInitialState: function() {
     return { 'paused' : true, 'active' : false, 'loading' : false }
   },
 
-  getStateFromStores : function() {
-    var track = CurrentTrackStore.getTrack()
-    var audio = CurrentTrackStore.getAudio()
-
-    var active = track.id === this.props.track.id
-    var paused = active ? audio.paused : true
-
-    return { 'paused' : paused, 'active' : active }
-  },
-
-  componentWillMount: function() {
-    CurrentTrackStore.addChangeListener(this._onChange)
-    this.setState(this.getStateFromStores())
-  },
-
-  componentWillUnmount: function() {
-    CurrentTrackStore.removeChangeListener(this._onChange)
+  shouldComponentUpdate: function(nextProps) {
+    if (!nextProps.active && !this.props.active)
+      return false
+    else
+      return true
   },
 
   componentDidMount: function() {
-    if (this.state.active)
-      this.focus()
-  },
-
-  _onChange: function() {
-    var audio = CurrentTrackStore.getAudio()
-
-    if (audio.src !== this.props.track.stream_url)
-      return this.setState(this.getInitialState())
-
-    this.setState({
-      'error'   : audio.error,
-      'paused'  : audio.paused,
-      'loading' : audio.loading,
-      'active'  : !audio.error ? true : false,
-    })
-
-    if (!this.state.focused)
+    if (this.props.active)
       this.focus()
   },
 
   playOrPause: function() {
 
-    if (this.state.error)
+    if (this.props.error)
       return
 
-    this.focus()
-
-    if (this.state.paused)
+    if (this.props.paused)
       this.play()
     else
       this.pause()
@@ -86,14 +53,14 @@ var ListItem = React.createClass({
 
     var playPause = classNames({
       'overlay__play-pause' : true,
-      'fi-play'             : this.state.paused || this.state.error,
-      'fi-pause'            : !this.state.paused,
-      'loading'             : this.state.loading
+      'fi-play'             : this.props.paused || this.props.error,
+      'fi-pause'            : !this.props.paused,
+      'loading'             : this.props.loading
     })
 
     var listItemClasses = classNames({
       'list-item' : true,
-      'active'    : this.state.active
+      'active'    : this.props.active
     })
 
     return (

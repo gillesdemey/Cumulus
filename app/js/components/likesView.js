@@ -6,34 +6,34 @@ var ListItem          = require('./ListItem')
 var classNames        = require('classnames')
 
 var Actions           = require('../actions/actionCreators')
-var FeedStore         = require('../stores/feedStore')
+var LikesStore        = require('../stores/likesStore')
 var CurrentTrackStore = require('../stores/currentTrackStore')
 
 function getStateFromStores() {
   return {
-    'feed'         : FeedStore.getFeed(),
-    'loading'      : FeedStore.getFeed().length === 0,
+    'likes'        : LikesStore.getLikes(),
+    'loading'      : LikesStore.getLikes().length === 0,
     'currentTrack' : CurrentTrackStore.getTrack(),
     'currentAudio' : CurrentTrackStore.getAudio()
   }
 }
 
-var FeedView = React.createClass({
+var LikesView = React.createClass({
 
   getInitialState: function () {
     return getStateFromStores()
   },
 
   componentWillMount: function() {
-    if (FeedStore.getFeed().length === 0)
-      Actions.fetchFeed()
+    if (LikesStore.getLikes().length === 0)
+      Actions.fetchLikes()
 
-    FeedStore.addChangeListener(this._onChange)
+    LikesStore.addChangeListener(this._onChange)
     CurrentTrackStore.addChangeListener(this._onChange)
   },
 
   componentWillUnmount: function() {
-    FeedStore.removeChangeListener(this._onChange)
+    LikesStore.removeChangeListener(this._onChange)
     CurrentTrackStore.removeChangeListener(this._onChange)
   },
 
@@ -45,13 +45,13 @@ var FeedView = React.createClass({
     var state = this.state
 
     var classes = classNames({
-      'content__view__feed' : true,
-      'loading'             : this.state.loading
+      'content__view__likes' : true,
+      'loading'              : state.loading
     })
 
     return (
       <div className={classes}>
-        {this.state.feed.map(function(track) {
+        {state.likes.map(function(track) {
 
           var active  = state.currentTrack.id === track.id
           var paused  = active ? state.currentAudio.paused  : true
@@ -76,4 +76,4 @@ var FeedView = React.createClass({
 
 });
 
-module.exports = FeedView
+module.exports = LikesView

@@ -8,7 +8,7 @@ var Router          = require('react-router');
 var CumulusApp      = require('./components/CumulusApp');
 
 var About           = require('./components/aboutView');
-var Collection      = require('./components/collectionView');
+var Collection      = require('./components/likesView');
 var Feed            = require('./components/feedView');
 var Playlists       = require('./components/playlistsView');
 

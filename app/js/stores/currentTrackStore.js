@@ -133,6 +133,4 @@ TrackStore = McFly.createStore({
   return true
 });
 
-TrackStore.setMaxListeners(0) // increase max listeners to infinity
-
 module.exports = TrackStore
