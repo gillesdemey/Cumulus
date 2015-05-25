@@ -1,7 +1,5 @@
 'use strict';
 
-var debug         = process.env.NODE_ENV === 'development'
-
 var BrowserWindow  = require('browser-window')
 var globalShortcut = require('global-shortcut')
 
@@ -14,21 +12,29 @@ var menubar        = require('menubar')
 var mb             = menubar({
   dir           : __dirname + '/app',
   preloadWindow : false, // TODO: enable if already logged in
-  width         : debug ? 600  : 320,
-  height        : debug ? 600  : 500,
-  resizable     : debug ? true : false
+  width         : 320,
+  height        : 500,
+  resizable     : false
 })
+
+var debug = process.env.NODE_ENV === 'development'
 
 /**
  * Window references
  */
 var loginWindow = null
+var debugWindow = null
 
-mb.on('after-create-window', function() {
-  mb.window.openDevTools()
-})
 
 mb.on('ready', function() {
+
+  if (debug)
+    debugWindow = new BrowserWindow({
+      width  : 995,
+      height : 600,
+      type   : 'desktop',
+      frame  : true
+    })
 
   function doLogin() {
 
@@ -45,6 +51,13 @@ mb.on('ready', function() {
   function initialize() {
     if (loginWindow)
       loginWindow.close()
+
+    if (debug) {
+      debugWindow.loadUrl('file://' + __dirname + '/app/index.html')
+      debugWindow.openDevTools()
+      debugWindow.show()
+    }
+
   }
 
   /**
