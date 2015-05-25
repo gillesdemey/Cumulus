@@ -14,7 +14,7 @@ function _addToPlaylist(tracks) {
 }
 
 function _setPlaylist(tracks) {
-  _playlist = _.clone(tracks)
+  _playlist = tracks
 }
 
 function _setIndex(index) {
@@ -28,7 +28,7 @@ function _getIndexById(track) {
   return _.findIndex(_playlist, { 'id' : track.id })
 }
 
-function _nextTrack() {
+function _getNextTrack() {
   if (_index === _playlist.length - 1)
     return
 
@@ -37,7 +37,7 @@ function _nextTrack() {
   return _playlist[_index]
 }
 
-function _previousTrack() {
+function _getPreviousTrack() {
   if (_index === 0)
     return
 
@@ -63,12 +63,16 @@ var PlaylistStore = McFly.createStore({
       _setIndex(_getIndexById(trackOrId))
   },
 
-  nextTrack: function() {
-    return _nextTrack()
+  getIndex: function() {
+    return _index
   },
 
-  previousTrack: function() {
-    return _previousTrack()
+  getNextTrack: function() {
+    return _getNextTrack()
+  },
+
+  getPreviousTrack: function() {
+    return _getPreviousTrack()
   },
 
 }, function(payload) {
