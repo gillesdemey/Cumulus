@@ -45,7 +45,7 @@ var LikesView = React.createClass({
 
     var classes = classNames({
       'content__view__likes' : true,
-      'loading'              : state.loading
+      'loading'              : this.state.loading
     })
 
     return (
