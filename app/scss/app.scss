@@ -41,16 +41,22 @@ i[data-icon] {
   height: 100%;
   width: 100%;
 
-  overflow: scroll;
-  flex: 1;
-
   position: relative;
+  overflow: hidden;
+
+  flex: 1;
 }
 
 /**
  * Views loading styles
  */
 [class^=content__view] {
+
+  height: 100%;
+  width: 100%;
+
+  position: absolute;
+  overflow: scroll;
 
   &.loading {
     background-color: #fff;
