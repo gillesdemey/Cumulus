@@ -29,6 +29,7 @@ module.exports = function(grunt) {
       dev: {
         options: {
           debug: true,
+          watch: 'watch',
           alias: ['react:']  // Make React available externally for dev tools
         },
         src: ['app/js/app.js'],
@@ -57,10 +58,6 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      scripts: {
-        files: ['app/js/**/*.js', '!app/js/bundle.js'],
-        tasks: ['browserify:dev']
-      },
       sass: {
         files: ['app/scss/**/*.scss'],
         tasks: ['sass:dev']
