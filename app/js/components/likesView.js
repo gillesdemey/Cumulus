@@ -49,7 +49,7 @@ var LikesView = React.createClass({
     })
 
     return (
-      <div className={classes}>
+      <section className={classes}>
         {this.state.tracks.map(function(track) {
 
           var active  = this.state.currentTrack.id === track.id
@@ -69,7 +69,7 @@ var LikesView = React.createClass({
             </ListItem>
           )
         }, this)}
-      </div>
+      </section>
     );
   }
 

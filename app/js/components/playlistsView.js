@@ -44,7 +44,7 @@ var PlaylistsView = React.createClass({
     })
 
     return (
-      <div className={classes}>
+      <section className={classes}>
         {this.state.playlists.map(function(track) {
           return (
             <ListItem
@@ -54,7 +54,7 @@ var PlaylistsView = React.createClass({
             </ListItem>
           )
         })}
-      </div>
+      </section>
     );
   }
 

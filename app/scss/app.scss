@@ -6,7 +6,7 @@
 }
 
 html {
-  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  font-family: 'Lucida Grande', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
 body {
@@ -23,8 +23,20 @@ a:focus, button:focus {
   outline: 0;
 }
 
-i[data-icon] {
-  font-style: normal !important;
+i.fi {
+  display: inline-block;
+
+  font-family: 'foundation-icons';
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+
+  text-transform: none;
+  text-decoration: inherit;
+
+  line-height: 1;
+
+  -webkit-font-smoothing: antialiased;
 }
 
 .cumulusapp {
@@ -73,7 +85,7 @@ i[data-icon] {
 
     position: absolute;
 
-    background-color: orangered;
+    background-color: #f50;
     -webkit-mask: url('../assets/loader.svg') no-repeat 50% 50%;
     -webkit-mask-size: cover;
 

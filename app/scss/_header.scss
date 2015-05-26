@@ -8,6 +8,8 @@ header {
   height: $height;
   line-height: $height;
 
+  -webkit-font-smoothing: subpixel-antialiased;
+
   ul {
     width: 100%;
     display: flex;
@@ -31,7 +33,7 @@ header {
 
     &.active {
       color: #fff;
-      border-bottom: solid 2px orangered;
+      border-bottom: solid 2px #f50;
     }
   }
 

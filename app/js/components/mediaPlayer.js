@@ -92,8 +92,8 @@ var MediaPlayer = React.createClass({
       : '')
 
     var playPause = this.state.audio.paused || this.state.audio.error
-      ? 'fi fi-play'
-      : 'fi fi-pause'
+      ? '\uf198'
+      : '\uf191'
 
     var currentTime = time.formatDuration(this.state.audio.currentTime)
 
@@ -128,15 +128,15 @@ var MediaPlayer = React.createClass({
 
             <div className="play-pause-skip__wrapper">
               <button className="controls__previous">
-                <i className="fi fi-previous" onClick={this.previousTrack}></i>
+                <i className="fi" onClick={this.previousTrack}>{'\uf19c'}</i>
               </button>
 
               <button className="controls__play-pause" onClick={this.playOrPause}>
-                <i className={playPause}></i>
+                <i className="fi">{playPause}</i>
               </button>
 
               <button className="controls__next">
-                <i className="fi fi-next" onClick={this.nextTrack}></i>
+                <i className="fi" onClick={this.nextTrack}>{'\uf17c'}</i>
               </button>
             </div>
 

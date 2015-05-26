@@ -11,6 +11,7 @@
 
   .media-player__controls {
     position: relative;
+    background-image: linear-gradient(180deg, #FFF, #E3E3E3);
 
     .controls__play-pause-skip {
       display: flex;
@@ -37,6 +38,14 @@
 
       width: 35px;
       vertical-align: middle;
+
+      i.fi {
+        background-image: linear-gradient(0deg, #999, #333);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      margin-left: 1px; // aligning to the pixel grid
     }
 
     .controls__next,
@@ -69,7 +78,6 @@
 }
 
 .cumulus__media-player.hidden {
-  // transform: translateY(100%);
   height: 0;
 }
 
@@ -77,9 +85,12 @@
 .controls__timeline .timeline__duration {
   font-size: 11px;
 
-  width: 46px;
+  width: auto;
   text-align: center;
   cursor: default;
+
+  color: #666;
+  text-shadow: 0 1px 0 rgba(#fff, .85);
 
   -webkit-user-select: none;
 }
@@ -89,6 +100,7 @@
   height: 100%;
 
   padding: 0 15px;
+  flex: 1;
 }
 
 .timeline__seeker .seeker__wrapper {
@@ -107,15 +119,15 @@
   position: absolute;
 
   width: 100%;
-  height: 1px;
+  height: 2px;
 }
 
 .seeker__progress-bar::-webkit-progress-bar {
-  background-color: #C1C1C1;
+  background-color: rgba(#C1C1C1, .85);
 }
 
 .seeker__progress-bar::-webkit-progress-value {
-  background-color: orangered;
+  background-color: #f50;
   transition: all 200ms;
 }
 
@@ -123,17 +135,16 @@
   content: '';
   position: relative;
 
-  width: 9px;
-  height: 9px;
+  width: 2px;
+  height: 12px;
 
-  margin-left: -4.5px;
-  margin-top: -4.5px;
+  margin-left: -1px;
+  margin-top: -5px;
 
   float: right;
 
-  background-color: orangered;
+  background-color: #f50;
 
-  border-radius: 100%;
   cursor: pointer;
 }
 
