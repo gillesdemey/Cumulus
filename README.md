@@ -1,7 +1,7 @@
 # Cumulus
 Unobtrusive SoundCloud desktop application
 
-![screenshot 2015-05-26 00 32 11](https://cloud.githubusercontent.com/assets/868844/7802854/8df9c3f4-033f-11e5-9b3c-c95b9bc02ae4.png)
+![screen shot 2015-05-27 at 20 05 10](https://cloud.githubusercontent.com/assets/868844/7843899/3e6aa8e8-04ad-11e5-8054-daa3cd22f37c.png)
 
 # Developing
 
