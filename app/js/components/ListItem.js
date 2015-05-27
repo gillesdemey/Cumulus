@@ -8,10 +8,13 @@ var time              = require('../utils/time')
 var ListItem = React.createClass({
 
   getInitialState: function() {
-    return { 'paused' : true, 'active' : false, 'loading' : false }
+    return { }
   },
 
   shouldComponentUpdate: function(nextProps) {
+    if (this.props.error)
+      return false
+
     if (!nextProps.active && !this.props.active)
       return false
     else
@@ -60,7 +63,8 @@ var ListItem = React.createClass({
 
     var listItemClasses = classNames({
       'list-item' : true,
-      'active'    : this.props.active
+      'active'    : this.props.active,
+      'error'     : this.props.error
     })
 
     return (

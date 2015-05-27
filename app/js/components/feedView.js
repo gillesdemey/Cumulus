@@ -52,10 +52,10 @@ var FeedView = React.createClass({
       <section className={classes}>
         {this.state.tracks.map(function(track) {
 
-          var active  = this.state.currentTrack.id === track.id
+          var active  = this.state.currentTrack.id === track.id && !this.state.currentAudio.error
           var paused  = active ? this.state.currentAudio.paused  : true
           var loading = active ? this.state.currentAudio.loading : false
-          var error   = active ? this.state.currentAudio.error   : false
+          var error   = this.state.currentAudio.error
 
           return (
             <ListItem

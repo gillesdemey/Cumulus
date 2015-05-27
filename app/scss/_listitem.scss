@@ -19,6 +19,18 @@
     .cover__overlay { opacity: 1; }
   }
 
+  &.error {
+    .cover__overlay {
+      opacity: 1;
+      background: none;
+
+      .overlay__play-pause::before {
+        opacity: 0.85;
+        content: '\f1a0' !important;
+      }
+    }
+  }
+
   .item__cover {
     float: left;
 
