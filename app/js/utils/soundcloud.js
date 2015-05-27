@@ -28,11 +28,12 @@ SoundCloud.prototype.makeRequest = function(shortUrl, options) {
 
   if (typeof shortUrl === 'object')
     options = shortUrl
-  else if (typeof shortUrl === 'string')
+  else if (typeof shortUrl === 'string' && shortUrl.indexOf('://') === -1)
+    options.url = this._endpoint + shortUrl
+  else if (typeof shortUrl === 'string' && shortUrl.indexOf('://') !== -1)
     options.url = shortUrl
 
   var defaults = {
-    'baseUrl'       : self._endpoint,
     'method'        : 'GET',
     'json'          : true,
     'qs'            : {
@@ -65,13 +66,20 @@ SoundCloud.prototype.fetchVisual = function(trackId) {
     url  : 'https://visuals.soundcloud.com/visuals?urn=soundcloud:sounds:' + trackId,
     json : true,
     transform: function(body) {
-      return body.visuals ? body.visuals[0].visual_url : null;
+      return body.visuals ? body.visuals[0].visual_url : null
     }
   })
   .catch(function(ex) {
     console.error(ex)
-  });
-};
+  })
+}
+
+SoundCloud.prototype.fetchWaveform = function(url) {
+  return SoundCloud.prototype.makeRequest.call(this, url)
+    .then(function(resp) {
+      return resp.samples
+    })
+}
 
 SoundCloud.prototype.fetchLikes = function() {
   var self = this
@@ -89,13 +97,18 @@ SoundCloud.prototype.fetchFeed = function() {
     .then(function(resp) {
       return resp.collection
     })
+    .then(function(items) {
+      // not supporting playlists just yet
+      return _.reject(items, { 'type' : 'playlist' })
+    })
     .map(function(item) {
       return item.origin
     })
     .map(SoundCloud.prototype._mapTracks.bind(self))
     .then(function(tracks) {
       // SoundCloud activities can return multiple of the same track
-      return _.uniq(tracks, 'id')
+      tracks = _.uniq(tracks, 'id')
+      return tracks
     })
     .catch(function(ex) {
       console.error(ex)
