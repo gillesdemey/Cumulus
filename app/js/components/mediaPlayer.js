@@ -8,9 +8,6 @@ var time              = require('../utils/time')
 var classNames        = require('classnames')
 var _                 = require('lodash')
 
-var SoundCloud        = require('../utils/soundcloud')
-var Waveform          = require('../utils/waveform')
-
 function getStateFromStores() {
   return {
     'track'      : CurrentTrackStore.getTrack(),
@@ -40,32 +37,8 @@ var MediaPlayer = React.createClass({
     this.state.audio.removeEventListener('timeupdate', this.updateHandler)
   },
 
-  componentDidMount: function() {
-    this.setState({ 'waveform' :
-      new Waveform({
-        container  : this.refs.waveform.getDOMNode(),
-        innerColor : "white",
-        width      : 320,
-        height     : 32,
-        middle     : 1,
-        gap        : 1.5,
-        colWidth   : 2,
-        data       : []
-      })
-    })
-  },
-
   _onChange: function() {
     this.setState(getStateFromStores())
-
-    if (!this.state.track.stream_url)
-      return
-
-    // fetch waveform json data
-    SoundCloud.fetchWaveform(this.state.track.waveform_url)
-      .then(function(data) {
-        this.state.waveform.update({ data : data })
-      }.bind(this))
   },
 
   playOrPause: function() {
@@ -147,7 +120,6 @@ var MediaPlayer = React.createClass({
               <span>{ this.state.track.title }</span>
             </div>
           </div>
-          <div className="media-player__waveform" ref="waveform"></div>
         </div>
 
         <div className="media-player__controls">
