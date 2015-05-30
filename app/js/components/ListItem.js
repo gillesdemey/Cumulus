@@ -73,7 +73,7 @@ var ListItem = React.createClass({
       'overlay__play-pause' : true,
       'fi-play'             : this.props.paused || this.props.error,
       'fi-pause'            : !this.props.paused,
-      'loading'             : this.props.loading
+      'loading'             : this.props.loading && this.props.active
     })
 
     var listItemClasses = {
