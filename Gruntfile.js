@@ -69,13 +69,13 @@ module.exports = function(grunt) {
           name            : 'Cumulus',
           dir             : '.',
           out             : 'dist',
+          icon            : 'cumulus.icns',
           version         : '0.26.1',
           platform        : 'darwin',
           arch            : 'x64',
           ignore          : 'node_modules/',
-          asar            : true,
           'app-version'   : packageJson.version,
-          'app-bundle-id' : 'be.gillesdemey.cumulus'
+          'app-bundle-id' : 'com.gillesdemey.cumulus'
         }
       }
     }
