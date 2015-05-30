@@ -1,12 +1,19 @@
 'use strict';
 
-var McFly         = require('../utils/mcfly');
-// var Actions       = require('../actions/actionCreators')
+var McFly         = require('../utils/mcfly')
+var Actions       = require('../actions/actionCreators')
+var PlaylistStore = require('../stores/playlistStore')
+var _             = require('lodash')
 
-var _playlists   = []
+var _playlists   = [] // list of al playlists
+var _tracks      = [] // list of tracks from all playlists
 
-function _setPlaylists(tracks) {
-  _playlists = tracks
+function _setPlaylists(playlists) {
+  _playlists = playlists
+  _tracks    = _.reduce(playlists, function(result, playlist) {
+    result = result.concat(playlist.tracks)
+    return result
+  }, [])
 }
 
 var PlaylistsStore = McFly.createStore({
@@ -15,14 +22,26 @@ var PlaylistsStore = McFly.createStore({
     return _playlists
   },
 
+  getTracks: function() {
+    return _tracks
+  }
+
 }, function(payload) {
 
   switch (payload.actionType) {
 
     case 'LOADED_PLAYLISTS':
       _setPlaylists(payload.playlists)
-      // TODO: map playlists to list of tracks
-      // Actions.setPlaylist(payload.playlists)
+      if (PlaylistStore.getPlaylist().length === 0)
+        Actions.setPlaylist(_tracks)
+      break
+
+    case 'PLAY_TRACK':
+      if (!payload.track || !_.detect(_tracks, { 'id' : payload.track.id }))
+        return
+
+      PlaylistStore.setPlaylist(_tracks)
+      PlaylistStore.setIndex(payload.track)
       break
 
   }
