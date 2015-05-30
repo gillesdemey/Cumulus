@@ -48,7 +48,7 @@ SoundCloud.prototype.makeRequest = function(shortUrl, options) {
   return rp(options)
 }
 
-SoundCloud.prototype._mapTracks = function(track) {
+SoundCloud.prototype._mapTrack = function(track) {
   if (track.stream_url) // append client_id for audio stream access
     track.stream_url += '?client_id=' + this._clientId
 
@@ -85,7 +85,7 @@ SoundCloud.prototype.fetchLikes = function() {
   return this.makeRequest('me/favorites')
     .then()
     .bind(this)
-    .map(this._mapTracks)
+    .map(this._mapTrack)
     .catch(function(ex) {
       console.error(ex)
     })
@@ -104,7 +104,7 @@ SoundCloud.prototype.fetchFeed = function() {
       return item.origin
     })
     .bind(this)
-    .map(this._mapTracks)
+    .map(this._mapTrack)
     .then(function(tracks) {
       // SoundCloud activities can return multiple of the same track
       tracks = _.uniq(tracks, 'id')
@@ -116,10 +116,17 @@ SoundCloud.prototype.fetchFeed = function() {
 }
 
 SoundCloud.prototype.fetchPlaylists = function() {
+  var self = this
   return this.makeRequest('me/playlists')
     .then()
     .bind(this)
-    .map(this._mapTracks)
+    .map(this._mapTrack)
+    .map(function(playlist) {
+      playlist.tracks = _.map(playlist.tracks, function(track) {
+        return self._mapTrack(track)
+      })
+      return playlist
+    })
     .catch(function(ex) {
       console.error(ex)
     })

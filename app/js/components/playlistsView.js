@@ -1,17 +1,20 @@
 'use strict';
 
-var React          = require('react')
-var ListItem       = require('./ListItem')
+var React             = require('react')
+var PlaylistListItem  = require('./PlaylistListItem')
 
-var classNames     = require('classnames')
+var classNames        = require('classnames')
 
-var Actions        = require('../actions/actionCreators')
-var PlaylistsStore = require('../stores/playlistsStore')
+var Actions           = require('../actions/actionCreators')
+var PlaylistsStore    = require('../stores/playlistsStore')
+var CurrentTrackStore = require('../stores/currentTrackStore')
 
 function getStateFromStores() {
   return {
-    'playlists' : PlaylistsStore.getPlaylists(),
-    'loading'   : PlaylistsStore.getPlaylists().length === 0
+    'playlists'    : PlaylistsStore.getPlaylists(),
+    'loading'      : PlaylistsStore.getPlaylists().length === 0,
+    'currentTrack' : CurrentTrackStore.getTrack(),
+    'currentAudio' : CurrentTrackStore.getAudio(),
   }
 }
 
@@ -22,14 +25,16 @@ var PlaylistsView = React.createClass({
   },
 
   componentWillMount: function() {
-    PlaylistsStore.addChangeListener(this._onChange)
-
     if (PlaylistsStore.getPlaylists().length === 0)
       Actions.fetchPlaylists()
+
+    PlaylistsStore.addChangeListener(this._onChange)
+    CurrentTrackStore.addChangeListener(this._onChange)
   },
 
   componentWillUnmount: function() {
     PlaylistsStore.removeChangeListener(this._onChange)
+    CurrentTrackStore.removeChangeListener(this._onChange)
   },
 
   _onChange: function() {
@@ -45,15 +50,18 @@ var PlaylistsView = React.createClass({
 
     return (
       <section className={classes}>
-        {this.state.playlists.map(function(track) {
+        {this.state.playlists.map(function(playlist) {
           return (
-            <ListItem
-              key   = {track.id}
-              track = {track}
+            <PlaylistListItem
+              key          = {playlist.id}
+              playlist     = {playlist}
+              tracks       = {playlist.tracks}
+              currentTrack = {this.state.currentTrack}
+              currentAudio = {this.state.currentAudio}
             >
-            </ListItem>
+            </PlaylistListItem>
           )
-        })}
+        }, this)}
       </section>
     );
   }

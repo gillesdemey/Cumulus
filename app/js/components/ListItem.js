@@ -61,17 +61,17 @@ var ListItem = React.createClass({
       'loading'             : this.props.loading
     })
 
-    var listItemClasses = classNames({
+    var listItemClasses = {
       'list-item' : true,
       'active'    : this.props.active,
-      'error'     : this.props.error
-    })
+      'error'     : this.props.error,
+    }
+    listItemClasses[this.props.type] = this.props.hasOwnProperty('type')
 
     return (
-      <div className={listItemClasses} onClick={this.playOrPause}>
+      <div className={classNames(listItemClasses)} onClick={this.playOrPause}>
 
-        <div className="item__cover">
-          <img src={cover} alt={this.props.track.title} width="64" height="64" />
+        <div className="item__cover" style={{'backgroundImage' : 'url(' + cover + ')'}}>
           <div className="cover__overlay">
             <button className={playPause}></button>
           </div>

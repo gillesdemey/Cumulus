@@ -3,8 +3,8 @@
 .list-item {
   $height: 64px;
 
-  height: $height;
   overflow: hidden;
+  width: 100%;
 
   cursor: pointer;
 
@@ -14,21 +14,15 @@
     background-color: rgba(#f50, 0.05);
   }
 
+  &:hover .cover__overlay { opacity: 1; }
+
   &.active {
     .item__title { color: #f50; }
-    .cover__overlay { opacity: 1; }
+    .cover__overlay { opacity: 1 !important; }
   }
 
   &.error {
-    .cover__overlay {
-      opacity: 1;
-      background: none;
-
-      .overlay__play-pause::before {
-        opacity: 0.85;
-        content: '\f1a0' !important;
-      }
-    }
+    text-decoration: line-through;
   }
 
   .item__cover {
@@ -38,6 +32,9 @@
 
     height: $height;
     width: $height;
+
+    background-position: center center;
+    background-size: cover;
   }
 
   .cover__overlay {
@@ -50,8 +47,6 @@
     opacity: 0;
   }
 
-  &:hover .cover__overlay { opacity: 1; }
-
   .overlay__play-pause {
     position: absolute;
 
@@ -61,7 +56,7 @@
     color: #fff;
     font-size: 35px;
 
-    line-height: $height;
+    line-height: 100%;
     text-align: center;
 
     background: none;
@@ -121,6 +116,60 @@
     content: '';
     clear: both;
     display: block;
+  }
+
+}
+
+.list-item.playlist {
+  background: #FFF;
+
+  &:hover .cover__overlay { opacity: 0; }
+}
+
+/**
+ * Small list item
+ */
+.list-item.small {
+  height: 44px;
+
+  .item__cover {
+    width: 30px;
+    height: 30px;
+
+    margin: 7px;
+  }
+
+  .item__meta {
+    padding: 6px 15px;
+    margin-left: 0;
+  }
+
+  .item__title, .item__artist {
+    line-height: 1.5em;
+    font-size: 11px;
+  }
+
+  .item__duration {
+    font-size: 10px;
+    top: 9px;
+    right: 9px;
+  }
+
+  .overlay__play-pause {
+    font-size: 1em;
+  }
+
+  .overlay__play-pause.loading::before {
+    $size: 25px;
+
+    width: $size;
+    height: $size;
+    line-height: $size;
+
+    position: absolute;
+
+    left: 2.5px;
+    top: 2.5px;
   }
 
 }
