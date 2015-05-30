@@ -52,11 +52,11 @@ SoundCloud.prototype._mapTracks = function(track) {
   if (track.stream_url) // append client_id for audio stream access
     track.stream_url += '?client_id=' + this._clientId
 
-  if (track.artwork_url) // high-resolution artwork
-    track.artwork_url = track.artwork_url.replace('-large', '-t500x500');
+  if (track.artwork_url)
+    track.artwork_url = _artworkFormat(track.artwork_url, 'crop');
 
   if (track.user.avatar_url)
-    track.user.avatar_url = track.user.avatar_url.replace('-large', '-t500x500');
+    track.user.avatar_url = _artworkFormat(track.user.avatar_url, 'crop');
 
   return track
 }
@@ -75,25 +75,24 @@ SoundCloud.prototype.fetchVisual = function(trackId) {
 }
 
 SoundCloud.prototype.fetchWaveform = function(url) {
-  return SoundCloud.prototype.makeRequest.call(this, url)
+  return this.makeRequest(url)
     .then(function(resp) {
       return resp.samples
     })
 }
 
 SoundCloud.prototype.fetchLikes = function() {
-  var self = this
-  return SoundCloud.prototype.makeRequest.call(self, 'me/favorites')
+  return this.makeRequest('me/favorites')
     .then()
-    .map(SoundCloud.prototype._mapTracks.bind(self))
+    .bind(this)
+    .map(this._mapTracks)
     .catch(function(ex) {
       console.error(ex)
     })
 }
 
 SoundCloud.prototype.fetchFeed = function() {
-  var self = this
-  return SoundCloud.prototype.makeRequest.call(self, 'me/activities')
+  return this.makeRequest('me/activities')
     .then(function(resp) {
       return resp.collection
     })
@@ -104,7 +103,8 @@ SoundCloud.prototype.fetchFeed = function() {
     .map(function(item) {
       return item.origin
     })
-    .map(SoundCloud.prototype._mapTracks.bind(self))
+    .bind(this)
+    .map(this._mapTracks)
     .then(function(tracks) {
       // SoundCloud activities can return multiple of the same track
       tracks = _.uniq(tracks, 'id')
@@ -116,13 +116,21 @@ SoundCloud.prototype.fetchFeed = function() {
 }
 
 SoundCloud.prototype.fetchPlaylists = function() {
-  var self = this
-  return SoundCloud.prototype.makeRequest.call(self, 'me/playlists')
+  return this.makeRequest('me/playlists')
     .then()
-    .map(SoundCloud.prototype._mapTracks.bind(self))
+    .bind(this)
+    .map(this._mapTracks)
     .catch(function(ex) {
       console.error(ex)
     })
 }
 
-module.exports = new SoundCloud()
+/**
+ * Grab different resolution of artwork
+ */
+function _artworkFormat(url, size) {
+  size = size || 't300x300';
+  return url.replace('-large', '-' + size);
+}
+
+module.exports = new SoundCloud();
