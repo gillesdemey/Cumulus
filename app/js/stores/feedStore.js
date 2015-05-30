@@ -27,14 +27,6 @@ var FeedStore = McFly.createStore({
         Actions.setPlaylist(payload.feed)
       break
 
-    case 'PLAY_TRACK':
-      if (!payload.track || !_.detect(_feed, { 'id' : payload.track.id }))
-        return
-
-      PlaylistStore.setPlaylist(_feed)
-      PlaylistStore.setIndex(payload.track)
-      break
-
   }
 
   FeedStore.emitChange()

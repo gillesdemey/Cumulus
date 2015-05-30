@@ -85,7 +85,12 @@ var PlaylistStore = McFly.createStore({
 
     case 'SET_PLAYLIST':
       _setPlaylist(payload.tracks)
+      _setIndex(0)
       break
+
+    case 'PLAY_TRACK':
+      if (payload.track)
+        PlaylistStore.setIndex(payload.track)
 
   }
 

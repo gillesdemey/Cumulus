@@ -1,11 +1,14 @@
 'use strict';
 
 var React             = require('react')
+var State             = require('react-router').State
 var classNames        = require('classnames')
 var Actions           = require('../actions/actionCreators')
 var time              = require('../utils/time')
 
 var ListItem = React.createClass({
+
+  mixins: [ State ],
 
   getInitialState: function() {
     return { }
@@ -38,11 +41,23 @@ var ListItem = React.createClass({
   },
 
   play: function() {
+    this.setPlaylist()
     Actions.playTrack(this.props.track)
   },
 
   pause: function() {
     Actions.pauseTrack()
+  },
+
+  setPlaylist: function() {
+    if (this.isActive('likes'))
+      Actions.setPlaylist(require('../stores/likesStore').getLikes())
+
+    else if (this.isActive('playlists'))
+      Actions.setPlaylist(require('../stores/playlistsStore').getTracks())
+
+    else if (this.isActive('feed'))
+      Actions.setPlaylist(require('../stores/feedStore').getFeed())
   },
 
   focus: function() {
