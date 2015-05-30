@@ -28,7 +28,7 @@ module.exports = function(grunt) {
       },
       dev: {
         options: {
-          debug: true,
+          browserifyOptions: { debug : true },
           watch: 'watch',
           alias: ['react:']  // Make React available externally for dev tools
         },
