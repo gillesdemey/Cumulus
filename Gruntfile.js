@@ -36,9 +36,6 @@ module.exports = function(grunt) {
         dest: 'app/js/bundle.js'
       },
       dist: {
-        options: {
-          debug: false,
-        },
         src: '<%= browserify.dev.src %>',
         dest: 'app/js/bundle.js'
       }
@@ -73,7 +70,8 @@ module.exports = function(grunt) {
           version         : '0.26.1',
           platform        : 'darwin',
           arch            : 'x64',
-          ignore          : 'node_modules/',
+          prune           : true,
+          // ignore          : 'node_modules/',
           'app-version'   : packageJson.version,
           'app-bundle-id' : 'com.gillesdemey.cumulus'
         }
