@@ -28,11 +28,13 @@ var LikesStore = McFly.createStore({
       break
 
     case 'LIKE_TRACK':
-      _favorites.unshift(payload.track)
+      if (this.state.fetched)
+        _favorites.unshift(payload.track)
       break
 
     case 'UNLIKE_TRACK':
-      _.remove(_favorites, { 'id' : payload.track.id })
+      if (this.state.fetched)
+        _.remove(_favorites, { 'id' : payload.track.id })
       break
   }
 
