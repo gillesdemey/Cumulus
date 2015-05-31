@@ -48,6 +48,19 @@
       margin-left: 1px; // aligning to the pixel grid
     }
 
+    .controls__actions {
+      position: absolute;
+
+      right: 45px;
+      margin-top: 8px;
+    }
+
+    .meta__favorite {
+      font-size: 16px;
+
+      &.active { color: #f50; }
+    }
+
     .controls__next,
     .controls__previous {
       font-size: 21px;

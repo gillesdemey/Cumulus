@@ -68,6 +68,10 @@ var MediaPlayer = React.createClass({
     Actions.previousTrack()
   },
 
+  like: function() {
+    Actions.likeTrack(this.state.track)
+  },
+
   seek: function(event) {
     var pct = (event.pageX - event.currentTarget.offsetLeft) /
       event.currentTarget.getBoundingClientRect().width
@@ -106,6 +110,12 @@ var MediaPlayer = React.createClass({
       'backgroundImage' : 'url(' + cover + ')'
     }
 
+    var favoriteStyle = classNames({
+      'meta__favorite' : true,
+      'fi-heart'       : true,
+      'active'         : !!this.state.track.user_favorite
+    })
+
     return (
       <div className={classes}>
 
@@ -138,6 +148,10 @@ var MediaPlayer = React.createClass({
               <button className="controls__next">
                 <i className="fi" onClick={this.nextTrack}>{'\uf17c'}</i>
               </button>
+            </div>
+
+            <div className="controls__actions">
+              <button onClick={this.like} className={favoriteStyle}></button>
             </div>
 
           </div>

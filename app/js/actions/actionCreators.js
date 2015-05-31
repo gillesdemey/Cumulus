@@ -67,6 +67,16 @@ actions = McFly.createActions({
     }
   },
 
+  likeTrack: function(track) {
+    return SoundCloud.toggleLikeTrack(track)
+      .then(function() {
+        return {
+          'actionType' : !track.user_favorite ? 'LIKE_TRACK' : 'UNLIKE_TRACK',
+          'track'      : track
+        }
+      })
+  },
+
   /**
    * Playlist
    */

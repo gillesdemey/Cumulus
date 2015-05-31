@@ -63,6 +63,10 @@ function _previousTrack() {
   _play(previousTrack)
 }
 
+function _toggleLikeTrack(track) {
+  _track.user_favorite = !track.user_favorite
+}
+
 (function addListeners() {
 
   _audio.addEventListener('loadstart', function() {
@@ -127,6 +131,10 @@ TrackStore = McFly.createStore({
       _previousTrack()
       break
 
+    case 'LIKE_TRACK':
+    case 'UNLIKE_TRACK':
+      _toggleLikeTrack(payload.track)
+      break
   }
 
   TrackStore.emitChange()

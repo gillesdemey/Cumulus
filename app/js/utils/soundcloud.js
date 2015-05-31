@@ -116,20 +116,24 @@ SoundCloud.prototype.fetchFeed = function() {
 }
 
 SoundCloud.prototype.fetchPlaylists = function() {
-  var self = this
   return this.makeRequest('me/playlists')
     .then()
     .bind(this)
     .map(this._mapTrack)
     .map(function(playlist) {
       playlist.tracks = _.map(playlist.tracks, function(track) {
-        return self._mapTrack(track)
-      })
+        return this._mapTrack(track)
+      }.bind(this))
       return playlist
     })
     .catch(function(ex) {
       console.error(ex)
     })
+}
+
+SoundCloud.prototype.toggleLikeTrack = function(track) {
+  var method = track.user_favorite ? 'DELETE' : 'PUT';
+  return this.makeRequest('me/favorites/' + track.id, { method : method });
 }
 
 /**

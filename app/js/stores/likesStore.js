@@ -27,6 +27,13 @@ var LikesStore = McFly.createStore({
         Actions.setPlaylist(payload.collection)
       break
 
+    case 'LIKE_TRACK':
+      _favorites.unshift(payload.track)
+      break
+
+    case 'UNLIKE_TRACK':
+      _.remove(_favorites, { 'id' : payload.track.id })
+      break
   }
 
   LikesStore.emitChange()
