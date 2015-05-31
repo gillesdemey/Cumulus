@@ -25,11 +25,8 @@ var LikesView = React.createClass({
   },
 
   componentWillMount: function() {
-    if (!this.state.fetched)
+    if (LikesStore.getLikes().length === 0)
       Actions.fetchLikes()
-        .then(function() {
-          this.setState({ 'fetched' : true })
-        }.bind(this))
 
     LikesStore.addChangeListener(this._onChange)
     CurrentTrackStore.addChangeListener(this._onChange)
