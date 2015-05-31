@@ -81,7 +81,7 @@ var MediaPlayer = React.createClass({
   },
 
   toggleTimeLeft: function() {
-    this.state.timeLeft = !this.state.timeLeft
+    this.setState({ 'timeLeft' : !this.state.timeLeft })
   },
 
   render: function() {
