@@ -99,6 +99,21 @@ i.fi {
     margin-top: -$loader-size / 2;
   }
 
+  &.error::after {
+    content: 'Sorry, something went wrong.';
+    display: block;
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    text-align: center;
+    width: 100%;
+
+    transform: translateX(-50%) translateY(-50%);
+  }
+
 }
 
 .cumulus__media-player {
