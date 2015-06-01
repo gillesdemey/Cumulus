@@ -27,6 +27,9 @@ var FeedView = React.createClass({
   componentWillMount: function() {
     if (FeedStore.getFeed().length === 0)
       Actions.fetchFeed()
+        .catch(function(err) {
+          this.setState({ 'error' : err, 'loading' : false })
+        }.bind(this))
 
     FeedStore.addChangeListener(this._onChange)
     CurrentTrackStore.addChangeListener(this._onChange)
@@ -45,7 +48,8 @@ var FeedView = React.createClass({
 
     var classes = classNames({
       'content__view__feed' : true,
-      'loading'             : this.state.loading
+      'loading'             : this.state.loading,
+      'error'               : this.state.hasOwnProperty('error')
     })
 
     return (

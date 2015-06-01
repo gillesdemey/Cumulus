@@ -27,6 +27,9 @@ var LikesView = React.createClass({
   componentWillMount: function() {
     if (LikesStore.getLikes().length === 0)
       Actions.fetchLikes()
+        .catch(function(err) {
+          this.setState({ 'error' : err, 'loading' : false })
+        }.bind(this))
 
     LikesStore.addChangeListener(this._onChange)
     CurrentTrackStore.addChangeListener(this._onChange)
@@ -45,7 +48,8 @@ var LikesView = React.createClass({
 
     var classes = classNames({
       'content__view__likes' : true,
-      'loading'              : this.state.loading
+      'loading'              : this.state.loading,
+      'error'                : this.state.hasOwnProperty('error')
     })
 
     return (

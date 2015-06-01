@@ -105,6 +105,9 @@ actions = McFly.createActions({
           'collection' : tracks
         }
       })
+      .catch(function(ex) {
+        console.error(ex)
+      })
   },
 
   fetchFeed: function() {
@@ -115,6 +118,9 @@ actions = McFly.createActions({
           'feed'       : tracks
         }
       })
+      .catch(function(ex) {
+        console.error(ex)
+      })
   },
 
   fetchPlaylists: function() {
@@ -124,6 +130,9 @@ actions = McFly.createActions({
           'actionType' : 'LOADED_PLAYLISTS',
           'playlists'  : playlists
         }
+      })
+      .catch(function(ex) {
+        console.error(ex)
       })
   },
 

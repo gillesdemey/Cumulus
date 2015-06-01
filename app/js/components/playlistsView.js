@@ -27,6 +27,9 @@ var PlaylistsView = React.createClass({
   componentWillMount: function() {
     if (PlaylistsStore.getPlaylists().length === 0)
       Actions.fetchPlaylists()
+        .catch(function(err) {
+          this.setState({ 'error' : err, 'loading' : false })
+        }.bind(this))
 
     PlaylistsStore.addChangeListener(this._onChange)
     CurrentTrackStore.addChangeListener(this._onChange)
@@ -45,7 +48,8 @@ var PlaylistsView = React.createClass({
 
     var classes = classNames({
       'content__view__playlists' : true,
-      'loading'                  : this.state.loading
+      'loading'                  : this.state.loading,
+      'error'                    : this.state.hasOwnProperty('error')
     })
 
     return (

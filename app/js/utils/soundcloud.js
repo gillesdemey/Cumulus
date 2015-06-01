@@ -69,9 +69,6 @@ SoundCloud.prototype.fetchVisual = function(trackId) {
       return body.visuals ? body.visuals[0].visual_url : null
     }
   })
-  .catch(function(ex) {
-    console.error(ex)
-  })
 }
 
 SoundCloud.prototype.fetchWaveform = function(url) {
@@ -86,9 +83,6 @@ SoundCloud.prototype.fetchLikes = function() {
     .then()
     .bind(this)
     .map(this._mapTrack)
-    .catch(function(ex) {
-      console.error(ex)
-    })
 }
 
 SoundCloud.prototype.fetchFeed = function() {
@@ -110,9 +104,6 @@ SoundCloud.prototype.fetchFeed = function() {
       tracks = _.uniq(tracks, 'id')
       return tracks
     })
-    .catch(function(ex) {
-      console.error(ex)
-    })
 }
 
 SoundCloud.prototype.fetchPlaylists = function() {
@@ -125,9 +116,6 @@ SoundCloud.prototype.fetchPlaylists = function() {
         return this._mapTrack(track)
       }.bind(this))
       return playlist
-    })
-    .catch(function(ex) {
-      console.error(ex)
     })
 }
 
