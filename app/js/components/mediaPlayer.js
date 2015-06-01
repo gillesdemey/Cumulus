@@ -61,18 +61,26 @@ var MediaPlayer = React.createClass({
   },
 
   nextTrack: function() {
+    if (!this.state.audio.src) return
+
     Actions.nextTrack()
   },
 
   previousTrack: function() {
+    if (!this.state.audio.src) return
+
     Actions.previousTrack()
   },
 
   like: function() {
+    if (!this.state.track.id) return
+
     Actions.likeTrack(this.state.track)
   },
 
   seek: function(event) {
+    if (!this.state.audio.src) return
+
     var pct = (event.pageX - event.currentTarget.offsetLeft) /
       event.currentTarget.getBoundingClientRect().width
 
@@ -87,8 +95,7 @@ var MediaPlayer = React.createClass({
   render: function() {
 
     var classes = classNames({
-      'cumulus__media-player' : true,
-      'hidden'                : !this.state.audio.src
+      'cumulus__media-player' : true
     })
 
     var cover = this.state.track.artwork_url || (this.state.track.user
@@ -110,16 +117,20 @@ var MediaPlayer = React.createClass({
       'backgroundImage' : 'url(' + cover + ')'
     }
 
+    var coverClasses = classNames({
+      'media-player__cover' : true,
+      'hidden'              : !this.state.audio.src
+    })
+
     var favoriteStyle = classNames({
-      'meta__favorite' : true,
-      'fi-heart'       : true,
-      'active'         : !!this.state.track.user_favorite
+      'fi'     : true,
+      'active' : !!this.state.track.user_favorite
     })
 
     return (
       <div className={classes}>
 
-        <div className="media-player__cover" style={coverStyle}>
+        <div className={coverClasses} style={coverStyle}>
           <div className="media-player__meta">
             <div className="meta__artist">
               <span>
@@ -137,7 +148,7 @@ var MediaPlayer = React.createClass({
           <div className="controls__play-pause-skip">
 
             <div className="play-pause-skip__wrapper">
-              <button className="controls__previous">
+              <button className="controls__previous" disabled={!this.state.audio.src}>
                 <i className="fi" onClick={this.previousTrack}>{'\uf19c'}</i>
               </button>
 
@@ -145,13 +156,15 @@ var MediaPlayer = React.createClass({
                 <i className="fi">{playPause}</i>
               </button>
 
-              <button className="controls__next">
+              <button className="controls__next" disabled={!this.state.audio.src}>
                 <i className="fi" onClick={this.nextTrack}>{'\uf17c'}</i>
               </button>
             </div>
 
             <div className="controls__actions">
-              <button onClick={this.like} className={favoriteStyle}></button>
+              <button className="meta__favorite" onClick={this.like} disabled={!this.state.audio.src}>
+                <i className={favoriteStyle}>{'\uf159'}</i>
+              </button>
             </div>
 
           </div>
