@@ -1,9 +1,12 @@
 'use strict';
 
-var McFly         = require('../utils/mcfly')
-var Actions       = require('../actions/actionCreators')
-var PlaylistStore = require('../stores/playlistStore')
-var _             = require('lodash')
+var McFly             = require('../utils/mcfly')
+var Actions           = require('../actions/actionCreators')
+
+var PlaylistStore     = require('../stores/playlistStore')
+var CurrentTrackStore = require('../stores/currentTrackStore')
+
+var _                 = require('lodash')
 
 var _playlists   = [] // list of al playlists
 var _tracks      = [] // list of tracks from all playlists
@@ -32,7 +35,7 @@ var PlaylistsStore = McFly.createStore({
 
     case 'LOADED_PLAYLISTS':
       _setPlaylists(payload.playlists)
-      if (PlaylistStore.getPlaylist().length === 0)
+      if (PlaylistStore.getPlaylist().length === 0 || !CurrentTrackStore.getAudio().src)
         Actions.setPlaylist(_tracks)
       break
 
