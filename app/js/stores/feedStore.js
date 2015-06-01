@@ -1,9 +1,10 @@
 'use strict';
 
-var McFly         = require('../utils/mcfly');
-var Actions       = require('../actions/actionCreators')
-var PlaylistStore = require('../stores/playlistStore')
-var _             = require('lodash')
+var McFly             = require('../utils/mcfly');
+var Actions           = require('../actions/actionCreators')
+
+var PlaylistStore     = require('../stores/playlistStore')
+var CurrentTrackStore = require('../stores/currentTrackStore')
 
 var _feed   = []
 
@@ -23,7 +24,7 @@ var FeedStore = McFly.createStore({
 
     case 'LOADED_FEED':
       _setFeed(payload.feed)
-      if (PlaylistStore.getPlaylist().length === 0)
+      if (PlaylistStore.getPlaylist().length === 0 || !CurrentTrackStore.getAudio().src)
         Actions.setPlaylist(payload.feed)
       break
 
