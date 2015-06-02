@@ -95,8 +95,6 @@
     background-size: cover;
     background-position: center center;
 
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
-
     transition: height 300ms;
 
     &.hidden { height: 0; }

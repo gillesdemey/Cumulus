@@ -68,7 +68,7 @@ i.fi {
   width: 100%;
 
   position: absolute;
-  overflow: scroll;
+  overflow-y: scroll;
 
   &.loading {
     background-color: #fff;
