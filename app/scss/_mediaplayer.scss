@@ -59,13 +59,15 @@
     .controls__actions {
       position: absolute;
 
-      right: 45px;
+      right: 5px;
       margin-top: 8px;
     }
 
-    .meta__favorite {
+    .meta__favorite, .meta__settings {
       font-size: 16px;
+    }
 
+    .meta__favorite {
       i.active { background-image: linear-gradient(0deg, #F70, #F30); }
     }
 

@@ -8,6 +8,11 @@ var time              = require('../utils/time')
 var classNames        = require('classnames')
 var _                 = require('lodash')
 
+var remote            = window.require('remote');
+var Menu              = remote.require('menu');
+var MenuItem          = remote.require('menu-item');
+var pjson             = remote.require('./package.json');
+
 function getStateFromStores() {
   return {
     'track'      : CurrentTrackStore.getTrack(),
@@ -15,7 +20,22 @@ function getStateFromStores() {
   }
 }
 
+var githubUrl = 'http://github.com/gillesdemey/Cumulus';
+
 var MediaPlayer = React.createClass({
+
+  menu: function() {
+    var menu = new Menu();
+
+    menu.append(new MenuItem({ label : 'Cumulus v' + pjson.version, enabled : false }));
+    menu.append(new MenuItem({ label : 'Report a bug...', click : this.report }));
+    menu.append(new MenuItem({ type  : 'separator' }));
+    menu.append(new MenuItem({ label : 'About', click : this.about }));
+    menu.append(new MenuItem({ type  : 'separator' }));
+    menu.append(new MenuItem({ label : 'Quit', click : this.quit }));
+
+    return menu;
+  },
 
   getInitialState: function() {
     return _.merge({
@@ -92,6 +112,22 @@ var MediaPlayer = React.createClass({
     this.setState({ 'timeLeft' : !this.state.timeLeft })
   },
 
+  settings: function() {
+    this.menu().popup(remote.getCurrentWindow());
+  },
+
+  about: function() {
+    remote.require('shell').openExternal(githubUrl);
+  },
+
+  report: function() {
+    remote.require('shell').openExternal(githubUrl + '/issues');
+  },
+
+  quit: function() {
+    remote.require('app').quit();
+  },
+
   render: function() {
 
     var classes = classNames({
@@ -164,6 +200,9 @@ var MediaPlayer = React.createClass({
             <div className="controls__actions">
               <button className="meta__favorite" onClick={this.like} disabled={!this.state.audio.src}>
                 <i className={favoriteStyle}>{'\uf159'}</i>
+              </button>
+              <button className="meta__settings" onClick={this.settings}>
+                <i className="fi">{'\uf214'}</i>
               </button>
             </div>
 
