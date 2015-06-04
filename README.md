@@ -1,5 +1,5 @@
 # Cumulus
-Unobtrusive SoundCloud desktop application
+A SoundCloud player that lives in your menubar.
 
 [Download Beta (34.84 MB)](https://www.dropbox.com/s/w5lo9fqsb4hwipr/Cumulus.zip?dl=0)
 
