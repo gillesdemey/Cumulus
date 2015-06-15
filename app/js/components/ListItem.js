@@ -57,7 +57,7 @@ var ListItem = React.createClass({
       Actions.setPlaylist(require('../stores/playlistsStore').getTracks())
 
     else if (this.isActive('feed'))
-      Actions.setPlaylist(require('../stores/feedStore').getFeed())
+      Actions.setPlaylist(require('../stores/feedStore').getTracks())
   },
 
   focus: function() {

@@ -2,6 +2,7 @@
 
 var React             = require('react')
 var ListItem          = require('./ListItem')
+var PlaylistListItem  = require('./PlaylistListItem')
 
 var classNames        = require('classnames')
 
@@ -63,18 +64,32 @@ var FeedView = React.createClass({
           var error   = me ? this.state.currentAudio.error : !track.streamable
           var active  = me && !error
 
-          return (
-            <ListItem
-              key     = { track.id }
-              track   = { track }
-              active  = { active }
-              paused  = { paused }
-              loading = { loading }
-              error   = { error }
-            >
-            </ListItem>
-          )
-        }, this)}
+          if (track.kind === 'track')
+            return (
+              <ListItem
+                key     = { track.id }
+                track   = { track }
+                active  = { active }
+                paused  = { paused }
+                loading = { loading }
+                error   = { error }
+              >
+              </ListItem>
+            )
+
+          else if (track.kind === 'playlist')
+            return (
+              <PlaylistListItem
+                key          = {track.id}
+                playlist     = {track}
+                tracks       = {track.tracks}
+                currentTrack = {this.state.currentTrack}
+                currentAudio = {this.state.currentAudio}
+              >
+              </PlaylistListItem>
+            )
+
+          }, this)}
       </section>
     );
   }

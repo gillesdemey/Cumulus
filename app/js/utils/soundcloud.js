@@ -90,15 +90,16 @@ SoundCloud.prototype.fetchFeed = function() {
     .then(function(resp) {
       return resp.collection
     })
-    .then(function(items) {
-      // not supporting playlists just yet
-      return _.reject(items, { 'type' : 'playlist' })
-    })
     .map(function(item) {
       return item.origin
     })
     .bind(this)
-    .map(this._mapTrack)
+    .map(function(item) {
+      if (item.kind === 'playlist')
+        return this.expandPlaylist(item)
+      else if (item.kind === 'track')
+        return this._mapTrack(item)
+    })
     .then(function(tracks) {
       // SoundCloud activities can return multiple of the same track
       tracks = _.uniq(tracks, 'id')
@@ -115,6 +116,22 @@ SoundCloud.prototype.fetchPlaylists = function() {
       playlist.tracks = _.map(playlist.tracks, function(track) {
         return this._mapTrack(track)
       }.bind(this))
+      return playlist
+    })
+}
+
+SoundCloud.prototype.expandPlaylist = function(playlist) {
+  if (!playlist.hasOwnProperty('tracks_uri') || playlist.kind !== 'playlist')
+    return
+
+  return this.makeRequest(playlist.tracks_uri)
+    .then(function(tracks) {
+      playlist.tracks = tracks
+      return tracks
+    })
+    .bind(this)
+    .map(this._mapTrack)
+    .then(function() {
       return playlist
     })
 }

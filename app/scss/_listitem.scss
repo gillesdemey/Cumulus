@@ -1,6 +1,23 @@
 @import 'mixins';
 
 .list-item {
+  &:nth-child(odd) { background-color: #FCFCFC; }
+  &:nth-child(even) { background-color: #FFF; }
+
+  // tracks within a playlist
+  .list-item {
+    &:nth-child(odd) { background-color: #FFF; }
+    &:nth-child(even) { background-color: #FCFCFC; }
+  }
+
+}
+
+// playlist headers should always be white in the playlists views
+.content__view__playlists {
+  .list-item.playlist { background-color: #FFF; }
+}
+
+.list-item {
   $height: 64px;
   background-color: #fff;
 
@@ -10,8 +27,6 @@
   cursor: pointer;
 
   &:not(.playlist) {
-
-    &:nth-child(odd) { background-color: #FCFCFC; }
 
     &:hover, &.active {
       background-color: rgba(#f50, 0.05);

@@ -6,10 +6,23 @@ var Actions           = require('../actions/actionCreators')
 var PlaylistStore     = require('../stores/playlistStore')
 var CurrentTrackStore = require('../stores/currentTrackStore')
 
+var _                 = require('lodash')
+
 var _feed   = []
 
 function _setFeed(tracks) {
   _feed = tracks
+}
+
+// Reduces a feed to a flat list of tracks
+function _getTracks(feed) {
+  return _.reduce(feed, function(results, trackOrPlaylist) {
+    if (trackOrPlaylist.kind !== 'playlist')
+      results.push(trackOrPlaylist)
+    else if (trackOrPlaylist.kind === 'playlist')
+      results = results.concat(trackOrPlaylist.tracks)
+    return results
+  }, [])
 }
 
 var FeedStore = McFly.createStore({
@@ -18,14 +31,20 @@ var FeedStore = McFly.createStore({
     return _feed
   },
 
+  getTracks: function() {
+    return _getTracks(_feed)
+  }
+
 }, function(payload) {
 
   switch (payload.actionType) {
 
     case 'LOADED_FEED':
       _setFeed(payload.feed)
+
       if (PlaylistStore.getPlaylist().length === 0 || !CurrentTrackStore.getAudio().src)
-        Actions.setPlaylist(payload.feed)
+        Actions.setPlaylist(_getTracks(payload.feed))
+
       break
 
   }
