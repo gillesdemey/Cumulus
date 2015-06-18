@@ -31,7 +31,7 @@
     "classnames": "^1.2.2",
     "lodash": "^3.8.0",
     "mcfly": "0.0.10",
-    "menubar": "^2.0.11",
+    "menubar": "^2.0.13",
     "moment": "^2.10.3",
     "react": "^0.13.2",
     "react-router": "^0.13.3",
