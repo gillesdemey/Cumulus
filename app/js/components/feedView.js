@@ -13,9 +13,10 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 function getStateFromStores() {
   return {
     'tracks'       : FeedStore.getFeed(),
-    'loading'      : FeedStore.getFeed().length === 0,
+    'loading'      : !FeedStore.loaded(),
     'currentTrack' : CurrentTrackStore.getTrack(),
-    'currentAudio' : CurrentTrackStore.getAudio()
+    'currentAudio' : CurrentTrackStore.getAudio(),
+    'empty'        : FeedStore.getFeed().length === 0 && FeedStore.loaded()
   }
 }
 
@@ -26,7 +27,7 @@ var FeedView = React.createClass({
   },
 
   componentWillMount: function() {
-    if (FeedStore.getFeed().length === 0)
+    if (!FeedStore.loaded())
       Actions.fetchFeed()
         .catch(function(err) {
           this.setState({ 'error' : err, 'loading' : false })
@@ -50,7 +51,8 @@ var FeedView = React.createClass({
     var classes = classNames({
       'content__view__feed' : true,
       'loading'             : this.state.loading,
-      'error'               : this.state.hasOwnProperty('error')
+      'error'               : this.state.hasOwnProperty('error'),
+      'empty'               : this.state.empty,
     })
 
     return (

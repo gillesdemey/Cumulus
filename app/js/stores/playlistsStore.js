@@ -8,6 +8,7 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 
 var _                 = require('lodash')
 
+var _loaded      = false
 var _playlists   = [] // list of al playlists
 var _tracks      = [] // list of tracks from all playlists
 
@@ -27,6 +28,10 @@ var PlaylistsStore = McFly.createStore({
 
   getTracks: function() {
     return _tracks
+  },
+
+  loaded: function() {
+    return _loaded
   }
 
 }, function(payload) {
@@ -34,6 +39,7 @@ var PlaylistsStore = McFly.createStore({
   switch (payload.actionType) {
 
     case 'LOADED_PLAYLISTS':
+      _loaded = true
       _setPlaylists(payload.playlists)
       if (PlaylistStore.getPlaylist().length === 0 || !CurrentTrackStore.getAudio().src)
         Actions.setPlaylist(_tracks)

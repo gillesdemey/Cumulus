@@ -21,17 +21,21 @@ var LikesStore = McFly.createStore({
     return _favorites
   },
 
+  loaded: function() {
+    return _loaded
+  },
+
 }, function(payload) {
 
   switch (payload.actionType) {
 
     case 'LOADED_COLLECTION':
+      _loaded = true
       _setFavorites(payload.collection)
 
       if (PlaylistStore.getPlaylist().length === 0 || !CurrentTrackStore.getAudio().src)
         Actions.setPlaylist(payload.collection)
 
-      _loaded = true
       break
 
     case 'LIKE_TRACK':

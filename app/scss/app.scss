@@ -99,8 +99,8 @@ i.fi {
     margin-top: -$loader-size / 2;
   }
 
-  &.error::after {
-    content: 'Sorry, something went wrong.';
+  &.error::after,
+  &.empty::after {
     display: block;
 
     position: absolute;
@@ -114,6 +114,22 @@ i.fi {
     transform: translateX(-50%) translateY(-50%);
   }
 
+  &.error::after { content: 'Sorry, something went wrong.'; }
+
+  &.empty::after { content: 'There appears to be nothing here.'; }
+
+}
+
+.content__view__feed {
+  &.empty::after { content: 'You don\t have anything in your feed.'; }
+}
+
+.content__view__likes {
+  &.empty::after { content: 'Looks like you don\'t like anything.'; }
+}
+
+.content__view__playlists {
+  &.empty::after { content: 'You don\'t have any playlists.'; }
 }
 
 .cumulus__media-player {

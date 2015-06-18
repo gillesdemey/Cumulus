@@ -12,9 +12,10 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 function getStateFromStores() {
   return {
     'tracks'       : LikesStore.getLikes(),
-    'loading'      : LikesStore.getLikes().length === 0,
+    'loading'      : !LikesStore.loaded(),
     'currentTrack' : CurrentTrackStore.getTrack(),
-    'currentAudio' : CurrentTrackStore.getAudio()
+    'currentAudio' : CurrentTrackStore.getAudio(),
+    'empty'        : LikesStore.getLikes().length === 0 && LikesStore.loaded(),
   }
 }
 
@@ -25,7 +26,7 @@ var LikesView = React.createClass({
   },
 
   componentWillMount: function() {
-    if (LikesStore.getLikes().length === 0)
+    if (!LikesStore.loaded())
       Actions.fetchLikes()
         .catch(function(err) {
           this.setState({ 'error' : err, 'loading' : false })
@@ -49,7 +50,8 @@ var LikesView = React.createClass({
     var classes = classNames({
       'content__view__likes' : true,
       'loading'              : this.state.loading,
-      'error'                : this.state.hasOwnProperty('error')
+      'error'                : this.state.hasOwnProperty('error'),
+      'empty'                : this.state.empty,
     })
 
     return (

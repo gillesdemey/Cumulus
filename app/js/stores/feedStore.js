@@ -8,10 +8,11 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 
 var _                 = require('lodash')
 
+var _loaded = false
 var _feed   = []
 
 function _setFeed(tracks) {
-  _feed = tracks
+  _feed   = tracks
 }
 
 // Reduces a feed to a flat list of tracks
@@ -33,6 +34,10 @@ var FeedStore = McFly.createStore({
 
   getTracks: function() {
     return _getTracks(_feed)
+  },
+
+  loaded: function() {
+    return _loaded
   }
 
 }, function(payload) {
@@ -40,6 +45,7 @@ var FeedStore = McFly.createStore({
   switch (payload.actionType) {
 
     case 'LOADED_FEED':
+      _loaded = true
       _setFeed(payload.feed)
 
       if (PlaylistStore.getPlaylist().length === 0 || !CurrentTrackStore.getAudio().src)
