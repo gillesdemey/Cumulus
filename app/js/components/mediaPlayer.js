@@ -116,16 +116,28 @@ var MediaPlayer = React.createClass({
     this.menu().popup(remote.getCurrentWindow());
   },
 
+  openExternal: function(url) {
+    remote.require('shell').openExternal(url)
+  },
+
   about: function() {
-    remote.require('shell').openExternal(githubUrl);
+    this.openExternal(githubUrl);
   },
 
   report: function() {
-    remote.require('shell').openExternal(githubUrl + '/issues');
+    this.openExternal(githubUrl + '/issues');
+  },
+
+  openPermalink: function() {
+    this.openExternal(this.state.track.permalink_url)
+  },
+
+  openPermalinkUser: function() {
+    this.openExternal(this.state.track.user.permalink_url)
   },
 
   quit: function() {
-    remote.require('app').quit();
+    remote.require('app').quit()
   },
 
   render: function() {
@@ -168,12 +180,12 @@ var MediaPlayer = React.createClass({
 
         <div className={coverClasses} style={coverStyle}>
           <div className="media-player__meta">
-            <div className="meta__artist">
+            <div className="meta__artist" onClick={this.openPermalinkUser}>
               <span>
                 { this.state.track.user ? this.state.track.user.username : null }
               </span>
             </div>
-            <div className="meta__title">
+            <div className="meta__title" onClick={this.openPermalink}>
               <span>{ this.state.track.title }</span>
             </div>
           </div>

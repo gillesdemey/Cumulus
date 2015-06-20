@@ -195,6 +195,11 @@
   color: #fff;
   padding: 10px;
 
+  .meta__artist,
+  .meta__title {
+    cursor: pointer;
+  }
+
   > div {
     max-width: 100%;
     @include truncate();
