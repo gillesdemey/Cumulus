@@ -67,7 +67,7 @@ module.exports = function(grunt) {
           dir             : '.',
           out             : 'dist',
           icon            : 'cumulus.icns',
-          version         : '0.28.2',
+          version         : '0.30.2',
           platform        : 'darwin',
           arch            : 'x64',
           prune           : true,
