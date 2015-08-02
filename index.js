@@ -10,6 +10,7 @@ var config         = require('./lib/config')
 
 var menubar        = require('menubar')
 var mb             = menubar({
+  icon          : __dirname + '/app/IconTemplate.png',
   dir           : __dirname + '/app',
   preloadWindow : true, // TODO: enable if already logged in
   width         : 400,
