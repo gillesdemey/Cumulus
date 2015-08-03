@@ -2,6 +2,7 @@
 
 var BrowserWindow  = require('browser-window')
 var globalShortcut = require('global-shortcut')
+var Menu           = require('menu')
 
 var url            = require('url')
 var querystring    = require('querystring')
@@ -26,6 +27,8 @@ var debug = process.env.NODE_ENV === 'development'
 var debugWindow = null
 
 mb.on('ready', function() {
+
+  Menu.setApplicationMenu(require('./lib/menu'));
 
   if (debug)
     debugWindow = new BrowserWindow({
