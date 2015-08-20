@@ -11,8 +11,8 @@ var _                 = require('lodash')
 var _loaded = false
 var _feed   = []
 
-function _setFeed(tracks) {
-  _feed   = tracks
+function _appendFeed(tracks) {
+  _feed = _.uniq(_feed.concat(tracks), 'id')
 }
 
 // Reduces a feed to a flat list of tracks
@@ -46,7 +46,7 @@ var FeedStore = McFly.createStore({
 
     case 'LOADED_FEED':
       _loaded = true
-      _setFeed(payload.feed)
+      _appendFeed(payload.feed)
 
       if (PlaylistStore.getPlaylist().length === 0 || !CurrentTrackStore.getAudio().src)
         Actions.setPlaylist(_getTracks(payload.feed))

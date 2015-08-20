@@ -14,6 +14,7 @@ function getStateFromStores() {
   return {
     'tracks'       : FeedStore.getFeed(),
     'loading'      : !FeedStore.loaded(),
+    'loading_page' : false, // when loading an additional page
     'currentTrack' : CurrentTrackStore.getTrack(),
     'currentAudio' : CurrentTrackStore.getAudio(),
     'empty'        : FeedStore.getFeed().length === 0 && FeedStore.loaded()
@@ -28,7 +29,7 @@ var FeedView = React.createClass({
 
   componentWillMount: function() {
     if (!FeedStore.loaded())
-      Actions.fetchFeed()
+      Actions.fetchFeedPage()
         .catch(function(err) {
           this.setState({ 'error' : err, 'loading' : false })
         }.bind(this))
@@ -40,6 +41,27 @@ var FeedView = React.createClass({
   componentWillUnmount: function() {
     FeedStore.removeChangeListener(this._onChange)
     CurrentTrackStore.removeChangeListener(this._onChange)
+  },
+
+  // $0.scrollHeight - $0.scrollTop === $0.getBoundingClientRect().height
+  _scrollListener: function() {
+    var section = this.refs.section.getDOMNode()
+    var atBottom = section.scrollHeight - section.scrollTop === section.getBoundingClientRect().height
+
+    if (atBottom)
+      this._onScrollEnd()
+  },
+
+  _onScrollEnd: function() {
+    var self = this
+    self.setState({ 'loading_page' : true })
+    Actions.fetchFeedPage()
+      .then(function() {
+        self.setState({ 'loading_page' : false })
+      })
+      .catch(function(err) {
+        self.setState({ 'error' : err, 'loading_page' : false })
+      })
   },
 
   _onChange: function() {
@@ -54,9 +76,13 @@ var FeedView = React.createClass({
       'error'               : this.state.hasOwnProperty('error'),
       'empty'               : this.state.empty,
     })
+    var page_loading = classNames({
+      page_loader : true,
+      loading     : this.state.loading_page
+    })
 
     return (
-      <section className={classes}>
+      <section className={classes} onScroll={this._scrollListener} ref="section">
         {this.state.tracks.map(function(track) {
 
           var me      = this.state.currentTrack.id === track.id
@@ -92,6 +118,7 @@ var FeedView = React.createClass({
             )
 
           }, this)}
+        <div className={page_loading}></div>
       </section>
     );
   }

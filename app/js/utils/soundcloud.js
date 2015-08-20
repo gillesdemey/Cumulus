@@ -85,20 +85,23 @@ SoundCloud.prototype.fetchLikes = function() {
     .map(this._mapTrack)
 }
 
-SoundCloud.prototype.fetchFeed = function() {
-  return this.makeRequest('me/activities')
+SoundCloud.prototype.fetchFeedPage = function() {
+  var self = this
+  var url = self.next_href ? self.next_href : 'me/activities'
+
+  return self.makeRequest(url)
     .then(function(resp) {
+      self.next_href = resp.next_href
       return resp.collection
     })
     .map(function(item) {
       return item.origin
     })
-    .bind(this)
     .map(function(item) {
       if (item.kind === 'playlist')
-        return this.expandPlaylist(item)
+        return self.expandPlaylist(item)
       else if (item.kind === 'track')
-        return this._mapTrack(item)
+        return self._mapTrack(item)
     })
     .then(function(tracks) {
       // SoundCloud activities can return multiple of the same track
