@@ -13,6 +13,7 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 function getStateFromStores() {
   return {
     'tracks'       : FeedStore.getFeed(),
+    'next_href'    : FeedStore.getNextHref(),
     'loading'      : !FeedStore.loaded(),
     'loading_page' : false, // when loading an additional page
     'currentTrack' : CurrentTrackStore.getTrack(),
@@ -52,15 +53,24 @@ var FeedView = React.createClass({
       this._onScrollEnd()
   },
 
+  _setLoadingPage: function(loading) {
+    this.setState({ 'loading_page' : loading })
+  },
+
   _onScrollEnd: function() {
     var self = this
-    self.setState({ 'loading_page' : true })
-    Actions.fetchFeedPage()
+
+    if (!self.state.next_href)
+      return console.warn('no next page available')
+
+    self._setLoadingPage(true)
+    Actions.fetchFeedPage(self.state.next_href)
       .then(function() {
-        self.setState({ 'loading_page' : false })
+        self._setLoadingPage(false)
       })
       .catch(function(err) {
-        self.setState({ 'error' : err, 'loading_page' : false })
+        self.setState({ 'error' : err })
+        self._setLoadingPage(false)
       })
   },
 

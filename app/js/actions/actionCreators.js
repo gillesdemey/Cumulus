@@ -110,12 +110,13 @@ actions = McFly.createActions({
       })
   },
 
-  fetchFeedPage: function() {
-    return SoundCloud.fetchFeedPage()
-      .then(function(tracks) {
+  fetchFeedPage: function(url) {
+    return SoundCloud.fetchFeedPage(url)
+      .then(function(page) {
         return {
           'actionType' : 'LOADED_FEED',
-          'feed'       : tracks
+          'tracks'     : page.tracks,
+          'next_href'  : page.next_href
         }
       })
       .catch(function(ex) {

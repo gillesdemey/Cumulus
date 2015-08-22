@@ -8,7 +8,7 @@ var _index    = 0
 
 function _addToPlaylist(tracks) {
   if (Array.isArray(tracks))
-    _playlist.concat(tracks)
+    _playlist = _playlist.concat(tracks)
   else
     _playlist.push(tracks)
 }
@@ -54,6 +54,10 @@ var PlaylistStore = McFly.createStore({
 
   setPlaylist: function(tracks) {
     _playlist = tracks
+  },
+
+  addToPlaylist: function(tracks) {
+    _addToPlaylist(tracks)
   },
 
   setIndex: function(trackOrId) {
