@@ -97,12 +97,13 @@ actions = McFly.createActions({
   /**
    * Collections
    */
-  fetchLikes: function() {
-    return SoundCloud.fetchLikes()
-      .then(function(tracks) {
+  fetchLikes: function(url) {
+    return SoundCloud.fetchLikes(url)
+      .then(function(page) {
          return {
           'actionType' : 'LOADED_COLLECTION',
-          'collection' : tracks
+          'tracks'     : page.tracks,
+          'next_href'  : page.next_href
         }
       })
       .catch(function(ex) {
@@ -110,8 +111,8 @@ actions = McFly.createActions({
       })
   },
 
-  fetchFeedPage: function(url) {
-    return SoundCloud.fetchFeedPage(url)
+  fetchFeed: function(url) {
+    return SoundCloud.fetchFeed(url)
       .then(function(page) {
         return {
           'actionType' : 'LOADED_FEED',

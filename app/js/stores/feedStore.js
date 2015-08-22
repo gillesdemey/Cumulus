@@ -62,9 +62,9 @@ var FeedStore = McFly.createStore({
       break
 
     case 'NEXT_TRACK':
-      // load next page if we're at the end of this page
-      if (CurrentTrackStore.getTrack().id === _.last(_feed).id) {
-        Actions.fetchFeedPage(_next_href)
+      var lastItem = _.last(_feed) || {}
+      if (CurrentTrackStore.getTrack().id === lastItem.id) {
+        Actions.fetchFeed(_next_href)
           .then(function() {
             Actions.nextTrack()
           })

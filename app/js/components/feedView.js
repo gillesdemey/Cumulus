@@ -15,7 +15,7 @@ function getStateFromStores() {
     'tracks'       : FeedStore.getFeed(),
     'next_href'    : FeedStore.getNextHref(),
     'loading'      : !FeedStore.loaded(),
-    'loading_page' : false, // when loading an additional page
+    'loading_page' : false,
     'currentTrack' : CurrentTrackStore.getTrack(),
     'currentAudio' : CurrentTrackStore.getAudio(),
     'empty'        : FeedStore.getFeed().length === 0 && FeedStore.loaded()
@@ -30,7 +30,7 @@ var FeedView = React.createClass({
 
   componentWillMount: function() {
     if (!FeedStore.loaded())
-      Actions.fetchFeedPage()
+      Actions.fetchFeed()
         .catch(function(err) {
           this.setState({ 'error' : err, 'loading' : false })
         }.bind(this))
@@ -44,7 +44,6 @@ var FeedView = React.createClass({
     CurrentTrackStore.removeChangeListener(this._onChange)
   },
 
-  // $0.scrollHeight - $0.scrollTop === $0.getBoundingClientRect().height
   _scrollListener: function() {
     var section = this.refs.section.getDOMNode()
     var atBottom = section.scrollHeight - section.scrollTop === section.getBoundingClientRect().height
@@ -64,7 +63,7 @@ var FeedView = React.createClass({
       return console.warn('no next page available')
 
     self._setLoadingPage(true)
-    Actions.fetchFeedPage(self.state.next_href)
+    Actions.fetchFeed(self.state.next_href)
       .then(function() {
         self._setLoadingPage(false)
       })

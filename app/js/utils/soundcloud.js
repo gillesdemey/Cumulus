@@ -78,14 +78,26 @@ SoundCloud.prototype.fetchWaveform = function(url) {
     })
 }
 
-SoundCloud.prototype.fetchLikes = function() {
-  return this.makeRequest('me/favorites')
-    .then()
-    .bind(this)
-    .map(this._mapTrack)
+SoundCloud.prototype.fetchLikes = function(next_href) {
+  var self = this
+  next_href = next_href || 'me/favorites?linked_partitioning=1'
+
+  return this.makeRequest(next_href)
+    .then(function(resp) {
+      next_href = resp.next_href
+      return resp.collection
+    })
+    .bind(self)
+    .map(self._mapTrack)
+    .then(function(tracks) {
+      return {
+        tracks    : tracks,
+        next_href : next_href
+      }
+    })
 }
 
-SoundCloud.prototype.fetchFeedPage = function(next_href) {
+SoundCloud.prototype.fetchFeed = function(next_href) {
   var self = this
   next_href = next_href || 'me/activities'
 
