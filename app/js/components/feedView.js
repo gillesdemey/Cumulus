@@ -36,11 +36,13 @@ var FeedView = React.createClass({
         }.bind(this))
 
     FeedStore.addChangeListener(this._onChange)
+    FeedStore.startListening()
     CurrentTrackStore.addChangeListener(this._onChange)
   },
 
   componentWillUnmount: function() {
     FeedStore.removeChangeListener(this._onChange)
+    FeedStore.stopListening()
     CurrentTrackStore.removeChangeListener(this._onChange)
   },
 

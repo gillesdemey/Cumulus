@@ -11,6 +11,7 @@ var _                 = require('lodash')
 var _loaded = false
 var _feed   = []
 var _next_href
+var _listening = false
 
 function _appendFeed(tracks) {
   _feed = _.uniq(_feed.concat(tracks), 'id')
@@ -43,9 +44,19 @@ var FeedStore = McFly.createStore({
 
   getNextHref: function() {
     return _next_href
-  }
+  },
+
+  stopListening: function() {
+    _listening = false
+  },
+
+  startListening: function() {
+    _listening = true
+  },
 
 }, function(payload) {
+
+  if (!_listening) return
 
   switch (payload.actionType) {
 
@@ -62,12 +73,8 @@ var FeedStore = McFly.createStore({
       break
 
     case 'NEXT_TRACK':
-      var lastItem = _.last(_feed) || {}
-      if (CurrentTrackStore.getTrack().id === lastItem.id) {
+      if (!PlaylistStore.getNextTrack()) {
         Actions.fetchFeed(_next_href)
-          .then(function() {
-            Actions.nextTrack()
-          })
       }
 
   }

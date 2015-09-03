@@ -11,6 +11,7 @@ var _                 = require('lodash')
 var _loaded      = false
 var _favorites   = []
 var _next_href
+var _listening   = false
 
 function _appendFavorites(tracks) {
   _favorites = _.uniq(_favorites.concat(tracks), 'id')
@@ -28,6 +29,14 @@ var LikesStore = McFly.createStore({
 
   getNextHref: function() {
     return _next_href
+  },
+
+  startListening: function() {
+    _listening = true
+  },
+
+  stopListening: function() {
+    _listening = false
   }
 
 }, function(payload) {
@@ -35,6 +44,7 @@ var LikesStore = McFly.createStore({
   switch (payload.actionType) {
 
     case 'LOADED_COLLECTION':
+      if (!_listening) return
       _loaded = true
       _next_href = payload.next_href
       _appendFavorites(payload.tracks)
@@ -58,6 +68,7 @@ var LikesStore = McFly.createStore({
       break
 
     case 'NEXT_TRACK':
+      if (!_listening) return
       var lastItem = _.last(_favorites) || {}
       if (CurrentTrackStore.getTrack().id === lastItem.id) {
         Actions.fetchLikes(_next_href)

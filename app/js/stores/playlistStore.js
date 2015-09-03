@@ -1,7 +1,7 @@
 'use strict';
 
 var _     = require('lodash')
-var McFly = require('../utils/mcfly');
+var McFly = require('../utils/mcfly')
 
 var _playlist = []
 var _index    = 0
