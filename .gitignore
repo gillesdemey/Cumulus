@@ -33,4 +33,4 @@ node_modules
 app/css
 app/js/bundle.js
 
-dist/gh-pages/
+gh-pages/
