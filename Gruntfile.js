@@ -94,12 +94,12 @@ module.exports = function(grunt) {
         exe: 'cumulus.exe'
       },
       x64: {
-        appDirectory: '/dist/Cumulus-win32-x64',
-        outputDirectory: '/dist/installer-win32-x64'
+        appDirectory: 'dist/Cumulus-win32-x64',
+        outputDirectory: 'dist/installer-win32-x64'
       },
       ia32: {
-        appDirectory: '/dist/Cumulus-win32-ia32',
-        outputDirectory: '/dist/installer-win32-ia32'
+        appDirectory: 'dist/Cumulus-win32-ia32',
+        outputDirectory: 'dist/installer-win32-ia32'
       }
     }
   });
