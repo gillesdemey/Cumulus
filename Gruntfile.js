@@ -61,19 +61,29 @@ module.exports = function(grunt) {
       }
     },
     electron: {
+      options: {
+        name    : 'Cumulus',
+        dir     : '.',
+        out     : 'dist',
+        version : '0.30.2',
+        prune   : true
+      },
       osx: {
         options: {
-          name            : 'Cumulus',
-          dir             : '.',
-          out             : 'dist',
           icon            : 'cumulus.icns',
-          version         : '0.30.2',
           platform        : 'darwin',
           arch            : 'x64',
-          prune           : true,
           // ignore          : 'node_modules/',
           'app-version'   : packageJson.version,
           'app-bundle-id' : 'com.gillesdemey.cumulus'
+        }
+      },
+      windows: {
+        options: {
+          icon     : 'cumulus.ico',
+          platform : 'win32',
+          arch     : 'all',
+          asar     : true
         }
       }
     }
