@@ -14,6 +14,7 @@
     "grunt-contrib-clean": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-electron": "^2.0.0",
+    "grunt-electron-installer": "^1.0.1",
     "grunt-env": "^0.4.4",
     "grunt-sass": "^1.0.0",
     "reactify": "^1.1.0",

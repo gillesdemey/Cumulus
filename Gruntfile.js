@@ -9,6 +9,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-sass');
   grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-electron');
+  grunt.loadNpmTasks('grunt-electron-installer');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
@@ -86,10 +87,26 @@ module.exports = function(grunt) {
           asar     : true
         }
       }
+    },
+    'create-windows-installer': {
+      options: {
+        authors: 'Cumulus Team',
+        exe: 'cumulus.exe'
+      },
+      x64: {
+        appDirectory: '/dist/Cumulus-win32-x64',
+        outputDirectory: '/dist/installer-win32-x64'
+      },
+      ia32: {
+        appDirectory: '/dist/Cumulus-win32-ia32',
+        outputDirectory: '/dist/installer-win32-ia32'
+      }
     }
   });
 
   // Default task(s).
   grunt.registerTask('default', ['env:dev' ,'browserify:dev', 'sass:dev', 'watch']);
-  grunt.registerTask('build',   ['env:dist', 'clean:dist', 'browserify:dist', 'sass:dist', 'electron']);
+  grunt.registerTask('build',   ['env:dist', 'clean:dist', 'browserify:dist', 'sass:dist']);
+  grunt.registerTask('package:osx', ['build', 'electron:osx']);
+  grunt.registerTask('package:windows', ['build', 'electron:windows', 'create-windows-installer']);
 };
