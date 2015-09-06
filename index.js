@@ -60,7 +60,7 @@ mb.on('ready', function() {
    * register Cumulus protocol
    */
   var protocol = require('protocol')
-  protocol.registerProtocol('cumulus', function(req) {
+  protocol.registerStringProtocol('cumulus', function(req) {
 
     // parse access token
     var hash  = url.parse(req.url).hash.substr(1)
