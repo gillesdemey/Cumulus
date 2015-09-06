@@ -66,7 +66,7 @@ module.exports = function(grunt) {
         name    : 'Cumulus',
         dir     : '.',
         out     : 'dist',
-        version : '0.30.2',
+        version : '0.30.6',
         prune   : true
       },
       osx: {
