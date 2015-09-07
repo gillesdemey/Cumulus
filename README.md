@@ -15,5 +15,9 @@ A SoundCloud player that lives in your menubar.
 ## Compile the application
 `grunt` or `grunt build`
 
-## Run the application
+## Run the application with the [Chrome DevTools](https://developer.chrome.com/devtools)
 `NODE_ENV=development electron .`
+
+### Or in Windows:
+- PowerShell: `$env:NODE_ENV="development"; electron .`
+- CMD: `set "NODE_ENV=development" & electron .`
