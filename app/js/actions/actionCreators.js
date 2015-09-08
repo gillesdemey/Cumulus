@@ -32,6 +32,23 @@ window.require('ipc').on('GlobalShortcuts', function(accelerator) {
 actions = McFly.createActions({
 
   /**
+   * App
+   */
+  setVisibleTab: function(tab) {
+    return {
+      'actionType' : 'VISIBLE_TAB',
+      'tab'        : tab
+    }
+  },
+
+  setActiveTab: function(tab) {
+    return {
+      'actionType' : 'ACTIVE_TAB',
+      'tab'        : tab
+    }
+  },
+
+  /**
    * Tracks
    */
   playTrack: function(track) {
@@ -97,12 +114,13 @@ actions = McFly.createActions({
   /**
    * Collections
    */
-  fetchLikes: function() {
-    return SoundCloud.fetchLikes()
-      .then(function(tracks) {
+  fetchLikes: function(url) {
+    return SoundCloud.fetchLikes(url)
+      .then(function(page) {
          return {
           'actionType' : 'LOADED_COLLECTION',
-          'collection' : tracks
+          'tracks'     : page.tracks,
+          'next_href'  : page.next_href
         }
       })
       .catch(function(ex) {
@@ -110,12 +128,13 @@ actions = McFly.createActions({
       })
   },
 
-  fetchFeed: function() {
-    return SoundCloud.fetchFeed()
-      .then(function(tracks) {
+  fetchFeed: function(url) {
+    return SoundCloud.fetchFeed(url)
+      .then(function(page) {
         return {
           'actionType' : 'LOADED_FEED',
-          'feed'       : tracks
+          'tracks'     : page.tracks,
+          'next_href'  : page.next_href
         }
       })
       .catch(function(ex) {

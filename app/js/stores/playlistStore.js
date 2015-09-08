@@ -1,14 +1,14 @@
 'use strict';
 
 var _     = require('lodash')
-var McFly = require('../utils/mcfly');
+var McFly = require('../utils/mcfly')
 
 var _playlist = []
 var _index    = 0
 
 function _addToPlaylist(tracks) {
   if (Array.isArray(tracks))
-    _playlist.concat(tracks)
+    _playlist = _playlist.concat(tracks)
   else
     _playlist.push(tracks)
 }
@@ -37,6 +37,10 @@ function _getNextTrack() {
   return _playlist[_index]
 }
 
+function _peekNextTrack() {
+  return _playlist[_index + 1]
+}
+
 function _getPreviousTrack() {
   if (_index === 0)
     return
@@ -54,6 +58,10 @@ var PlaylistStore = McFly.createStore({
 
   setPlaylist: function(tracks) {
     _playlist = tracks
+  },
+
+  addToPlaylist: function(tracks) {
+    _addToPlaylist(tracks)
   },
 
   setIndex: function(trackOrId) {
@@ -74,6 +82,10 @@ var PlaylistStore = McFly.createStore({
   getPreviousTrack: function() {
     return _getPreviousTrack()
   },
+
+  peekNextTrack: function() {
+    return _peekNextTrack()
+  }
 
 }, function(payload) {
 

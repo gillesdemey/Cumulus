@@ -2,6 +2,7 @@
 
 var _             = require('lodash')
 var McFly         = require('../utils/mcfly')
+var Dispatcher    = McFly.dispatcher
 var playlistStore = require('./playlistStore')
 
 var TrackStore
@@ -124,6 +125,12 @@ TrackStore = McFly.createStore({
       break
 
     case 'NEXT_TRACK':
+      // wait for other stores to update first
+      Dispatcher.waitFor([
+        require('./feedStore').dispatcherID,
+        require('./likesStore').dispatcherID,
+        require('./playlistsStore').dispatcherID
+      ])
       _nextTrack()
       break
 
