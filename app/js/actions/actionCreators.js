@@ -32,6 +32,23 @@ window.require('ipc').on('GlobalShortcuts', function(accelerator) {
 actions = McFly.createActions({
 
   /**
+   * App
+   */
+  setVisibleTab: function(tab) {
+    return {
+      'actionType' : 'VISIBLE_TAB',
+      'tab'        : tab
+    }
+  },
+
+  setActiveTab: function(tab) {
+    return {
+      'actionType' : 'ACTIVE_TAB',
+      'tab'        : tab
+    }
+  },
+
+  /**
    * Tracks
    */
   playTrack: function(track) {

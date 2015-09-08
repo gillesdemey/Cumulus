@@ -3,6 +3,7 @@
 var McFly             = require('../utils/mcfly')
 var Actions           = require('../actions/actionCreators')
 
+var AppStore          = require('../stores/appStore')
 var PlaylistStore     = require('../stores/playlistStore')
 var CurrentTrackStore = require('../stores/currentTrackStore')
 
@@ -11,7 +12,6 @@ var _                 = require('lodash')
 var _loaded      = false
 var _favorites   = []
 var _next_href
-var _listening   = false
 
 function _appendFavorites(tracks) {
   _favorites = _.uniq(_favorites.concat(tracks), 'id')
@@ -31,20 +31,13 @@ var LikesStore = McFly.createStore({
     return _next_href
   },
 
-  startListening: function() {
-    _listening = true
-  },
-
-  stopListening: function() {
-    _listening = false
-  }
-
 }, function(payload) {
 
   switch (payload.actionType) {
 
     case 'LOADED_COLLECTION':
-      if (!_listening) return
+      if (!AppStore.isVisibleTab('likes')) return
+
       _loaded = true
       _next_href = payload.next_href
       _appendFavorites(payload.tracks)
@@ -67,15 +60,22 @@ var LikesStore = McFly.createStore({
         _.remove(_favorites, { 'id' : payload.track.id })
       break
 
+    case 'PLAY_TRACK':
+      if (AppStore.isVisibleTab('likes'))
+        AppStore.setActiveTab('likes')
+
+      break
+
     case 'NEXT_TRACK':
-      if (!_listening) return
-      var lastItem = _.last(_favorites) || {}
-      if (CurrentTrackStore.getTrack().id === lastItem.id) {
+      if (!AppStore.isActiveTab('likes')) return
+
+      if (!PlaylistStore.peekNextTrack()) {
         Actions.fetchLikes(_next_href)
           .then(function() {
             Actions.nextTrack()
           })
       }
+      break
 
 
   }

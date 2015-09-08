@@ -3,6 +3,7 @@
 var McFly             = require('../utils/mcfly');
 var Actions           = require('../actions/actionCreators')
 
+var AppStore          = require('../stores/appStore')
 var PlaylistStore     = require('../stores/playlistStore')
 var CurrentTrackStore = require('../stores/currentTrackStore')
 
@@ -11,7 +12,6 @@ var _                 = require('lodash')
 var _loaded = false
 var _feed   = []
 var _next_href
-var _listening = false
 
 function _appendFeed(tracks) {
   _feed = _.uniq(_feed.concat(tracks), 'id')
@@ -46,21 +46,13 @@ var FeedStore = McFly.createStore({
     return _next_href
   },
 
-  stopListening: function() {
-    _listening = false
-  },
-
-  startListening: function() {
-    _listening = true
-  },
-
 }, function(payload) {
-
-  if (!_listening) return
 
   switch (payload.actionType) {
 
     case 'LOADED_FEED':
+      if (!AppStore.isVisibleTab('feed')) return
+
       _loaded = true
       _next_href = payload.next_href
       _appendFeed(payload.tracks)
@@ -72,10 +64,22 @@ var FeedStore = McFly.createStore({
 
       break
 
+    case 'PLAY_TRACK':
+      if (AppStore.isVisibleTab('feed'))
+        AppStore.setActiveTab('feed')
+
+      break
+
     case 'NEXT_TRACK':
-      if (!PlaylistStore.getNextTrack()) {
+      if (!AppStore.isActiveTab('feed')) return
+
+      if (!PlaylistStore.peekNextTrack()) {
         Actions.fetchFeed(_next_href)
+          .then(function() {
+            Actions.nextTrack()
+          })
       }
+      break
 
   }
 

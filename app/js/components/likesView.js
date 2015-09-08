@@ -35,14 +35,16 @@ var LikesView = React.createClass({
         }.bind(this))
 
     LikesStore.addChangeListener(this._onChange)
-    LikesStore.startListening()
     CurrentTrackStore.addChangeListener(this._onChange)
   },
 
   componentWillUnmount: function() {
     LikesStore.removeChangeListener(this._onChange)
-    LikesStore.stopListening()
     CurrentTrackStore.removeChangeListener(this._onChange)
+  },
+
+  componentDidMount: function() {
+    Actions.setVisibleTab('likes')
   },
 
   _scrollListener: function() {

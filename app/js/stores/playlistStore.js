@@ -37,6 +37,10 @@ function _getNextTrack() {
   return _playlist[_index]
 }
 
+function _peekNextTrack() {
+  return _playlist[_index + 1]
+}
+
 function _getPreviousTrack() {
   if (_index === 0)
     return
@@ -78,6 +82,10 @@ var PlaylistStore = McFly.createStore({
   getPreviousTrack: function() {
     return _getPreviousTrack()
   },
+
+  peekNextTrack: function() {
+    return _peekNextTrack()
+  }
 
 }, function(payload) {
 
