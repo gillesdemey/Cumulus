@@ -2,8 +2,8 @@
 
 var McFly = require('../utils/mcfly')
 
-var visibleTab  // the tab that is currently in view
-var activeTab   // the tab where we are currently Visible music from
+var visibleTab = ''  // the tab that is currently in view
+var activeTab = ''   // the tab where we are currently Visible music from
 
 function _setActiveTab(tab) {
   activeTab = tab

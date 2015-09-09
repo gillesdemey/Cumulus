@@ -5,6 +5,7 @@ var State             = require('react-router').State
 var classNames        = require('classnames')
 var Actions           = require('../actions/actionCreators')
 var time              = require('../utils/time')
+var AppStore          = require('../stores/appStore')
 
 var ListItem = React.createClass({
 
@@ -25,7 +26,7 @@ var ListItem = React.createClass({
   },
 
   componentDidMount: function() {
-    if (this.props.active)
+    if (this.isActive(AppStore.getActiveTab()) && this.props.active)
       this.focus()
   },
 
