@@ -1,7 +1,7 @@
 # Cumulus
 A SoundCloud player that lives in your menubar.
 
-[![GitHub release](https://img.shields.io/github/release/gillesdemey/cumulus.svg)](https://github.com/gillesdemey/Cumulus/releases/latest)
+[![GitHub release](https://img.shields.io/badge/download-latest-blue.svg)](https://github.com/gillesdemey/Cumulus/releases/latest)
 
 ![screenshot 2015-05-27 20 21 00](https://cloud.githubusercontent.com/assets/868844/7845299/5810af32-04b6-11e5-8465-45c611a418b7.png)
 
