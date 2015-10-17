@@ -10,11 +10,18 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 var _                 = require('lodash')
 
 var _loaded = false
-var _feed   = []
-var _next_href
+var _last_fetch = 0
+
+var _feed = []
+
+var _next_href, _future_href
 
 function _appendFeed(tracks) {
   _feed = _.uniq(_feed.concat(tracks), 'id')
+}
+
+function _prependFeed(tracks) {
+  _feed = _.uniq(tracks.concat(_feed), 'id')
 }
 
 // Reduces a feed to a flat list of tracks
@@ -46,6 +53,14 @@ var FeedStore = McFly.createStore({
     return _next_href
   },
 
+  getFutureHref: function() {
+    return _future_href
+  },
+
+  getLastFetch: function() {
+    return _last_fetch
+  }
+
 }, function(payload) {
 
   switch (payload.actionType) {
@@ -55,6 +70,7 @@ var FeedStore = McFly.createStore({
 
       _loaded = true
       _next_href = payload.next_href
+      _future_href = payload.future_href
       _appendFeed(payload.tracks)
 
       if (PlaylistStore.getPlaylist().length === 0 || !CurrentTrackStore.getAudio().src)
@@ -74,11 +90,20 @@ var FeedStore = McFly.createStore({
       if (!AppStore.isActiveTab('feed')) return
 
       if (!PlaylistStore.peekNextTrack()) {
-        Actions.fetchFeed(_next_href)
+        Actions.fetchFeed({ next_href : _next_href })
           .then(function() {
             Actions.nextTrack()
           })
       }
+      break
+
+    case 'LOADED_FUTURE_FEED':
+      _next_href = payload.next_href
+      _future_href = payload.future_href
+      _last_fetch = Date.now()
+
+      _prependFeed(payload.tracks)
+
       break
 
   }

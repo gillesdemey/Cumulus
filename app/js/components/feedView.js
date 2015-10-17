@@ -67,7 +67,7 @@ var FeedView = React.createClass({
       return console.warn('no next page available')
 
     self._setLoadingPage(true)
-    Actions.fetchFeed(self.state.next_href)
+    Actions.fetchFeed({ next_href : self.state.next_href })
       .then(function() {
         self._setLoadingPage(false)
       })
