@@ -64,6 +64,8 @@ var LikesStore = McFly.createStore({
 
     case 'LOADED_FUTURE_COLLECTION':
       _next_href = payload.next_href
+      _last_fetch = Date.now()
+
       _prependFavorites(payload.tracks)
       break
 
