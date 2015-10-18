@@ -19,7 +19,6 @@ function _setVisibleTab(tab) {
 function _updateFeedViewLastFetch() {
   var ts = Date.now()
   LastFetch.FeedView = ts
-  console.log('LOADED_FEED at %s', ts)
 }
 
 function _getFeedViewLastFetch() {
@@ -29,7 +28,6 @@ function _getFeedViewLastFetch() {
 function _updateLikesViewLastFetch() {
   var ts = Date.now()
   LastFetch.LikesView = ts
-  console.log('LOADED_COLLECTION at %s', ts)
 }
 
 function _getLikesViewLastFetch() {
