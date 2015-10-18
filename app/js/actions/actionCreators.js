@@ -29,6 +29,15 @@ window.require('ipc').on('GlobalShortcuts', function(accelerator) {
 
 })
 
+window.require('ipc').on('WindowEvent', function(name) {
+  switch (name) {
+    case 'focus':
+      actions.sendWindowFocus()
+      break
+  }
+
+})
+
 actions = McFly.createActions({
 
   /**
@@ -45,6 +54,12 @@ actions = McFly.createActions({
     return {
       'actionType' : 'ACTIVE_TAB',
       'tab'        : tab
+    }
+  },
+
+  sendWindowFocus: function() {
+    return {
+      'actionType' : 'WINDOW_FOCUS'
     }
   },
 

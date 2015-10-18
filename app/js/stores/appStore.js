@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 var McFly = require('../utils/mcfly')
 var Actions = require('../actions/actionCreators')
@@ -6,7 +6,7 @@ var Actions = require('../actions/actionCreators')
 var visibleTab = ''  // the tab that is currently in view
 var activeTab = ''   // the tab where we are currently Visible music from
 
-var LastFetch = {}; // last time content was fetched
+var LastFetch = {} // last time content was fetched
 
 function _setActiveTab(tab) {
   activeTab = tab
@@ -71,32 +71,13 @@ var AppStore = McFly.createStore({
       _setActiveTab(payload.tab)
       break
 
+    case 'WINDOW_FOCUS':
+      loadNewer()
+      break
+
     case 'VISIBLE_TAB':
       _setVisibleTab(payload.tab)
-
-      var lastFetch = 0
-
-      if (payload.tab === 'feed') {
-        var FeedStore = require('../stores/feedStore')
-        lastFetch = FeedStore.getLastFetch()
-
-        // every 5 minutes
-        if (Date.now() - lastFetch >= 300000) {
-          Actions.fetchFutureFeed()
-        }
-
-      }
-
-      if (payload.tab === 'likes') {
-        var LikesStore = require('../stores/likesStore')
-        lastFetch = LikesStore.getLastFetch()
-
-        // every 5 minutes
-        if (Date.now() - lastFetch >= 300000) {
-          Actions.fetchFutureLikes()
-        }
-      }
-
+      loadNewer(payload.tab)
       break
 
     case 'LOADED_FEED':
@@ -109,9 +90,39 @@ var AppStore = McFly.createStore({
 
   }
 
+  function loadNewer(tab) {
+
+    switch (payload.tab) {
+      case 'feed':
+        loadNewerFeed()
+        break
+
+      case 'likes':
+        loadNewerLikes()
+        break
+
+      default:
+        loadNewerFeed()
+        loadNewerLikes()
+        break
+    }
+  }
+
+  function loadNewerFeed() {
+    var FeedStore = require('../stores/feedStore')
+    var lastFetch = FeedStore.getLastFetch()
+    if (Date.now() - lastFetch >= 300000) Actions.fetchFutureFeed()
+  }
+
+  function loadNewerLikes() {
+    var LikesStore = require('../stores/likesStore')
+    var lastFetch = LikesStore.getLastFetch()
+    if (Date.now() - lastFetch >= 300000) Actions.fetchFutureLikes()
+  }
+
   AppStore.emitChange()
 
   return true
-});
+})
 
 module.exports = AppStore

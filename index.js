@@ -54,6 +54,7 @@ mb.on('ready', function() {
     mb.window.setMinimumSize(320, 400)
     mb.window.setResizable(true)
     mb.window.loadUrl('file://' + __dirname + '/app/index.html')
+    mb.window.on('focus', function() { _sendWindowEvent('focus') })
   }
 
   /**
@@ -89,6 +90,11 @@ mb.on('ready', function() {
   function _sendGlobalShortcut(accelerator) {
     if (!mb.window) return
     mb.window.webContents.send('GlobalShortcuts', accelerator)
+  }
+
+  function _sendWindowEvent(name) {
+    if (!mb.window) return
+    mb.window.webContents.send('WindowEvent', name)
   }
 
   globalShortcut.register('MediaPlayPause', function() {
