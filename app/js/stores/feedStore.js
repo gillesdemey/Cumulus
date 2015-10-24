@@ -24,6 +24,10 @@ function _prependFeed(tracks) {
   _feed = _.uniq(tracks.concat(_feed), 'id')
 }
 
+function _setFeed(tracks) {
+  _feed = tracks
+}
+
 // Reduces a feed to a flat list of tracks
 function _getTracks(feed) {
   return _.reduce(feed, function(results, trackOrPlaylist) {
@@ -80,6 +84,18 @@ var FeedStore = McFly.createStore({
 
       break
 
+    case 'LOADED_FUTURE_FEED':
+      _next_href = payload.next_href
+      _future_href = payload.future_href
+      _last_fetch = Date.now()
+
+      _setFeed(payload.tracks)
+
+      if (AppStore.isActiveTab('feed'))
+        Actions.setPlaylist(_getTracks(payload.tracks))
+
+      break
+
     case 'PLAY_TRACK':
       if (AppStore.isVisibleTab('feed'))
         AppStore.setActiveTab('feed')
@@ -95,15 +111,6 @@ var FeedStore = McFly.createStore({
             Actions.nextTrack()
           })
       }
-      break
-
-    case 'LOADED_FUTURE_FEED':
-      _next_href = payload.next_href
-      _future_href = payload.future_href
-      _last_fetch = Date.now()
-
-      _prependFeed(payload.tracks)
-
       break
 
   }

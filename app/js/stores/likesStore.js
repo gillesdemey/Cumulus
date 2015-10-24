@@ -24,6 +24,10 @@ function _prependFavorites(tracks) {
   _favorites = _.uniq(tracks.concat(_favorites), 'id')
 }
 
+function _setFavorites(tracks) {
+  _favorites = tracks
+}
+
 var LikesStore = McFly.createStore({
 
   getLikes: function() {
@@ -66,7 +70,11 @@ var LikesStore = McFly.createStore({
       _next_href = payload.next_href
       _last_fetch = Date.now()
 
-      _prependFavorites(payload.tracks)
+      _setFavorites(payload.tracks)
+
+      if (AppStore.isActiveTab('likes'))
+        Actions.setPlaylist(payload.tracks)
+
       break
 
     case 'LIKE_TRACK':

@@ -7,6 +7,7 @@ var visibleTab = ''  // the tab that is currently in view
 var activeTab = ''   // the tab where we are currently Visible music from
 
 var LastFetch = {} // last time content was fetched
+var cacheDuration = 120e+3
 
 function _setActiveTab(tab) {
   activeTab = tab
@@ -109,13 +110,13 @@ var AppStore = McFly.createStore({
   function loadNewerFeed() {
     var FeedStore = require('../stores/feedStore')
     var lastFetch = FeedStore.getLastFetch()
-    if (Date.now() - lastFetch >= 300000) Actions.fetchFutureFeed()
+    if (Date.now() - lastFetch >= cacheDuration) Actions.fetchFutureFeed()
   }
 
   function loadNewerLikes() {
     var LikesStore = require('../stores/likesStore')
     var lastFetch = LikesStore.getLastFetch()
-    if (Date.now() - lastFetch >= 300000) Actions.fetchFutureLikes()
+    if (Date.now() - lastFetch >= cacheDuration) Actions.fetchFutureLikes()
   }
 
   AppStore.emitChange()
