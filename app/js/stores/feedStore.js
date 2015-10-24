@@ -20,10 +20,6 @@ function _appendFeed(tracks) {
   _feed = _.uniq(_feed.concat(tracks), 'id')
 }
 
-function _prependFeed(tracks) {
-  _feed = _.uniq(tracks.concat(_feed), 'id')
-}
-
 function _setFeed(tracks) {
   _feed = tracks
 }

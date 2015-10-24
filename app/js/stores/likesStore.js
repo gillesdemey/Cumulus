@@ -20,10 +20,6 @@ function _appendFavorites(tracks) {
   _favorites = _.uniq(_favorites.concat(tracks), 'id')
 }
 
-function _prependFavorites(tracks) {
-  _favorites = _.uniq(tracks.concat(_favorites), 'id')
-}
-
 function _setFavorites(tracks) {
   _favorites = tracks
 }
