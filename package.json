@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "grunt",
-    "build-osx": "rm -rf dist && grunt electron:osx && cp ./cumulus.icns dist/Cumulus.app/Contents/Resources/atom.icns"
+    "build-osx": "grunt build:osx && cp ./cumulus.icns dist/Cumulus.app/Contents/Resources/atom.icns"
   },
   "devDependencies": {
     "browserify": "^10.0.0",

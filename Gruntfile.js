@@ -80,5 +80,6 @@ module.exports = function(grunt) {
 
   // Default task(s).
   grunt.registerTask('default', ['env:dev' ,'browserify:dev', 'sass:dev', 'watch']);
-  grunt.registerTask('build',   ['env:dist', 'clean:dist', 'browserify:dist', 'sass:dist', 'electron']);
+  grunt.registerTask('build', ['build-osx']);
+  grunt.registerTask('build-osx', ['env:dist', 'clean:dist', 'browserify:dist', 'sass:dist', 'electron:osx']);
 };
