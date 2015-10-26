@@ -66,7 +66,7 @@ var LikesView = React.createClass({
       return console.warn('no next page available')
 
     self._setLoadingPage(true)
-    Actions.fetchLikes(self.state.next_href)
+    Actions.fetchLikes({ next_href : self.state.next_href })
       .then(function() {
         self._setLoadingPage(false)
       })

@@ -29,6 +29,15 @@ window.require('ipc').on('GlobalShortcuts', function(accelerator) {
 
 })
 
+window.require('ipc').on('WindowEvent', function(name) {
+  switch (name) {
+    case 'focus':
+      actions.sendWindowFocus()
+      break
+  }
+
+})
+
 actions = McFly.createActions({
 
   /**
@@ -45,6 +54,12 @@ actions = McFly.createActions({
     return {
       'actionType' : 'ACTIVE_TAB',
       'tab'        : tab
+    }
+  },
+
+  sendWindowFocus: function() {
+    return {
+      'actionType' : 'WINDOW_FOCUS'
     }
   },
 
@@ -114,13 +129,19 @@ actions = McFly.createActions({
   /**
    * Collections
    */
-  fetchLikes: function(url) {
-    return SoundCloud.fetchLikes(url)
+  fetchLikes: function(options) {
+    options = options || {}
+
+    return SoundCloud.fetchLikes(options)
       .then(function(page) {
+        var actionType = options.prepend
+          ? 'LOADED_FUTURE_COLLECTION'
+          : 'LOADED_COLLECTION'
+
          return {
-          'actionType' : 'LOADED_COLLECTION',
-          'tracks'     : page.tracks,
-          'next_href'  : page.next_href
+          'actionType'  : actionType,
+          'tracks'      : page.tracks,
+          'next_href'   : page.next_href
         }
       })
       .catch(function(ex) {
@@ -128,18 +149,33 @@ actions = McFly.createActions({
       })
   },
 
-  fetchFeed: function(url) {
-    return SoundCloud.fetchFeed(url)
+  fetchFutureLikes: function() {
+    return actions.fetchLikes({ prepend : true })
+  },
+
+  fetchFeed: function(options) {
+    options = options || {}
+
+    return SoundCloud.fetchFeed(options)
       .then(function(page) {
+        var actionType = options.prepend
+          ? 'LOADED_FUTURE_FEED'
+          : 'LOADED_FEED'
+
         return {
-          'actionType' : 'LOADED_FEED',
-          'tracks'     : page.tracks,
-          'next_href'  : page.next_href
+          'actionType'  : actionType,
+          'tracks'      : page.tracks,
+          'next_href'   : page.next_href,
+          'future_href' : page.future_href
         }
       })
       .catch(function(ex) {
         console.error(ex)
       })
+  },
+
+  fetchFutureFeed: function() {
+    return actions.fetchFeed({ prepend : true })
   },
 
   fetchPlaylists: function() {

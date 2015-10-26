@@ -1,7 +1,7 @@
 'use strict';
 
-var _     = require('lodash')
-var McFly = require('../utils/mcfly')
+var _          = require('lodash')
+var McFly      = require('../utils/mcfly')
 
 var _playlist = []
 var _index    = 0
@@ -50,6 +50,11 @@ function _getPreviousTrack() {
   return _playlist[_index]
 }
 
+function _clear() {
+  _index = 0
+  _playlist = []
+}
+
 var PlaylistStore = McFly.createStore({
 
   getPlaylist: function() {
@@ -62,6 +67,10 @@ var PlaylistStore = McFly.createStore({
 
   addToPlaylist: function(tracks) {
     _addToPlaylist(tracks)
+  },
+
+  clearPlaylist: function() {
+    _clear()
   },
 
   setIndex: function(trackOrId) {
@@ -97,13 +106,25 @@ var PlaylistStore = McFly.createStore({
 
     case 'SET_PLAYLIST':
       _setPlaylist(payload.tracks)
-      _setIndex(0)
+      var currentTrackStore = require('./currentTrackStore')
+
+      // calculate index
+      var currentTrack = currentTrackStore.getTrack()
+      var newIndex = !_.isEmpty(currentTrack)
+        ? _getIndexById(currentTrack)
+        : 0
+
+      if (newIndex !== -1)
+        _setIndex(newIndex)
+      else
+        _clear() // track was removed from collection
+
       break
 
     case 'PLAY_TRACK':
       if (payload.track)
         PlaylistStore.setIndex(payload.track)
-
+      break
   }
 
   PlaylistStore.emitChange()

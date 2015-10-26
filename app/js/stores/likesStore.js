@@ -9,12 +9,19 @@ var CurrentTrackStore = require('../stores/currentTrackStore')
 
 var _                 = require('lodash')
 
-var _loaded      = false
-var _favorites   = []
+var _loaded = false
+var _last_fetch = 0
+
+var _favorites = []
+
 var _next_href
 
 function _appendFavorites(tracks) {
   _favorites = _.uniq(_favorites.concat(tracks), 'id')
+}
+
+function _setFavorites(tracks) {
+  _favorites = tracks
 }
 
 var LikesStore = McFly.createStore({
@@ -31,6 +38,10 @@ var LikesStore = McFly.createStore({
     return _next_href
   },
 
+  getLastFetch: function() {
+    return _last_fetch
+  }
+
 }, function(payload) {
 
   switch (payload.actionType) {
@@ -40,12 +51,25 @@ var LikesStore = McFly.createStore({
 
       _loaded = true
       _next_href = payload.next_href
+      _last_fetch = Date.now()
+
       _appendFavorites(payload.tracks)
 
       if (PlaylistStore.getPlaylist().length === 0 || !CurrentTrackStore.getAudio().src)
         Actions.setPlaylist(payload.tracks)
       else
         Actions.addToPlaylist(payload.tracks)
+
+      break
+
+    case 'LOADED_FUTURE_COLLECTION':
+      _next_href = payload.next_href
+      _last_fetch = Date.now()
+
+      _setFavorites(payload.tracks)
+
+      if (AppStore.isActiveTab('likes'))
+        Actions.setPlaylist(payload.tracks)
 
       break
 
@@ -70,13 +94,12 @@ var LikesStore = McFly.createStore({
       if (!AppStore.isActiveTab('likes')) return
 
       if (!PlaylistStore.peekNextTrack()) {
-        Actions.fetchLikes(_next_href)
+        Actions.fetchLikes({ next_href : _next_href })
           .then(function() {
             Actions.nextTrack()
           })
       }
       break
-
 
   }
 
