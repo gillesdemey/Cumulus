@@ -46,9 +46,7 @@ mb.on('ready', function() {
       resizable: false,
       'node-integration': false
     })
-    loginWindow.on('close', function() {
-      App.quit()
-    })
+    loginWindow.on('close', App.quit)
     loginWindow.loadUrl('https://soundcloud.com/connect?client_id=f17c1d67b83c86194fad2b1948061c9e&response_type=token&scope=non-expiring&display=next&redirect_uri=cumulus://oauth/callback')
   }
 
