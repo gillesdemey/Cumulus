@@ -83,7 +83,10 @@ mb.on('ready', function() {
 
         config.set('access_token', token, function(err) {
           if (err) throw err
-          if (loginWindow) loginWindow.close()
+          if (loginWindow) {
+            loginWindow.removeListener('close', App.quit)
+            loginWindow.close()
+          }
           initialize()
         })
         break
