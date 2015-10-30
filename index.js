@@ -72,7 +72,6 @@ mb.on('ready', function() {
   protocol.registerHttpProtocol('cumulus', function(req) {
 
     var uri = url.parse(req.url)
-    console.log('Action', uri.host)
 
     switch (uri.host) {
       case 'oauth':
