@@ -41,6 +41,10 @@ var PlaylistsView = React.createClass({
     CurrentTrackStore.removeChangeListener(this._onChange)
   },
 
+  componentDidMount: function() {
+    Actions.setVisibleTab('playlists')
+  },
+
   _onChange: function() {
     this.setState(getStateFromStores())
   },

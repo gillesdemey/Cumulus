@@ -54,13 +54,14 @@ mb.on('ready', function() {
     mb.window.setMinimumSize(320, 400)
     mb.window.setResizable(true)
     mb.window.loadUrl('file://' + __dirname + '/app/index.html')
+    mb.window.on('focus', function() { _sendWindowEvent('focus') })
   }
 
   /**
    * register Cumulus protocol
    */
   var protocol = require('protocol')
-  protocol.registerStringProtocol('cumulus', function(req) {
+  protocol.registerHttpProtocol('cumulus', function(req) {
 
     // parse access token
     var hash  = url.parse(req.url).hash.substr(1)
@@ -89,6 +90,11 @@ mb.on('ready', function() {
   function _sendGlobalShortcut(accelerator) {
     if (!mb.window) return
     mb.window.webContents.send('GlobalShortcuts', accelerator)
+  }
+
+  function _sendWindowEvent(name) {
+    if (!mb.window) return
+    mb.window.webContents.send('WindowEvent', name)
   }
 
   globalShortcut.register('MediaPlayPause', function() {

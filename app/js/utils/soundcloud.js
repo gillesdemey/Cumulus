@@ -1,7 +1,7 @@
 'use strict';
 
-var rp      = window.require('request-promise')
-var _       = require('lodash')
+var rp = window.require('request-promise')
+var _  = require('lodash')
 
 var SoundCloud = function(options) {
   this._endpoint   = 'http://api.soundcloud.com/'
@@ -22,25 +22,25 @@ SoundCloud.prototype.initialize = function(options) {
   this._clientId  = options.client_id
 }
 
-SoundCloud.prototype.makeRequest = function(shortUrl, options) {
+SoundCloud.prototype.makeRequest = function(url, options) {
   var self = this
   options  = options || {}
 
-  if (typeof shortUrl === 'object')
-    options = shortUrl
-  else if (typeof shortUrl === 'string' && shortUrl.indexOf('://') === -1)
-    options.url = this._endpoint + shortUrl
-  else if (typeof shortUrl === 'string' && shortUrl.indexOf('://') !== -1)
-    options.url = shortUrl
+  if (typeof url === 'object')
+    options = url
+  else if (typeof url === 'string' && url.indexOf('://') === -1)
+    options.url = this._endpoint + url
+  else if (typeof url === 'string' && url.indexOf('://') !== -1)
+    options.url = url
 
   var defaults = {
     'method'        : 'GET',
     'json'          : true,
-    'qs'            : {
+    'qs'            : _.defaults(options.qs || {}, {
       'client_id'   : self._clientId,
       'oauth_token' : self._token,
-      'limit'       : 50,
-    }
+      'limit'       : 50
+    })
   }
 
   options = _.defaults(options, defaults)
@@ -78,32 +78,65 @@ SoundCloud.prototype.fetchWaveform = function(url) {
     })
 }
 
-SoundCloud.prototype.fetchLikes = function() {
-  return this.makeRequest('me/favorites')
-    .then()
-    .bind(this)
-    .map(this._mapTrack)
+SoundCloud.prototype.fetchLikes = function(options) {
+  options = options || {}
+  var self = this
+
+  var next_href = options.next_href
+
+  var url = next_href || 'me/favorites?linked_partitioning=1'
+
+  return this.makeRequest(url)
+    .then(function(resp) {
+      next_href = resp.next_href
+      return resp.collection
+    })
+    .bind(self)
+    .map(self._mapTrack)
+    .then(function(tracks) {
+      return {
+        tracks    : tracks,
+        next_href : next_href
+      }
+    })
 }
 
-SoundCloud.prototype.fetchFeed = function() {
-  return this.makeRequest('me/activities')
+SoundCloud.prototype.fetchFeed = function(options) {
+  options = options || {}
+  var self = this
+
+  var future_href = options.future_href
+  var next_href = options.next_href
+
+  var url = future_href || next_href || 'me/activities'
+  var reqOpts = {}
+
+  if (options.future_href)
+    reqOpts = { qs : { limit : 200 } }
+
+  return self.makeRequest(url, reqOpts)
     .then(function(resp) {
+      next_href = resp.next_href
+      future_href = resp.next_href
       return resp.collection
     })
     .map(function(item) {
       return item.origin
     })
-    .bind(this)
     .map(function(item) {
       if (item.kind === 'playlist')
-        return this.expandPlaylist(item)
+        return self.expandPlaylist(item)
       else if (item.kind === 'track')
-        return this._mapTrack(item)
+        return self._mapTrack(item)
     })
     .then(function(tracks) {
       // SoundCloud activities can return multiple of the same track
       tracks = _.uniq(tracks, 'id')
-      return tracks
+      return {
+        tracks      : tracks,
+        next_href   : next_href,
+        future_href : future_href
+      }
     })
 }
 
