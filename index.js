@@ -69,15 +69,31 @@ mb.on('ready', function() {
   var protocol = require('protocol')
   protocol.registerHttpProtocol('cumulus', function(req) {
 
-    // parse access token
-    var hash  = url.parse(req.url).hash.substr(1)
-    var token = querystring.parse(hash).access_token
+    var uri = url.parse(req.url)
+    console.log('Action', uri.host)
 
-    config.set('access_token', token, function(err) {
-      if (err) throw err
-      if (loginWindow) loginWindow.close()
-      initialize()
-    })
+    switch (uri.host) {
+      case 'oauth':
+        if (uri.pathname !== '/callback') return;
+
+        // parse access token
+        var hash  = uri.hash.substr(1)
+        var token = querystring.parse(hash).access_token
+
+        config.set('access_token', token, function(err) {
+          if (err) throw err
+          if (loginWindow) loginWindow.close()
+          initialize()
+        })
+        break
+
+      case 'logout':
+        config.set('access_token', null, function(err) {
+          if (err) throw err
+          doLogin()
+        })
+        break
+    }
 
   })
 
@@ -86,7 +102,7 @@ mb.on('ready', function() {
     if (err)
       throw err
 
-    if (typeof value !== 'undefined')
+    if (typeof value !== 'undefined' && value !== null)
       initialize()
     else
       doLogin()

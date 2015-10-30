@@ -32,6 +32,7 @@ var MediaPlayer = React.createClass({
     menu.append(new MenuItem({ type  : 'separator' }));
     menu.append(new MenuItem({ label : 'About', click : this.about }));
     menu.append(new MenuItem({ type  : 'separator' }));
+    menu.append(new MenuItem({ label : 'Logout', click : this.logout }));
     menu.append(new MenuItem({ label : 'Quit', click : this.quit }));
 
     return menu;
@@ -134,6 +135,10 @@ var MediaPlayer = React.createClass({
 
   openPermalinkUser: function() {
     this.openExternal(this.state.track.user.permalink_url)
+  },
+
+  logout: function() {
+    window.location.href = 'cumulus://logout'
   },
 
   quit: function() {
