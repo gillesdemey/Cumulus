@@ -1,5 +1,6 @@
 'use strict';
 
+var App            = require('app')
 var BrowserWindow  = require('browser-window')
 var globalShortcut = require('global-shortcut')
 var Menu           = require('menu')
@@ -45,6 +46,7 @@ mb.on('ready', function() {
       resizable: false,
       'node-integration': false
     })
+    loginWindow.on('close', App.quit)
     loginWindow.loadUrl('https://soundcloud.com/connect?client_id=f17c1d67b83c86194fad2b1948061c9e&response_type=token&scope=non-expiring&display=next&redirect_uri=cumulus://oauth/callback')
   }
 
@@ -69,15 +71,30 @@ mb.on('ready', function() {
   var protocol = require('protocol')
   protocol.registerHttpProtocol('cumulus', function(req) {
 
-    // parse access token
-    var hash  = url.parse(req.url).hash.substr(1)
-    var token = querystring.parse(hash).access_token
+    var uri = url.parse(req.url)
 
-    config.set('access_token', token, function(err) {
-      if (err) throw err
-      if (loginWindow) loginWindow.close()
-      initialize()
-    })
+    switch (uri.host) {
+      case 'oauth':
+        if (uri.pathname !== '/callback') return;
+
+        // parse access token
+        var hash  = uri.hash.substr(1)
+        var token = querystring.parse(hash).access_token
+
+        config.set('access_token', token, function(err) {
+          if (err) throw err
+          if (loginWindow) loginWindow.close()
+          initialize()
+        })
+        break
+
+      case 'logout':
+        config.set('access_token', null, function(err) {
+          if (err) throw err
+          doLogin()
+        })
+        break
+    }
 
   })
 
@@ -86,7 +103,7 @@ mb.on('ready', function() {
     if (err)
       throw err
 
-    if (typeof value !== 'undefined')
+    if (typeof value !== 'undefined' && value !== null)
       initialize()
     else
       doLogin()
