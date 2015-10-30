@@ -24,7 +24,7 @@ var debug = process.env.NODE_ENV === 'development'
 /**
  * Window references
  */
-var debugWindow = null
+var debugWindow, loginWindow
 
 mb.on('ready', function() {
 
@@ -39,7 +39,13 @@ mb.on('ready', function() {
     })
 
   function doLogin() {
-    mb.window.loadUrl('https://soundcloud.com/connect?client_id=f17c1d67b83c86194fad2b1948061c9e&response_type=token&scope=non-expiring&display=next&redirect_uri=cumulus://oauth/callback')
+    loginWindow = new BrowserWindow({
+      width: 400,
+      height: 500,
+      resizable: false,
+      'node-integration': false
+    })
+    loginWindow.loadUrl('https://soundcloud.com/connect?client_id=f17c1d67b83c86194fad2b1948061c9e&response_type=token&scope=non-expiring&display=next&redirect_uri=cumulus://oauth/callback')
   }
 
   function initialize() {
@@ -68,10 +74,9 @@ mb.on('ready', function() {
     var token = querystring.parse(hash).access_token
 
     config.set('access_token', token, function(err) {
-      if (err)
-        throw err
-      else
-        initialize()
+      if (err) throw err
+      if (loginWindow) loginWindow.close()
+      initialize()
     })
 
   })
