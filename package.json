@@ -28,6 +28,11 @@
       "envify"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gillesdemey/Cumulus"
+  },
+  "license": "MIT",
   "dependencies": {
     "classnames": "^1.2.2",
     "lodash": "^3.8.0",
