@@ -120,6 +120,11 @@ SoundCloud.prototype.fetchFeed = function(options) {
       future_href = resp.next_href
       return resp.collection
     })
+    // filter out items with no origin (track-repost)
+    .reduce(function(tracks, item) {
+      if (item.origin) tracks.push(item)
+      return tracks
+    }, [])
     .map(function(item) {
       return item.origin
     })
