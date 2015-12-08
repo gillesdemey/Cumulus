@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "grunt",
-    "build-osx": "grunt build:osx && cp ./cumulus.icns dist/Cumulus.app/Contents/Resources/atom.icns"
+    "build:osx": "grunt build:osx && cp ./cumulus.icns dist/Cumulus.app/Contents/Resources/atom.icns && npm run package:osx",
+    "package:osx": "zip -r -X dist/Cumulus-$npm_package_version-osx.zip dist/Cumulus.app"
   },
   "devDependencies": {
     "browserify": "^10.0.0",
