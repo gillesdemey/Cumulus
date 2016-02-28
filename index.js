@@ -39,7 +39,7 @@ mb.on('ready', function() {
       'node-integration': false
     })
     loginWindow.on('close', App.quit)
-    loginWindow.loadUrl('https://soundcloud.com/connect?client_id=f17c1d67b83c86194fad2b1948061c9e&response_type=token&scope=non-expiring&display=next&redirect_uri=cumulus://oauth/callback')
+    loginWindow.loadURL('https://soundcloud.com/connect?client_id=f17c1d67b83c86194fad2b1948061c9e&response_type=token&scope=non-expiring&display=next&redirect_uri=cumulus://oauth/callback')
   }
 
   function initialize() {
@@ -54,7 +54,7 @@ mb.on('ready', function() {
     }
 
     mb.window.setResizable(true)
-    mb.window.loadUrl('file://' + __dirname + '/app/index.html')
+    mb.window.loadURL('file://' + __dirname + '/app/index.html')
     mb.window.on('focus', function() { _sendWindowEvent('focus') })
     if (debug) {
       mb.window.openDevTools()
