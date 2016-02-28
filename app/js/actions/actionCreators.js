@@ -1,5 +1,7 @@
 'use strict';
 
+var ipc              = window.require('electron').ipcRenderer
+
 var McFly            = require('../utils/mcfly')
 var SoundCloud       = require('../utils/soundcloud')
 
@@ -7,7 +9,7 @@ var CurrenTrackStore = require('../stores/currentTrackStore')
 
 var actions
 
-window.require('ipc').on('GlobalShortcuts', function(accelerator) {
+ipc.on('GlobalShortcuts', function(sender, accelerator) {
   switch (accelerator) {
 
     case 'MediaPlayPause':
@@ -29,7 +31,7 @@ window.require('ipc').on('GlobalShortcuts', function(accelerator) {
 
 })
 
-window.require('ipc').on('WindowEvent', function(name) {
+ipc.on('WindowEvent', function(name) {
   switch (name) {
     case 'focus':
       actions.sendWindowFocus()
