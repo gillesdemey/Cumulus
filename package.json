@@ -1,7 +1,7 @@
 {
   "name": "Cumulus",
   "description": "A SoundCloud player that lives in your menubar",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "main": "index.js",
   "scripts": {
     "start": "grunt",
