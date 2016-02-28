@@ -31,14 +31,6 @@ mb.on('ready', function() {
 
   Menu.setApplicationMenu(require('./lib/menu'));
 
-  if (debug)
-    debugWindow = new BrowserWindow({
-      width  : 995,
-      height : 600,
-      type   : 'desktop',
-      frame  : true
-    })
-
   function doLogin() {
     loginWindow = new BrowserWindow({
       width: 400,
@@ -51,18 +43,22 @@ mb.on('ready', function() {
   }
 
   function initialize() {
-
-    if (debug) {
-      debugWindow.openDevTools()
-      debugWindow.loadUrl('file://' + __dirname + '/app/index.html')
+    if (!debug) {
+      mb.window.setSize(320, 500)
+      mb.window.setMaximumSize(320, 600)
+      mb.window.setMinimumSize(320, 400)
+    } else {
+      mb.window.setSize(620, 700)
+      mb.window.setMaximumSize(1220, 800)
+      mb.window.setMinimumSize(620, 600)
     }
 
-    mb.window.setSize(320, 500)
-    mb.window.setMaximumSize(320, 600)
-    mb.window.setMinimumSize(320, 400)
     mb.window.setResizable(true)
     mb.window.loadUrl('file://' + __dirname + '/app/index.html')
     mb.window.on('focus', function() { _sendWindowEvent('focus') })
+    if (debug) {
+      mb.window.openDevTools()
+    }
   }
 
   /**
