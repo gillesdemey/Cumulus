@@ -183,16 +183,18 @@ actions = McFly.createActions({
   fetchPlaylists: function() {
     return SoundCloud.fetchPlaylists()
       .then(function(playlists) {
-        return {
-          'actionType' : 'LOADED_PLAYLISTS',
-          'playlists'  : playlists
-        }
+        return SoundCloud.fetchPlaylistLikes()
+          .then(function(likes) {
+            return {
+              'actionType' : 'LOADED_PLAYLISTS',
+              'playlists'  : playlists.concat(likes)
+            }
+          })
       })
       .catch(function(ex) {
         console.error(ex)
       })
   },
-
 })
 
 module.exports = actions
