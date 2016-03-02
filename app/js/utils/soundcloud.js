@@ -158,6 +158,22 @@ SoundCloud.prototype.fetchPlaylists = function() {
     })
 }
 
+SoundCloud.prototype.fetchPlaylistLikes = function() {
+  return this.makeRequest('e1/me/playlist_likes')
+    .then()
+    .bind(this)
+    .map(function(resp) {
+      return resp.playlist
+    })
+    .map(this._mapTrack)
+    .map(function(playlist) {
+      playlist.tracks = _.map(playlist.tracks, function(track) {
+        return this._mapTrack(track)
+      }.bind(this))
+      return playlist
+    })
+}
+
 SoundCloud.prototype.expandPlaylist = function(playlist) {
   if (!playlist.hasOwnProperty('tracks_uri') || playlist.kind !== 'playlist')
     return
