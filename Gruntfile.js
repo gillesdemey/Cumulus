@@ -70,7 +70,7 @@ module.exports = function(grunt) {
           version         : '0.36.9',
           platform        : 'darwin',
           arch            : 'x64',
-          // ignore          : 'node_modules/',
+          prune           : true,
           'app-version'   : packageJson.version,
           'app-bundle-id' : 'com.gillesdemey.cumulus'
         }
