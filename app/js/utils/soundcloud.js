@@ -134,6 +134,7 @@ SoundCloud.prototype.fetchFeed = function(options) {
       else if (item.kind === 'track')
         return self._mapTrack(item)
     })
+    .then(rejectEmptyPlaylists)
     .then(function(tracks) {
       // SoundCloud activities can return multiple of the same track
       tracks = _.uniq(tracks, 'id')
@@ -156,6 +157,7 @@ SoundCloud.prototype.fetchPlaylists = function() {
       }.bind(this))
       return playlist
     })
+    .then(rejectEmptyPlaylists)
 }
 
 SoundCloud.prototype.fetchPlaylistLikes = function() {
@@ -172,6 +174,7 @@ SoundCloud.prototype.fetchPlaylistLikes = function() {
       }.bind(this))
       return playlist
     })
+    .then(rejectEmptyPlaylists)
 }
 
 SoundCloud.prototype.expandPlaylist = function(playlist) {
@@ -201,6 +204,17 @@ SoundCloud.prototype.toggleLikeTrack = function(track) {
 function _artworkFormat(url, size) {
   size = size || 't300x300';
   return url.replace('-large', '-' + size);
+}
+
+/**
+ * reject playlists with 0 tracks, maybe some sort of DRM?
+ *
+ * fixes https://github.com/gillesdemey/Cumulus/issues/42
+ */
+function rejectEmptyPlaylists(playlists) {
+  return _.reject(playlists, function(item) {
+    return item.kind === 'playlist' && item.tracks.length < 1;
+  });
 }
 
 module.exports = new SoundCloud();
