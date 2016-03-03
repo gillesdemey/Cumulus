@@ -36,7 +36,7 @@ SoundCloud.prototype.makeRequest = function(url, options) {
   var defaults = {
     'method'        : 'GET',
     'json'          : true,
-    'qs'            : _.defaults(options.qs || {}, {
+    'qs'            : _.defaults(options.qs || {}, {
       'client_id'   : self._clientId,
       'oauth_token' : self._token,
       'limit'       : 50
@@ -79,7 +79,7 @@ SoundCloud.prototype.fetchWaveform = function(url) {
 }
 
 SoundCloud.prototype.fetchLikes = function(options) {
-  options = options || {}
+  options = options || {}
   var self = this
 
   var next_href = options.next_href
@@ -102,7 +102,7 @@ SoundCloud.prototype.fetchLikes = function(options) {
 }
 
 SoundCloud.prototype.fetchFeed = function(options) {
-  options = options || {}
+  options = options || {}
   var self = this
 
   var future_href = options.future_href
@@ -175,7 +175,7 @@ SoundCloud.prototype.fetchPlaylistLikes = function() {
 }
 
 SoundCloud.prototype.expandPlaylist = function(playlist) {
-  if (!playlist.hasOwnProperty('tracks_uri') || playlist.kind !== 'playlist')
+  if (!playlist.hasOwnProperty('tracks_uri') || playlist.kind !== 'playlist')
     return
 
   return this.makeRequest(playlist.tracks_uri)
