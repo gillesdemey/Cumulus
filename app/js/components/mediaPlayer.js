@@ -29,6 +29,7 @@ var MediaPlayer = React.createClass({
 
     menu.append(new MenuItem({ label : 'Cumulus v' + pjson.version, enabled : false }));
     menu.append(new MenuItem({ label : 'Report a bug...', click : this.report }));
+    menu.append(new MenuItem({ label : 'Check for updates...', click : this.update }));
     menu.append(new MenuItem({ type  : 'separator' }));
     menu.append(new MenuItem({ label : 'About', click : this.about }));
     menu.append(new MenuItem({ type  : 'separator' }));
@@ -127,6 +128,10 @@ var MediaPlayer = React.createClass({
 
   report: function() {
     this.openExternal(githubUrl + '/issues');
+  },
+
+  update: function() {
+    this.openExternal(githubUrl + '/releases/latest');
   },
 
   openPermalink: function() {
