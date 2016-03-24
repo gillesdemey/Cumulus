@@ -13,8 +13,9 @@ var _audio = new Audio() // Current audio element
 function _showNotification(track) {
   if (document.visibilityState !== 'hidden') return
   new window.Notification(track.user.username, {
-    body : track.title,
-    icon : track.artwork_url,
+    body   : track.title,
+    icon   : track.artwork_url,
+    silent : true
   })
 }
 
