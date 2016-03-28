@@ -17,7 +17,6 @@ GitHub.prototype.getRepoUrl = function() {
 GitHub.prototype.checkForUpdates = function() {
   return this.getLatestRelease().then(function(response) {
     var tag = response.tag_name.replace(/v/g, '')
-    tag = 'invalid'
 
     if(pjson.version == tag) {
       return Promise.resolve('Cumulus is currently up-to-date with the most recent version.')
