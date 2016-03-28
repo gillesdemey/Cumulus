@@ -5,13 +5,15 @@ var Actions           = require('../actions/actionCreators')
 var CurrentTrackStore = require('../stores/currentTrackStore')
 
 var time              = require('../utils/time')
+var github            = require('../utils/github')
 var classNames        = require('classnames')
 var _                 = require('lodash')
 
-var remote            = window.require('remote');
-var Menu              = remote.require('menu');
-var MenuItem          = remote.require('menu-item');
-var pjson             = remote.require('./package.json');
+var remote            = window.require('remote')
+var Menu              = remote.require('menu')
+var MenuItem          = remote.require('menu-item')
+var pjson             = remote.require('./package.json')
+var dialog            = remote.require('dialog');
 
 function getStateFromStores() {
   return {
@@ -19,8 +21,6 @@ function getStateFromStores() {
     'audio'      : CurrentTrackStore.getAudio(),
   }
 }
-
-var githubUrl = 'http://github.com/gillesdemey/Cumulus';
 
 var MediaPlayer = React.createClass({
 
@@ -123,15 +123,34 @@ var MediaPlayer = React.createClass({
   },
 
   about: function() {
-    this.openExternal(githubUrl);
+    this.openExternal(github.getRepoUrl());
   },
 
   report: function() {
-    this.openExternal(githubUrl + '/issues');
+    this.openExternal(github.getRepoUrl() + '/issues');
   },
 
   update: function() {
-    this.openExternal(githubUrl + '/releases/latest');
+    github.checkForUpdates().then(function(upToDateMessage) {
+      // cumulus is up-to-date
+      var options = {
+        message: upToDateMessage,
+        buttons: ["OK"]
+      }
+
+      dialog.showMessageBox(options);
+    }, function(outdatedMessage) {
+      var options = {
+        message: outdatedMessage,
+        buttons: ["Download latest version", "Cancel"]
+      }
+
+      dialog.showMessageBox(options, function(buttonId) {
+        if(buttonId === 0) {
+          remote.require('shell').openExternal(github.getRepoUrl() + '/releases/latest')
+        }
+      })
+    })
   },
 
   openPermalink: function() {
