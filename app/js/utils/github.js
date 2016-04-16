@@ -19,9 +19,9 @@ GitHub.prototype.checkForUpdates = function() {
     var tag = response.tag_name.replace(/v/g, '')
 
     if(pjson.version == tag) {
-      return Promise.resolve('Cumulus is currently up-to-date with the most recent version.')
+      return Promise.resolve('Cumulus is currently up-to-date.')
     } else {
-      return Promise.reject('Cumulus is currently not up-to-date.')
+      return Promise.reject('A new version of Cumulus is available.')
     }
   }, function(error) {
     return Promise.reject('Cumulus was not able to check version information.');
