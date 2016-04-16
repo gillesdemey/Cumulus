@@ -5,13 +5,17 @@ var Actions           = require('../actions/actionCreators')
 var CurrentTrackStore = require('../stores/currentTrackStore')
 
 var time              = require('../utils/time')
+var github            = require('../utils/github')
 var classNames        = require('classnames')
 var _                 = require('lodash')
 
-var remote            = window.require('remote');
-var Menu              = remote.require('menu');
-var MenuItem          = remote.require('menu-item');
-var pjson             = remote.require('./package.json');
+var remote            = window.require('remote')
+var Menu              = remote.require('menu')
+var MenuItem          = remote.require('menu-item')
+var pjson             = remote.require('./package.json')
+var app               = remote.require('app')
+var dialog            = remote.require('dialog');
+var icon              = remote.nativeImage.createFromPath(app.getAppPath() + '/cumulus.png');
 
 function getStateFromStores() {
   return {
@@ -20,8 +24,6 @@ function getStateFromStores() {
   }
 }
 
-var githubUrl = 'http://github.com/gillesdemey/Cumulus';
-
 var MediaPlayer = React.createClass({
 
   menu: function() {
@@ -29,6 +31,7 @@ var MediaPlayer = React.createClass({
 
     menu.append(new MenuItem({ label : 'Cumulus v' + pjson.version, enabled : false }));
     menu.append(new MenuItem({ label : 'Report a bug...', click : this.report }));
+    menu.append(new MenuItem({ label : 'Check for updates...', click : this.update }));
     menu.append(new MenuItem({ type  : 'separator' }));
     menu.append(new MenuItem({ label : 'About', click : this.about }));
     menu.append(new MenuItem({ type  : 'separator' }));
@@ -122,11 +125,36 @@ var MediaPlayer = React.createClass({
   },
 
   about: function() {
-    this.openExternal(githubUrl);
+    this.openExternal(github.getRepoUrl());
   },
 
   report: function() {
-    this.openExternal(githubUrl + '/issues');
+    this.openExternal(github.getRepoUrl() + '/issues');
+  },
+
+  update: function() {
+    github.checkForUpdates().then(function(upToDateMessage) {
+      // cumulus is up-to-date
+      var options = {
+        icon: icon,
+        message: upToDateMessage,
+        buttons: ["OK"]
+      }
+
+      dialog.showMessageBox(options);
+    }, function(outdatedMessage) {
+      var options = {
+        icon: icon,
+        message: outdatedMessage,
+        buttons: ["Download latest version", "Cancel"]
+      }
+
+      dialog.showMessageBox(options, function(buttonId) {
+        if(buttonId === 0) {
+          remote.require('shell').openExternal(github.getRepoUrl() + '/releases/latest')
+        }
+      })
+    })
   },
 
   openPermalink: function() {
