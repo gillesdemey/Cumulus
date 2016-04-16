@@ -13,7 +13,9 @@ var remote            = window.require('remote')
 var Menu              = remote.require('menu')
 var MenuItem          = remote.require('menu-item')
 var pjson             = remote.require('./package.json')
+var app               = remote.require('app')
 var dialog            = remote.require('dialog');
+var icon              = remote.nativeImage.createFromPath(app.getAppPath() + '/cumulus.png');
 
 function getStateFromStores() {
   return {
@@ -134,6 +136,7 @@ var MediaPlayer = React.createClass({
     github.checkForUpdates().then(function(upToDateMessage) {
       // cumulus is up-to-date
       var options = {
+        icon: icon,
         message: upToDateMessage,
         buttons: ["OK"]
       }
@@ -141,6 +144,7 @@ var MediaPlayer = React.createClass({
       dialog.showMessageBox(options);
     }, function(outdatedMessage) {
       var options = {
+        icon: icon,
         message: outdatedMessage,
         buttons: ["Download latest version", "Cancel"]
       }
