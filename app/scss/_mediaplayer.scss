@@ -63,7 +63,7 @@
       margin-top: 8px;
     }
 
-    .meta__favorite, .meta__settings {
+    .meta__favorite, .meta__settings, .icon__toggle {
       font-size: 16px;
     }
 
@@ -118,8 +118,25 @@
   height: 0;
 }
 
+.controls__volume {
+  display: flex;
+
+  width: 25%;
+  height: 28px;
+  line-height: 28px;
+
+  position: absolute;
+  left: 10px;
+}
+
+.volume__icon button.icon__toggle {
+  width: initial;
+  margin: 0;
+}
+
 .controls__timeline .timeline__current,
-.controls__timeline .timeline__duration {
+.controls__timeline .timeline__duration,
+.controls__volume .volume__value {
   font-size: 11px;
 
   width: auto;
@@ -132,7 +149,8 @@
   -webkit-user-select: none;
 }
 
-.controls__timeline .timeline__seeker {
+.controls__timeline .timeline__seeker,
+.controls__volume .volume__seeker {
   width: 100%;
   height: 100%;
 
@@ -140,7 +158,12 @@
   flex: 1;
 }
 
-.timeline__seeker .seeker__wrapper {
+.controls__volume .volume__seeker {
+  padding: 0 0 0 5px;
+}
+
+.timeline__seeker .seeker__wrapper,
+.volume__seeker .volume__wrapper {
   position: relative;
   padding: 10px 0;
 
@@ -151,7 +174,8 @@
   cursor: pointer;
 }
 
-.timeline__seeker .seeker__progress-bar {
+.timeline__seeker .seeker__progress-bar,
+.volume__seeker .volume__progress-bar {
   -webkit-appearance: none;
   position: absolute;
 
@@ -159,16 +183,19 @@
   height: 2px;
 }
 
-.seeker__progress-bar::-webkit-progress-bar {
+.seeker__progress-bar::-webkit-progress-bar,
+.volume__progress-bar::-webkit-progress-bar {
   background-color: rgba(#C1C1C1, .85);
 }
 
-.seeker__progress-bar::-webkit-progress-value {
+.seeker__progress-bar::-webkit-progress-value,
+.volume__progress-bar::-webkit-progress-value {
   background-color: #f50;
   transition: all 200ms;
 }
 
-.seeker__progress-bar::-webkit-progress-value::after {
+.seeker__progress-bar::-webkit-progress-value::after,
+.volume__progress-bar::-webkit-progress-value::after {
   content: '';
   position: relative;
 

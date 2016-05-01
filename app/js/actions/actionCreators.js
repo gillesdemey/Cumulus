@@ -101,6 +101,13 @@ actions = McFly.createActions({
     }
   },
 
+  setVolume: function(volume) {
+    return {
+      'actionType' : 'SET_VOLUME',
+      'volume'     : volume
+    }
+  },
+
   likeTrack: function(track) {
     return SoundCloud.toggleLikeTrack(track)
       .then(function() {

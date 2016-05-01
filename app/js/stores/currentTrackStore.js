@@ -65,6 +65,10 @@ function _previousTrack() {
   _play(previousTrack)
 }
 
+function _setVolume (volume) {
+  _audio.volume = volume
+}
+
 function _toggleLikeTrack(track) {
   _track.user_favorite = !track.user_favorite
 }
@@ -123,6 +127,10 @@ TrackStore = McFly.createStore({
 
     case 'SEEK_TRACK':
       _seek(payload.time)
+      break
+
+    case 'SET_VOLUME':
+      _setVolume(payload.volume)
       break
 
     case 'NEXT_TRACK':
