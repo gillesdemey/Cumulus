@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "grunt",
-    "build:osx": "grunt build:osx && cp ./cumulus.icns dist/Cumulus.app/Contents/Resources/atom.icns && npm run package:osx",
+    "build:osx": "grunt build:osx && cp ./cumulus.icns dist/Cumulus.app/Contents/Resources/electron.icns && npm run package:osx",
     "package:osx": "hdiutil create -format UDZO -volname Cumulus -srcfolder dist dist/Cumulus-$npm_package_version-osx.dmg"
   },
   "devDependencies": {
