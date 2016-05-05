@@ -4,27 +4,28 @@ var remote            = window.require('remote');
 var pjson             = remote.require('./package.json');
 var rp                = window.require('request-promise')
 var _                 = require('lodash')
+var semver            = require('semver')
 
-var GitHub = function(options) {
+var GitHub = function() {
   this._repo       = 'http://github.com/gillesdemey/Cumulus'
   this._endpoint   = 'https://api.github.com/repos/gillesdemey/cumulus'
 }
 
 GitHub.prototype.getRepoUrl = function() {
-  return this._repo;
+  return this._repo
 }
 
 GitHub.prototype.checkForUpdates = function() {
   return this.getLatestRelease().then(function(response) {
-    var tag = response.tag_name.replace(/v/g, '')
+    var tag = semver.clean(response.tag_name)
 
-    if(pjson.version == tag) {
-      return Promise.resolve('Cumulus is currently up-to-date.')
-    } else {
+    if (semver.lt(pjson.version, tag)) {
       return Promise.reject('A new version of Cumulus is available.')
+    } else {
+      return Promise.resolve('Cumulus is currently up-to-date.')
     }
   }, function(error) {
-    return Promise.reject('Cumulus was not able to check version information.');
+    return Promise.reject('Cumulus was not able to check version information.')
   })
 }
 
@@ -37,7 +38,7 @@ GitHub.prototype.getLatestRelease = function() {
     },
   }
 
-  return rp(options);
+  return rp(options)
 }
 
-module.exports = new GitHub();
+module.exports = new GitHub()

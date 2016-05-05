@@ -42,6 +42,7 @@
     "moment": "^2.10.3",
     "react": "^0.13.2",
     "react-router": "^0.13.3",
-    "request-promise": "^0.4.2"
+    "request-promise": "^0.4.2",
+    "semver": "^5.1.0"
   }
 }
