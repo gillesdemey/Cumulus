@@ -9,18 +9,18 @@
     "package:osx": "hdiutil create -format UDZO -volname Cumulus -srcfolder dist dist/Cumulus-$npm_package_version-osx.dmg"
   },
   "devDependencies": {
-    "browserify": "^10.0.0",
+    "browserify": "^13.0.0",
     "envify": "^3.4.0",
-    "grunt": "^0.4.5",
-    "grunt-browserify": "^4.0.0",
-    "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-watch": "^0.6.1",
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
     "grunt-electron": "^1.0.0",
     "grunt-env": "^0.4.4",
-    "grunt-sass": "^1.0.0",
-    "reactify": "^1.1.0",
+    "grunt-sass": "^1.2.0",
+    "reactify": "^1.1.1",
     "uglify-js": "^2.4.20",
-    "watchify": "^3.2.1"
+    "watchify": "^3.7.0"
   },
   "author": "Gilles De Mey <gilles.de.mey@gmail.com>",
   "browserify": {
