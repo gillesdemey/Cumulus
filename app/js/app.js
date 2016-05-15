@@ -1,6 +1,6 @@
 'use strict';
 
-var Remote          = window.require('remote');
+var Remote          = window.require('electron').remote; // hack for browserify
 
 var React           = require('react');
 var Router          = require('react-router');

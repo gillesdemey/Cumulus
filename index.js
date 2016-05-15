@@ -1,9 +1,10 @@
 'use strict';
 
-var App            = require('app')
-var BrowserWindow  = require('browser-window')
-var globalShortcut = require('global-shortcut')
-var Menu           = require('menu')
+var electron       = require('electron')
+var App            = electron.app
+var BrowserWindow  = electron.BrowserWindow
+var globalShortcut = electron.globalShortcut
+var Menu           = electron.Menu
 
 var url            = require('url')
 var querystring    = require('querystring')
@@ -64,7 +65,7 @@ mb.on('ready', function() {
   /**
    * register Cumulus protocol
    */
-  var protocol = require('protocol')
+  var protocol = electron.protocol
   protocol.registerHttpProtocol('cumulus', function(req) {
 
     var uri = url.parse(req.url)

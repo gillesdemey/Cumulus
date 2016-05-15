@@ -9,12 +9,14 @@ var github            = require('../utils/github')
 var classNames        = require('classnames')
 var _                 = require('lodash')
 
-var remote            = window.require('remote')
-var Menu              = remote.require('menu')
-var MenuItem          = remote.require('menu-item')
-var pjson             = remote.require('./package.json')
-var app               = remote.require('app')
-var dialog            = remote.require('dialog');
+var electron          = window.require('electron')
+var shell             = electron.shell
+var remote            = electron.remote; // hack for browserify
+var Menu              = remote.Menu
+var MenuItem          = remote.MenuItem
+var pjson             = remote.require('./package.json') // based on index.js directory
+var app               = remote.app
+var dialog            = remote.dialog
 var icon              = remote.nativeImage.createFromPath(app.getAppPath() + '/cumulus.png');
 
 function getStateFromStores() {
@@ -121,7 +123,7 @@ var MediaPlayer = React.createClass({
   },
 
   openExternal: function(url) {
-    remote.require('shell').openExternal(url)
+    shell.openExternal(url)
   },
 
   about: function() {
@@ -151,7 +153,7 @@ var MediaPlayer = React.createClass({
 
       dialog.showMessageBox(options, function(buttonId) {
         if(buttonId === 0) {
-          remote.require('shell').openExternal(github.getRepoUrl() + '/releases/latest')
+          shell.openExternal(github.getRepoUrl() + '/releases/latest')
         }
       })
     })
@@ -170,7 +172,7 @@ var MediaPlayer = React.createClass({
   },
 
   quit: function() {
-    remote.require('app').quit()
+    remote.app.quit()
   },
 
   render: function() {
