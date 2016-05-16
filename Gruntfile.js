@@ -20,7 +20,7 @@ module.exports = function(grunt) {
       dist : { 'NODE_ENV' : 'production' }
     },
     clean: {
-      dist: ['dist/*'],
+      dist: ['dist/'],
     },
     browserify: {
       options: {
@@ -63,7 +63,7 @@ module.exports = function(grunt) {
     electron: {
       osx: {
         options: {
-          name            : 'Cumulus',
+          appname         : 'Cumulus',
           dir             : '.',
           out             : 'dist',
           icon            : 'cumulus.icns',

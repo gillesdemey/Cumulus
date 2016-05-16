@@ -1,12 +1,12 @@
 {
   "name": "Cumulus",
   "description": "A SoundCloud player that lives in your menubar",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "main": "index.js",
   "scripts": {
     "start": "grunt",
-    "build:osx": "grunt build:osx && cp ./cumulus.icns dist/Cumulus.app/Contents/Resources/electron.icns && npm run package:osx",
-    "package:osx": "hdiutil create -format UDZO -volname Cumulus -srcfolder dist dist/Cumulus-$npm_package_version-osx.dmg"
+    "build:osx": "grunt build:osx && npm run package:osx",
+    "package:osx": "hdiutil create -format UDZO -volname Cumulus -srcfolder dist/Cumulus-darwin-x64 dist/Cumulus-$npm_package_version-osx.dmg"
   },
   "devDependencies": {
     "browserify": "^13.0.0",
@@ -15,7 +15,7 @@
     "grunt-browserify": "^5.0.0",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-electron": "^1.0.0",
+    "grunt-electron": "^4.0.0",
     "grunt-env": "^0.4.4",
     "grunt-sass": "^1.2.0",
     "reactify": "^1.1.1",
