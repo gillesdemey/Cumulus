@@ -1,6 +1,6 @@
 'use strict';
 
-var remote            = window.require('remote');
+var remote            = window.require('electron').remote; // hack for browserify
 var pjson             = remote.require('./package.json');
 var rp                = window.require('request-promise')
 var _                 = require('lodash')
