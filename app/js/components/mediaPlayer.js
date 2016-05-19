@@ -115,9 +115,7 @@ var MediaPlayer = React.createClass({
   },
 
   setVolume: function (event) {
-    var boundingRect = event.currentTarget.getBoundingClientRect()
-
-    var volume = (event.pageX - boundingRect.left) / boundingRect.width
+    var volume = event.target.value
 
     this.setState({
       lastVolume: this.state.audio.volume,
@@ -287,12 +285,17 @@ var MediaPlayer = React.createClass({
               </div>
 
               <div className="volume__seeker" title={volume}>
-                <div className="volume__wrapper" onClick={this.setVolume} onWheel={this.setVolumeWithWheel}>
-                  <progress
-                    className="volume__progress-bar"
-                    value={ this.state.audio.volume }
-                  />
-                </div>
+                <input
+                  type="range"
+                  name="volume"
+                  id="volume-controller"
+                  min={0}
+                  step={0.025}
+                  max={1}
+                  value={this.state.audio.volume}
+                  onChange={this.setVolume}
+                  onWheel={this.setVolumeWithWheel}
+                />
               </div>
 
               {/*
