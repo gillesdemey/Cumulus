@@ -27,6 +27,10 @@ ipc.on('GlobalShortcuts', function(sender, accelerator) {
       actions.nextTrack()
       break
 
+    case 'SoundCloudLikeTrack':
+      actions.likeTrack(CurrenTrackStore.getTrack())
+      break
+
   }
 
 })
