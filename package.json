@@ -1,26 +1,26 @@
 {
   "name": "Cumulus",
   "description": "A SoundCloud player that lives in your menubar",
-  "version": "0.5.4",
+  "version": "0.7.2",
   "main": "index.js",
   "scripts": {
     "start": "grunt",
-    "build:osx": "grunt build:osx && cp ./cumulus.icns dist/Cumulus.app/Contents/Resources/atom.icns && npm run package:osx",
-    "package:osx": "zip -r -X dist/Cumulus-$npm_package_version-osx.zip dist/Cumulus.app"
+    "build:osx": "grunt build:osx && npm run package:osx",
+    "package:osx": "hdiutil create -format UDZO -volname Cumulus -srcfolder dist/Cumulus-darwin-x64 dist/Cumulus-$npm_package_version-osx.dmg"
   },
   "devDependencies": {
-    "browserify": "^10.0.0",
+    "browserify": "^13.0.0",
     "envify": "^3.4.0",
-    "grunt": "^0.4.5",
-    "grunt-browserify": "^4.0.0",
-    "grunt-contrib-clean": "^0.6.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-electron": "^1.0.0",
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-electron": "^4.0.0",
     "grunt-env": "^0.4.4",
-    "grunt-sass": "^1.0.0",
-    "reactify": "^1.1.0",
+    "grunt-sass": "^1.2.0",
+    "reactify": "^1.1.1",
     "uglify-js": "^2.4.20",
-    "watchify": "^3.2.1"
+    "watchify": "^3.7.0"
   },
   "author": "Gilles De Mey <gilles.de.mey@gmail.com>",
   "browserify": {
@@ -38,10 +38,11 @@
     "classnames": "^1.2.2",
     "lodash": "^3.8.0",
     "mcfly": "0.0.10",
-    "menubar": "^2.0.13",
+    "menubar": "^4.1.1",
     "moment": "^2.10.3",
     "react": "^0.13.2",
     "react-router": "^0.13.3",
-    "request-promise": "^0.4.2"
+    "request-promise": "^0.4.2",
+    "semver": "^5.1.0"
   }
 }

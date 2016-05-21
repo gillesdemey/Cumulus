@@ -36,7 +36,7 @@ SoundCloud.prototype.makeRequest = function(url, options) {
   var defaults = {
     'method'        : 'GET',
     'json'          : true,
-    'qs'            : _.defaults(options.qs || {}, {
+    'qs'            : _.defaults(options.qs || {}, {
       'client_id'   : self._clientId,
       'oauth_token' : self._token,
       'limit'       : 50
@@ -79,7 +79,7 @@ SoundCloud.prototype.fetchWaveform = function(url) {
 }
 
 SoundCloud.prototype.fetchLikes = function(options) {
-  options = options || {}
+  options = options || {}
   var self = this
 
   var next_href = options.next_href
@@ -102,7 +102,7 @@ SoundCloud.prototype.fetchLikes = function(options) {
 }
 
 SoundCloud.prototype.fetchFeed = function(options) {
-  options = options || {}
+  options = options || {}
   var self = this
 
   var future_href = options.future_href
@@ -134,6 +134,7 @@ SoundCloud.prototype.fetchFeed = function(options) {
       else if (item.kind === 'track')
         return self._mapTrack(item)
     })
+    .then(rejectEmptyPlaylists)
     .then(function(tracks) {
       // SoundCloud activities can return multiple of the same track
       tracks = _.uniq(tracks, 'id')
@@ -156,10 +157,28 @@ SoundCloud.prototype.fetchPlaylists = function() {
       }.bind(this))
       return playlist
     })
+    .then(rejectEmptyPlaylists)
+}
+
+SoundCloud.prototype.fetchPlaylistLikes = function() {
+  return this.makeRequest('e1/me/playlist_likes')
+    .then()
+    .bind(this)
+    .map(function(resp) {
+      return resp.playlist
+    })
+    .map(this._mapTrack)
+    .map(function(playlist) {
+      playlist.tracks = _.map(playlist.tracks, function(track) {
+        return this._mapTrack(track)
+      }.bind(this))
+      return playlist
+    })
+    .then(rejectEmptyPlaylists)
 }
 
 SoundCloud.prototype.expandPlaylist = function(playlist) {
-  if (!playlist.hasOwnProperty('tracks_uri') || playlist.kind !== 'playlist')
+  if (!playlist.hasOwnProperty('tracks_uri') || playlist.kind !== 'playlist')
     return
 
   return this.makeRequest(playlist.tracks_uri)
@@ -185,6 +204,17 @@ SoundCloud.prototype.toggleLikeTrack = function(track) {
 function _artworkFormat(url, size) {
   size = size || 't300x300';
   return url.replace('-large', '-' + size);
+}
+
+/**
+ * reject playlists with 0 tracks, maybe some sort of DRM?
+ *
+ * fixes https://github.com/gillesdemey/Cumulus/issues/42
+ */
+function rejectEmptyPlaylists(playlists) {
+  return _.reject(playlists, function(item) {
+    return item.kind === 'playlist' && item.tracks.length < 1;
+  });
 }
 
 module.exports = new SoundCloud();

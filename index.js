@@ -1,9 +1,10 @@
 'use strict';
 
-var App            = require('app')
-var BrowserWindow  = require('browser-window')
-var globalShortcut = require('global-shortcut')
-var Menu           = require('menu')
+var electron       = require('electron')
+var App            = electron.app
+var BrowserWindow  = electron.BrowserWindow
+var globalShortcut = electron.globalShortcut
+var Menu           = electron.Menu
 
 var url            = require('url')
 var querystring    = require('querystring')
@@ -31,14 +32,6 @@ mb.on('ready', function() {
 
   Menu.setApplicationMenu(require('./lib/menu'));
 
-  if (debug)
-    debugWindow = new BrowserWindow({
-      width  : 995,
-      height : 600,
-      type   : 'desktop',
-      frame  : true
-    })
-
   function doLogin() {
     loginWindow = new BrowserWindow({
       width: 400,
@@ -47,28 +40,32 @@ mb.on('ready', function() {
       'node-integration': false
     })
     loginWindow.on('close', App.quit)
-    loginWindow.loadUrl('https://soundcloud.com/connect?client_id=f17c1d67b83c86194fad2b1948061c9e&response_type=token&scope=non-expiring&display=next&redirect_uri=cumulus://oauth/callback')
+    loginWindow.loadURL('https://soundcloud.com/connect?client_id=f17c1d67b83c86194fad2b1948061c9e&response_type=token&scope=non-expiring&display=next&redirect_uri=cumulus://oauth/callback')
   }
 
   function initialize() {
-
-    if (debug) {
-      debugWindow.openDevTools()
-      debugWindow.loadUrl('file://' + __dirname + '/app/index.html')
+    if (!debug) {
+      mb.window.setSize(320, 500)
+      mb.window.setMaximumSize(320, 600)
+      mb.window.setMinimumSize(320, 400)
+    } else {
+      mb.window.setSize(620, 700)
+      mb.window.setMaximumSize(1220, 800)
+      mb.window.setMinimumSize(620, 600)
     }
 
-    mb.window.setSize(320, 500)
-    mb.window.setMaximumSize(320, 600)
-    mb.window.setMinimumSize(320, 400)
     mb.window.setResizable(true)
-    mb.window.loadUrl('file://' + __dirname + '/app/index.html')
+    mb.window.loadURL('file://' + __dirname + '/app/index.html')
     mb.window.on('focus', function() { _sendWindowEvent('focus') })
+    if (debug) {
+      mb.window.openDevTools()
+    }
   }
 
   /**
    * register Cumulus protocol
    */
-  var protocol = require('protocol')
+  var protocol = electron.protocol
   protocol.registerHttpProtocol('cumulus', function(req) {
 
     var uri = url.parse(req.url)

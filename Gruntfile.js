@@ -20,7 +20,7 @@ module.exports = function(grunt) {
       dist : { 'NODE_ENV' : 'production' }
     },
     clean: {
-      dist: ['dist/*'],
+      dist: ['dist/'],
     },
     browserify: {
       options: {
@@ -63,14 +63,14 @@ module.exports = function(grunt) {
     electron: {
       osx: {
         options: {
-          name            : 'Cumulus',
+          appname         : 'Cumulus',
           dir             : '.',
           out             : 'dist',
           icon            : 'cumulus.icns',
-          version         : '0.34.0',
+          version         : '1.1.0',
           platform        : 'darwin',
           arch            : 'x64',
-          // ignore          : 'node_modules/',
+          prune           : true,
           'app-version'   : packageJson.version,
           'app-bundle-id' : 'com.gillesdemey.cumulus'
         }
