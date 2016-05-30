@@ -131,4 +131,9 @@ mb.on('ready', function() {
     _sendGlobalShortcut('MediaPreviousTrack')
   })
 
+  globalShortcut.register('CommandOrControl+Alt+L', () => {
+    _sendGlobalShortcut('SoundCloudLikeTrack')
+  })
+
+
 })
