@@ -24,6 +24,8 @@ function getStateFromStores() {
   }
 }
 
+var volumeChangeStep = 0.025
+
 var MediaPlayer = React.createClass({
 
   menu: function() {
@@ -115,7 +117,7 @@ var MediaPlayer = React.createClass({
   },
 
   setVolume: function (event) {
-    var volume = event.target.value
+    var volume = +event.target.value
 
     this.setState({
       lastVolume: this.state.audio.volume,
@@ -125,18 +127,24 @@ var MediaPlayer = React.createClass({
   },
 
   setVolumeWithWheel: function (event) {
-    var volume = this.state.audio.volume;
-    var newVolume = volume +
+    var volume = this.state.audio.volume
+    var newVolume = +(
+      volume +
       Math.sign(
         Math.abs(event.deltaX) >= Math.abs(event.deltaY) ? event.deltaX
           : -event.deltaY
-      ) * 0.025;
+      ) * volumeChangeStep
+    ).toFixed(3)
 
     // make sure new volume level is in range [0,1]
-    if (newVolume > 1)
+    if (newVolume > 1) {
       newVolume = 1
-    else if (newVolume < 0) {
+    } else if (newVolume < 0) {
       newVolume = 0
+    }
+
+    if (volume === newVolume) { // don't do anything if volume hasn't changed
+      return
     }
 
     this.setState({
@@ -147,9 +155,12 @@ var MediaPlayer = React.createClass({
   },
 
   toggleMute: function () {
-    if(this.state.isMuted ) { // unmute
+    if (this.state.isMuted) { // unmute
       this.setState({ isMuted: false })
       Actions.setVolume(this.state.lastVolume || 1)
+    } else if (this.state.audio.volume === 0) { // audio was not muted by clicking button but manually
+      this.setState({ isMuted: false })
+      Actions.setVolume(1)
     } else { // mute
       this.setState({
         lastVolume: this.state.audio.volume,
@@ -290,7 +301,7 @@ var MediaPlayer = React.createClass({
                   name="volume"
                   id="volume-controller"
                   min={0}
-                  step={0.025}
+                  step={volumeChangeStep}
                   max={1}
                   value={this.state.audio.volume}
                   onChange={this.setVolume}
