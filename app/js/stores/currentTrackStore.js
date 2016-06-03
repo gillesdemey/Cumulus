@@ -10,6 +10,8 @@ var TrackStore
 var _track = {}          // Current track information
 var _audio = new Audio() // Current audio element
 
+_audio.volume = +localStorage.getItem('lastVolume') || 1
+
 function _showNotification(track) {
   if (document.visibilityState !== 'hidden') return
   new window.Notification(track.user.username, {

@@ -102,6 +102,7 @@ actions = McFly.createActions({
   },
 
   setVolume: function(volume) {
+    localStorage.setItem('lastVolume', volume)
     return {
       'actionType' : 'SET_VOLUME',
       'volume'     : volume
