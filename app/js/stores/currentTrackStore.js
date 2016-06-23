@@ -10,6 +10,8 @@ var TrackStore
 var _track = {}          // Current track information
 var _audio = new Audio() // Current audio element
 
+_audio.volume = +localStorage.getItem('lastVolume') || 1
+
 function _showNotification(track) {
   if (document.visibilityState !== 'hidden') return
   new window.Notification(track.user.username, {
@@ -63,6 +65,10 @@ function _previousTrack() {
 
   if (previousTrack)
   _play(previousTrack)
+}
+
+function _setVolume (volume) {
+  _audio.volume = volume
 }
 
 function _toggleLikeTrack(track) {
@@ -123,6 +129,10 @@ TrackStore = McFly.createStore({
 
     case 'SEEK_TRACK':
       _seek(payload.time)
+      break
+
+    case 'SET_VOLUME':
+      _setVolume(payload.volume)
       break
 
     case 'NEXT_TRACK':

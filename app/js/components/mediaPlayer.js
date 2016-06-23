@@ -26,6 +26,8 @@ function getStateFromStores() {
   }
 }
 
+var volumeChangeStep = 0.025
+
 var MediaPlayer = React.createClass({
 
   menu: function() {
@@ -45,7 +47,9 @@ var MediaPlayer = React.createClass({
 
   getInitialState: function() {
     return _.merge({
-      'timeLeft' : false // "time-left" mode
+      'timeLeft'   : false, // "time-left" mode
+      'lastVolume' : 1,
+      'isMuted'    : false
     }, getStateFromStores());
   },
 
@@ -114,8 +118,62 @@ var MediaPlayer = React.createClass({
     Actions.seekTrack(time)
   },
 
-  toggleTimeLeft: function() {
-    this.setState({ 'timeLeft' : !this.state.timeLeft })
+  setVolume: function (event) {
+    var volume = +event.target.value
+
+    this.setState({
+      lastVolume: this.state.audio.volume,
+      isMuted: false
+    })
+    Actions.setVolume(volume)
+  },
+
+  setVolumeWithWheel: function (event) {
+    var volume = this.state.audio.volume
+    var newVolume = +(
+      volume +
+      Math.sign(
+        Math.abs(event.deltaX) >= Math.abs(event.deltaY) ? event.deltaX
+          : -event.deltaY
+      ) * volumeChangeStep
+    ).toFixed(3)
+
+    // make sure new volume level is in range [0,1]
+    if (newVolume > 1) {
+      newVolume = 1
+    } else if (newVolume < 0) {
+      newVolume = 0
+    }
+
+    if (volume === newVolume) { // don't do anything if volume hasn't changed
+      return
+    }
+
+    this.setState({
+      lastVolume: volume,
+      isMuted: false
+    })
+    Actions.setVolume(newVolume)
+  },
+
+  toggleMute: function () {
+    if (this.state.isMuted) { // unmute
+      this.setState({ isMuted: false })
+      Actions.setVolume(this.state.lastVolume || 1)
+    } else if (this.state.audio.volume === 0) { // audio was not muted by clicking button but manually
+      this.setState({ isMuted: false })
+      Actions.setVolume(1)
+    } else { // mute
+      this.setState({
+        lastVolume: this.state.audio.volume,
+        isMuted: !this.state.isMuted
+      })
+      Actions.setVolume(0)
+    }
+  },
+
+  toggleTimeLeft: function () {
+    this.setState({ 'timeLeft': !this.state.timeLeft })
   },
 
   settings: function() {
@@ -191,6 +249,8 @@ var MediaPlayer = React.createClass({
 
     var currentTime = time.formatDuration(this.state.audio.currentTime)
 
+    var volume = Math.ceil(this.state.audio.volume * 100) + '%'
+
     var duration = this.state.timeLeft
       ? '-' + (time.formatDuration((this.state.track.duration / 1000)
          - this.state.audio.currentTime))
@@ -229,6 +289,34 @@ var MediaPlayer = React.createClass({
         <div className="media-player__controls">
 
           <div className="controls__play-pause-skip">
+
+            <div className="controls__volume">
+              <div className="volume__icon">
+                <button className="icon__toggle" onClick={this.toggleMute}>
+                  <i className="fi">{!this.state.isMuted && this.state.audio.volume > 0 ? '\uf211' : '\uf210'}</i>
+                </button>
+              </div>
+
+              <div className="volume__seeker" title={volume}>
+                <input
+                  type="range"
+                  name="volume"
+                  id="volume-controller"
+                  min={0}
+                  step={volumeChangeStep}
+                  max={1}
+                  value={this.state.audio.volume}
+                  onChange={this.setVolume}
+                  onWheel={this.setVolumeWithWheel}
+                />
+              </div>
+
+              {/*
+              <div className="volume__value">
+                { volume }
+              </div>
+              */}
+            </div>
 
             <div className="play-pause-skip__wrapper">
               <button className="controls__previous" disabled={!this.state.audio.src}>
@@ -274,10 +362,6 @@ var MediaPlayer = React.createClass({
             <div className="timeline__duration" onClick={this.toggleTimeLeft}>
               { duration }
             </div>
-
-          </div>
-
-          <div className="controls__volume">
 
           </div>
 
