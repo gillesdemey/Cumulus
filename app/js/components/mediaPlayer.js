@@ -102,6 +102,12 @@ var MediaPlayer = React.createClass({
     Actions.previousTrack()
   },
 
+  shuffle: function() {
+    if (!this.state.track.id) return
+    if (CurrentTrackStore.isShuffleEnabled()) Actions.disableShuffle()
+    else Actions.enableShuffle()
+  },
+
   like: function() {
     if (!this.state.track.id) return
 
@@ -265,6 +271,11 @@ var MediaPlayer = React.createClass({
       'hidden'              : !this.state.audio.src
     })
 
+    var shuffleStyle = classNames({
+      'fi'     : true,
+      'active' : CurrentTrackStore.isShuffleEnabled()
+    })
+
     var favoriteStyle = classNames({
       'fi'     : true,
       'active' : !!this.state.track.user_favorite
@@ -333,6 +344,9 @@ var MediaPlayer = React.createClass({
             </div>
 
             <div className="controls__actions">
+              <button className="meta_shuffle" onClick={this.shuffle} disabled={!this.state.audio.src}>
+                <i className={shuffleStyle}>{'\uf1b2'}</i>
+              </button>
               <button className="meta__favorite" onClick={this.like} disabled={!this.state.audio.src}>
                 <i className={favoriteStyle}>{'\uf159'}</i>
               </button>

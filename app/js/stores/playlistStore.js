@@ -6,11 +6,15 @@ var McFly      = require('../utils/mcfly')
 var _playlist = []
 var _index    = 0
 
+var _isShuffleEnabled = false
+var _shuffledPlaylist = []
+var _shuffleIndex = 0
+
 function _addToPlaylist(tracks) {
-  if (Array.isArray(tracks))
-    _playlist = _playlist.concat(tracks)
-  else
-    _playlist.push(tracks)
+  tracks = Array.isArray(tracks) ? tracks : Array(tracks)
+  _playlist = _playlist.concat(tracks)
+  if (_isShuffleEnabled) 
+    _shuffledPlaylist = _shuffledPlaylist.concat(_.shuffle(tracks)) // TODO think better logic
 }
 
 function _setPlaylist(tracks) {
@@ -29,12 +33,17 @@ function _getIndexById(track) {
 }
 
 function _getNextTrack() {
-  if (_index === _playlist.length - 1)
-    return
+  if (_isShuffleEnabled) {
+    if (_shuffleIndex === _shuffledPlaylist.length - 1) return
 
-  _index++
+    _shuffleIndex++
+    return _shuffledPlaylist[_shuffleIndex]
+  } else {
+    if (_index === _playlist.length - 1) return
 
-  return _playlist[_index]
+    _index++
+    return _playlist[_index]
+  }
 }
 
 function _peekNextTrack() {
@@ -42,17 +51,36 @@ function _peekNextTrack() {
 }
 
 function _getPreviousTrack() {
-  if (_index === 0)
-    return
+  if (_isShuffleEnabled) {
+    if (_shuffleIndex === 0) return
 
-  _index--
+    _shuffleIndex--
+    return _shuffledPlaylist[_shuffleIndex]
+  } else {
+    if (_index === 0) return
 
-  return _playlist[_index]
+    _index--
+    return _playlist[_index]
+  }
 }
 
 function _clear() {
   _index = 0
   _playlist = []
+}
+
+function _enableShuffle() {
+  var currentTrack = _playlist[_index]
+  _shuffledPlaylist = _.shuffle(_.without(_playlist, currentTrack))
+  _shuffledPlaylist.unshift(currentTrack)
+  _isShuffleEnabled = true
+}
+
+function _disableShuffle() {
+  _index = _.indexOf(_playlist, _shuffledPlaylist[_shuffleIndex])
+  _isShuffleEnabled = false
+  _shuffledPlaylist = []
+  _shuffleIndex = 0
 }
 
 var PlaylistStore = McFly.createStore({
@@ -71,6 +99,10 @@ var PlaylistStore = McFly.createStore({
 
   clearPlaylist: function() {
     _clear()
+  },
+
+  isShuffleEnabled: function() {
+    return _isShuffleEnabled
   },
 
   setIndex: function(trackOrId) {
@@ -125,6 +157,13 @@ var PlaylistStore = McFly.createStore({
       if (payload.track)
         PlaylistStore.setIndex(payload.track)
       break
+
+    case 'ENABLE_SHUFFLE':
+      _enableShuffle()
+      break
+    
+    case 'DISABLE_SHUFFLE':
+      _disableShuffle()
   }
 
   PlaylistStore.emitChange()

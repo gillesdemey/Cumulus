@@ -110,6 +110,10 @@ TrackStore = McFly.createStore({
     return _audio
   },
 
+  isShuffleEnabled: function() {
+    return playlistStore.isShuffleEnabled()
+  }
+
 }, function(payload) {
 
   switch (payload.actionType) {
