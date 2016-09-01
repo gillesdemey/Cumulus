@@ -67,6 +67,9 @@ function _getPreviousTrack() {
 function _clear() {
   _index = 0
   _playlist = []
+  _shuffleIndex = 0
+  _shuffledPlaylist = []
+  _disableShuffle()
 }
 
 function _enableShuffle() {
