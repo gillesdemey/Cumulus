@@ -121,12 +121,21 @@
 .controls__volume {
   display: flex;
 
-  width: 25%;
+  width: 22.5%;
   height: 28px;
   line-height: 28px;
 
   position: absolute;
   left: 10px;
+  transition: all 150ms;
+
+  .volume__seeker { transition: all 150ms; opacity: 0; }
+
+  &:hover {
+    width: 25%;
+
+    .volume__seeker { opacity: 1; }
+  }
 }
 
 .volume__icon button.icon__toggle {
