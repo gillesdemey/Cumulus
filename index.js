@@ -92,11 +92,6 @@ mb.on('ready', function() {
     mb.window.webContents.send('GlobalShortcuts', accelerator)
   }
 
-  function _sendWindowEvent(name) {
-    if (!mb.window) return
-    mb.window.webContents.send('WindowEvent', name)
-  }
-
   globalShortcut.register('MediaPlayPause', function() {
     _sendGlobalShortcut('MediaPlayPause')
   })
@@ -113,24 +108,29 @@ mb.on('ready', function() {
     _sendGlobalShortcut('SoundCloudLikeTrack')
   })
 
-  mb.on('after-create-window', function() {
+})
 
-    if (!debug) {
-      mb.window.setSize(320, 500)
-      mb.window.setMaximumSize(320, 600)
-      mb.window.setMinimumSize(320, 400)
-    } else {
-      mb.window.setSize(620, 700)
-      mb.window.setMaximumSize(1220, 800)
-      mb.window.setMinimumSize(620, 600)
-    }
+mb.on('after-create-window', function() {
 
-    mb.window.setResizable(true)
-    mb.window.loadURL('file://' + __dirname + '/app/index.html')
-    mb.window.on('focus', function() { _sendWindowEvent('focus') })
-    if (debug) {
-      mb.window.openDevTools()
-    }
-  })
+  function _sendWindowEvent(name) {
+    if (!mb.window) return
+    mb.window.webContents.send('WindowEvent', name)
+  }
 
+  if (!debug) {
+    mb.window.setSize(320, 500)
+    mb.window.setMaximumSize(320, 600)
+    mb.window.setMinimumSize(320, 400)
+  } else {
+    mb.window.setSize(620, 700)
+    mb.window.setMaximumSize(1220, 800)
+    mb.window.setMinimumSize(620, 600)
+  }
+
+  mb.window.setResizable(true)
+  mb.window.loadURL('file://' + __dirname + '/app/index.html')
+  mb.window.on('focus', function() { _sendWindowEvent('focus') })
+  if (debug) {
+    mb.window.openDevTools()
+  }
 })
