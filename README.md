@@ -5,6 +5,12 @@ A SoundCloud player that lives in your menubar.
 
 ![screen shot 2015-11-08 at 01 48 24](https://cloud.githubusercontent.com/assets/868844/11018153/de01bade-85ba-11e5-84b4-73299530960b.png)
 
+# Installing
+
+Download the [latest release for OSX](https://github.com/gillesdemey/Cumulus/releases/latest).
+
+*IntelliJ users be warned: This app hijacks the ⌘+Alt+L shortcurt used by IntelliJ to reformat code. See [#40](https://github.com/gillesdemey/Cumulus/issues/40#issuecomment-261022368) and [#77](https://github.com/gillesdemey/Cumulus/issues/77).*
+
 # Developing
 
 ## Install dependencies
