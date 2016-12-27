@@ -43,25 +43,6 @@ mb.on('ready', function() {
     loginWindow.loadURL('https://soundcloud.com/connect?client_id=f17c1d67b83c86194fad2b1948061c9e&response_type=token&scope=non-expiring&display=next&redirect_uri=cumulus://oauth/callback')
   }
 
-  function initialize() {
-    if (!debug) {
-      mb.window.setSize(320, 500)
-      mb.window.setMaximumSize(320, 600)
-      mb.window.setMinimumSize(320, 400)
-    } else {
-      mb.window.setSize(620, 700)
-      mb.window.setMaximumSize(1220, 800)
-      mb.window.setMinimumSize(620, 600)
-    }
-
-    mb.window.setResizable(true)
-    mb.window.loadURL('file://' + __dirname + '/app/index.html')
-    mb.window.on('focus', function() { _sendWindowEvent('focus') })
-    if (debug) {
-      mb.window.openDevTools()
-    }
-  }
-
   /**
    * register Cumulus protocol
    */
@@ -84,7 +65,6 @@ mb.on('ready', function() {
             loginWindow.removeListener('close', App.quit)
             loginWindow.close()
           }
-          initialize()
         })
         break
 
@@ -103,20 +83,13 @@ mb.on('ready', function() {
     if (err)
       throw err
 
-    if (typeof value !== 'undefined' && value !== null)
-      initialize()
-    else
+    if (typeof value === 'undefined' || value === null)
       doLogin()
   })
 
   function _sendGlobalShortcut(accelerator) {
     if (!mb.window) return
     mb.window.webContents.send('GlobalShortcuts', accelerator)
-  }
-
-  function _sendWindowEvent(name) {
-    if (!mb.window) return
-    mb.window.webContents.send('WindowEvent', name)
   }
 
   globalShortcut.register('MediaPlayPause', function() {
@@ -135,5 +108,29 @@ mb.on('ready', function() {
     _sendGlobalShortcut('SoundCloudLikeTrack')
   })
 
+})
 
+mb.on('after-create-window', function() {
+
+  function _sendWindowEvent(name) {
+    if (!mb.window) return
+    mb.window.webContents.send('WindowEvent', name)
+  }
+
+  if (!debug) {
+    mb.window.setSize(320, 500)
+    mb.window.setMaximumSize(320, 600)
+    mb.window.setMinimumSize(320, 400)
+  } else {
+    mb.window.setSize(620, 700)
+    mb.window.setMaximumSize(1220, 800)
+    mb.window.setMinimumSize(620, 600)
+  }
+
+  mb.window.setResizable(true)
+  mb.window.loadURL('file://' + __dirname + '/app/index.html')
+  mb.window.on('focus', function() { _sendWindowEvent('focus') })
+  if (debug) {
+    mb.window.openDevTools()
+  }
 })
