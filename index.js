@@ -9,7 +9,8 @@ var Menu           = electron.Menu
 var url            = require('url')
 var querystring    = require('querystring')
 
-var config         = require('./lib/config')
+var settings       = require('electron-settings')
+settings.configure({ settingsFileName: 'config.json', pretty: true })
 
 var menubar        = require('menubar')
 var mb             = menubar({
@@ -78,36 +79,27 @@ mb.on('ready', function() {
         var hash  = uri.hash.substr(1)
         var token = querystring.parse(hash).access_token
 
-        config.set('access_token', token, function(err) {
-          if (err) throw err
-          if (loginWindow) {
-            loginWindow.removeListener('close', App.quit)
-            loginWindow.close()
-          }
-          initialize()
-        })
+        settings.set('access_token', token)
+          .then(() => {
+            if (loginWindow) {
+              loginWindow.removeListener('close', App.quit)
+              loginWindow.close()
+            }
+            initialize()
+          })
         break
 
       case 'logout':
-        config.set('access_token', null, function(err) {
-          if (err) throw err
-          doLogin()
-        })
+        settings.delete('access_token')
+          .then(() => doLogin())
         break
     }
 
   })
 
   // check if we already have an access_token
-  config.get('access_token', function(err, value) {
-    if (err)
-      throw err
-
-    if (typeof value !== 'undefined' && value !== null)
-      initialize()
-    else
-      doLogin()
-  })
+  settings.has('access_token')
+    .then(hasToken => hasToken ? initialize() : doLogin())
 
   function _sendGlobalShortcut(accelerator) {
     if (!mb.window) return

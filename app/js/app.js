@@ -12,7 +12,7 @@ var Likes           = require('./components/likesView');
 var Feed            = require('./components/feedView');
 var Playlists       = require('./components/playlistsView');
 
-var Config          = Remote.require('./lib/config');
+var settings        = Remote.require('electron-settings');
 var SoundCloud      = require('./utils/soundcloud');
 
 /**
@@ -40,20 +40,16 @@ function run() {
 /**
  * Configure the SoundCloud SDK
  */
-Config.get('access_token', function(err, token) {
-
-  if (err)
-    throw err;
-
-  if (!token)
+settings.get('access_token')
+  .then(token => {
+    SoundCloud.initialize({
+      'access_token' : token,
+      'client_id'    : 'f17c1d67b83c86194fad2b1948061c9e'
+    });
+    run();
+  })
+  .catch(err => {
     throw new Error('Refusing to initialize application, authentication token not found.')
-
-  SoundCloud.initialize({
-    'access_token' : token,
-    'client_id'    : 'f17c1d67b83c86194fad2b1948061c9e'
-  });
-
-  run();
-})
+  })
 
 module.exports = CumulusApp;
