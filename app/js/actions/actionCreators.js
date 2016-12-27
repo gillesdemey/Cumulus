@@ -118,6 +118,18 @@ actions = McFly.createActions({
     }
   },
 
+  enableShuffle: function() {
+    return {
+      'actionType' : 'ENABLE_SHUFFLE'
+    }
+  },
+
+  disableShuffle: function() {
+    return {
+      'actionType' : 'DISABLE_SHUFFLE'
+    }
+  },
+
   likeTrack: function(track) {
     return SoundCloud.toggleLikeTrack(track)
       .then(function() {
