@@ -35,6 +35,11 @@ ipc.on('GlobalShortcuts', function(sender, accelerator) {
 
 })
 
+ipc.on('JumpTo', function(sender, percentage) {
+  var track = CurrenTrackStore.getTrack()
+  actions.seekTrack(track.duration / 1000 * percentage / 100 )
+})
+
 ipc.on('WindowEvent', function(name) {
   switch (name) {
     case 'focus':
