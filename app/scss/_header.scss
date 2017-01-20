@@ -2,44 +2,49 @@
  * Header styles
  */
 header {
-  $height: 42px;
-  background-color: #333;
 
-  height: $height;
-  line-height: $height;
 
-  -webkit-font-smoothing: subpixel-antialiased;
+	$height: 48px;
+	background-color: $grey-900;
+	height: $height;
+	line-height: $height;
+	-webkit-font-smoothing: subpixel-antialiased;
 
-  ul {
-    width: 100%;
-    display: flex;
-  }
+	ul {
+		width: 100%;
+		display: flex;
+	}
 
-  li { flex: 1; }
+	li {
+		flex: 1;
+	}
 
-  a {
-    display: block;
-    height: $height;
+	a {
+		-webkit-user-select: none;  /* Chrome all / Safari all */
+		-moz-user-select: none;     /* Firefox all */
+		-ms-user-select: none;      /* IE 10+ */
+		user-select: none;
 
-    color: rgba(255, 255, 255, .6);
-    font-size: 13px;
-    font-weight: 500;
+		-webkit-user-drag: none;
 
-    text-transform: uppercase;
-    text-decoration: none;
-    text-align: center;
-    text-shadow: 0 0 1px rgba(0, 0, 0, 1);
+		display: block;
+		height: $height;
+		color: $secondary-text;
+		font-size: 13px;
+		font-weight: 500;
+		text-transform: uppercase;
+		text-decoration: none;
+		text-align: center;
+		letter-spacing: 0.5px;
+		transition: background-color 150ms;
 
-    letter-spacing: 0.5px;
+		&.active,
+		&:hover {
+			color: $primary-text;
+		}
 
-    transition: background-color 150ms;
-
-    &.active, &:hover { color: rgba(255, 255, 255, .85); }
-
-    &.active {
-      border-bottom: solid 2px #f50;
-    }
-  }
-
+		&.active {
+			border-bottom: solid 4px $soundcloud;
+		}
+	}
 }
-
