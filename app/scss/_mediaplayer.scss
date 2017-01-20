@@ -2,276 +2,260 @@
  * Media Player
  */
 .cumulus__media-player {
-  width: 100%;
-  height: auto;
+	width: 100%;
+	height: auto;
+	background-color: $white;
+	transition: transform 300ms, height 300ms;
 
-  background-color: #f2f2f2;
+	.media-player__controls {
+		position: relative;
+		background-color: $white;
 
-  transition: transform 300ms, height 300ms;
+		.controls__play-pause-skip {
+			display: flex;
+			height: 32px;
+			padding-top: 8px;
 
-  .media-player__controls {
-    position: relative;
-    background-image: linear-gradient(180deg, #FFF, #E3E3E3);
+			.play-pause-skip__wrapper {
+				margin: 0 auto;
+			}
 
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+			&:after {
+				@include clear-fix();
+			}
+		}
 
-    .controls__play-pause-skip {
-      display: flex;
-      height: 32px;
-      padding-top: 8px;
+		button {
+			border: none;
+			background: none;
+			cursor: pointer;
+			font-size: 28px;
+			padding: 0;
+			color: $grey-700;
+			width: 35px;
+			vertical-align: middle;
 
-      .play-pause-skip__wrapper {
-        margin: 0 auto;
-      }
+			i.fi {
+				background-color: $grey-700;
+				-webkit-background-clip: text;
+				-webkit-text-fill-color: transparent;
+			}
+			margin-left: 1px; // aligning to the pixel grid
+		}
 
-      &:after { @include clear-fix(); }
-    }
+		button[disabled] i,
+		button[disabled] i {
+			background-image: none;
+			background-color: $grey-300;
+		}
 
-    button {
-      border: none;
-      background: none;
+		.controls__actions {
+			position: absolute;
+			right: 5px;
+			margin-top: 8px;
+		}
 
-      cursor: pointer;
+		.icon__toggle,
+		.meta__favorite,
+		.meta__settings {
+			font-size: 16px;
+		}
 
-      font-size: 28px;
-      padding: 0;
+		.meta__favorite i.fi {
+			background-color: $grey-300;
 
-      color: #555;
+			&.active {
+				background-color: $soundcloud;
+			}
+		}
 
-      width: 35px;
-      vertical-align: middle;
+		.controls__next,
+		.controls__previous {
+			font-size: 21px;
+			padding: 5px;
+		}
 
-      i.fi {
-        background-image: linear-gradient(0deg, #999, #333);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
+		.controls__timeline {
+			$timelineHeight: 28px;
+			display: flex;
+			padding: 0 10px;
+			height: $timelineHeight;
+			line-height: $timelineHeight;
+		}
+	}
 
-      margin-left: 1px; // aligning to the pixel grid
-    }
+	.media-player__cover {
+		width: 100%;
+		height: 150px;
+		position: relative;
+		background-size: cover;
+		background-position: center center;
+		transition: height 300ms;
 
-    button[disabled] i,
-    button[disabled] i {
-      background-image: none;
-      background-color: #CCC;
-    }
+		&.hidden {
+			height: 0;
+		}
+	}
 
-    .controls__actions {
-      position: absolute;
-
-      right: 5px;
-      margin-top: 8px;
-    }
-
-    .meta__favorite, .meta__settings, .icon__toggle {
-      font-size: 16px;
-    }
-
-    .meta__favorite {
-      i.active { background-image: linear-gradient(0deg, #F70, #F30); }
-    }
-
-    .controls__next,
-    .controls__previous {
-      font-size: 21px;
-      padding: 5px;
-    }
-
-    .controls__timeline {
-      $timelineHeight: 28px;
-      display: flex;
-      padding: 0 10px;
-
-      height: $timelineHeight;
-      line-height: $timelineHeight;
-    }
-
-  }
-
-  .media-player__cover {
-    width: 100%;
-    height: 150px;
-
-    position: relative;
-
-    background-size: cover;
-    background-position: center center;
-
-    transition: height 300ms;
-
-    &.hidden { height: 0; }
-  }
-
-  .media-player__waveform {
-    position: absolute;
-    width: 100%;
-
-    opacity: .85;
-
-    height: 32px;
-    bottom: 0;
-  }
-
+	.media-player__waveform {
+		position: absolute;
+		width: 100%;
+		opacity: 0.85;
+		height: 32px;
+		bottom: 0;
+	}
 }
 
 .cumulus__media-player.hidden {
-  height: 0;
+	height: 0;
 }
 
 .controls__volume {
-  display: flex;
+	display: flex;
+	width: 22.5%;
+	height: 28px;
+	line-height: 28px;
+	position: absolute;
+	left: 10px;
+	transition: all 150ms;
 
-  width: 22.5%;
-  height: 28px;
-  line-height: 28px;
+	.volume__seeker {
+		transition: all 150ms;
+		opacity: 0;
+	}
 
-  position: absolute;
-  left: 10px;
-  transition: all 150ms;
+	&:hover {
+		width: 25%;
 
-  .volume__seeker { transition: all 150ms; opacity: 0; }
-
-  &:hover {
-    width: 25%;
-
-    .volume__seeker { opacity: 1; }
-  }
+		.volume__seeker {
+			opacity: 1;
+		}
+	}
 }
 
 .volume__icon button.icon__toggle {
-  width: initial;
-  margin: 0;
+	width: initial;
+	margin: 0;
 }
 
 .volume__seeker {
-  line-height: 25px;
+	line-height: 25px;
 
-  input[type=range] {
-    -webkit-appearance: none;
-    width: 100%;
-  }
-  input[type=range]:focus {
-    outline: none;
-  }
-  input[type=range]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 2px;
-    cursor: pointer;
-    background: #F50;
-    border-radius: 1.3px;
-  }
-  input[type=range]::-webkit-slider-thumb {
-    height: 12px;
-    width: 12px;
-    border-radius: 12px;
-    background: linear-gradient(180deg, #FFF, #E3E3E3);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
-    cursor: pointer;
-    -webkit-appearance: none;
-    margin-top: -5.2px;
-  }
+	input[type=range] {
+		-webkit-appearance: none;
+		width: 100%;
+	}
+
+	input[type=range]:focus {
+		outline: none;
+	}
+
+	input[type=range]::-webkit-slider-runnable-track {
+		width: 100%;
+		height: 2px;
+		cursor: pointer;
+		background: $soundcloud;
+		border-radius: 1.3px;
+	}
+
+	input[type=range]::-webkit-slider-thumb {
+		height: 12px;
+		width: 12px;
+		border-radius: 12px;
+		background: $soundcloud;
+		cursor: pointer;
+		-webkit-appearance: none;
+		margin-top: -5.2px;
+	}
 }
 
 .controls__timeline .timeline__current,
 .controls__timeline .timeline__duration,
 .controls__volume .volume__value {
-  font-size: 11px;
-
-  width: auto;
-  text-align: center;
-  cursor: default;
-
-  color: #666;
-  text-shadow: 0 1px 0 rgba(#fff, .85);
-
-  -webkit-user-select: none;
+	font-size: 11px;
+	width: auto;
+	text-align: center;
+	cursor: default;
+	color: $grey-700;
+	-webkit-user-select: none;
 }
 
 .controls__timeline .timeline__seeker,
 .controls__volume .volume__seeker {
-  width: 100%;
-  height: 100%;
-
-  padding: 0 15px;
-  flex: 1;
+	width: 100%;
+	height: 100%;
+	padding: 0 15px;
+	flex: 1;
 }
 
 .controls__volume .volume__seeker {
-  padding: 0 0 0 5px;
+	padding: 0 0 0 5px;
 }
 
 .timeline__seeker .seeker__wrapper {
-  position: relative;
-  padding: 10px 0;
-
-  height: 10px;
-  top: 50%;
-
-  margin-top: -10px;
-  cursor: pointer;
+	position: relative;
+	padding: 10px 0;
+	height: 10px;
+	top: 50%;
+	margin-top: -10px;
+	cursor: pointer;
 }
 
 .timeline__seeker .seeker__progress-bar {
-  -webkit-appearance: none;
-  position: absolute;
-
-  width: 100%;
-  height: 2px;
+	-webkit-appearance: none;
+	position: absolute;
+	width: 100%;
+	height: 2px;
 }
 
 .seeker__progress-bar::-webkit-progress-bar {
-  background-color: rgba(#C1C1C1, .85);
+	background-color: rgba($grey-300, .85);
 }
 
 .seeker__progress-bar::-webkit-progress-value {
-  background-color: #f50;
-  transition: all 200ms;
+	background-color: $soundcloud;
+	transition: all 200ms;
 }
 
 .seeker__progress-bar::-webkit-progress-value::after {
-  content: '';
-  position: relative;
-
-  width: 2px;
-  height: 12px;
-
-  margin-left: -1px;
-  margin-top: -5px;
-
-  float: right;
-
-  background-color: #f50;
-
-  cursor: pointer;
+	content: '';
+	position: relative;
+	width: 2px;
+	height: 12px;
+	margin-left: -1px;
+	margin-top: -5px;
+	float: right;
+	background-color: $soundcloud;
+	cursor: pointer;
 }
 
-.media-player__controls .controls__previous,
-.media-player__controls .controls__next {
-
-}
+.media-player__controls .controls__next,
+.media-player__controls .controls__previous {}
 
 .media-player__meta {
-  font-size: 13px;
-  color: #fff;
-  padding: 10px;
+	font-size: 13px;
+	color: $white;
+	padding: 10px;
 
-  .meta__artist,
-  .meta__title {
-    cursor: pointer;
-  }
+	.meta__artist,
+	.meta__title {
+		cursor: pointer;
+	}
 
-  > div {
-    max-width: 100%;
-    @include truncate();
+	.meta__title {
+		margin-top: -1px;
+	}
 
-    display: block;
+	> div {
+		max-width: 100%;
+		@include truncate();
+		display: block;
 
-    > span {
-      background-color: rgba(0, 0, 0, .9);
-      padding: 4px 6px;
-      line-height: 25px;
-
-      -webkit-font-smoothing: initial;
-    }
-  }
+		> span {
+			background-color: rgba($black, .9);
+			padding: 4px 6px;
+			line-height: 25px;
+			-webkit-font-smoothing: initial;
+		}
+	}
 }

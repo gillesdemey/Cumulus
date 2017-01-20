@@ -1,210 +1,200 @@
 @import 'mixins';
 
 .list-item {
-  &:nth-child(odd) { background-color: #FCFCFC; }
-  &:nth-child(even) { background-color: #FFF; }
+    background-color: $white;
 
-  // tracks within a playlist
-  .list-item {
-    &:nth-child(odd) { background-color: #FFF; }
-    &:nth-child(even) { background-color: #FCFCFC; }
-  }
-
+    // tracks within a playlist
+    .list-item {
+        // background-color: rgba($black, 0.025);
+		background-color: $white;
+    }
 }
-
 // playlist headers should always be white in the playlists views
 .content__view__playlists {
-  .list-item.playlist { background-color: #FFF; }
+    .list-item.playlist {
+        background-color: $white;
+    }
 }
 
 .list-item {
-  $height: 64px;
-  background-color: #fff;
-
-  overflow: hidden;
-  width: 100%;
-
-  cursor: pointer;
-
-  &:not(.playlist) {
-
-    &:hover, &.active {
-      background-color: rgba(#f50, 0.05);
-    }
-
-    &:hover .cover__overlay { opacity: 1; }
-
-    &.active {
-      .item__title { color: #f50; }
-      .cover__overlay { opacity: 1; }
-    }
-
-  }
-
-  &.playlist .playlist__header {
-    &:hover, &.active {
-      background-color: rgba(#f50, 0.05);
-    }
-    &:hover .cover__overlay { opacity: 1; }
-  }
-
-  &.playlist.active {
-    .playlist__header {
-      .item__title { color: #f50; }
-      .cover__overlay { opacity: 1; }
-    }
-  }
-
-  &.error {
-    text-decoration: line-through;
-  }
-
-  .item__cover {
-    float: left;
-
-    position: relative;
-
-    height: $height;
-    width: $height;
-
-    background-position: center center;
-    background-size: cover;
-  }
-
-  .cover__overlay {
+    $height: 64px;
+    background-color: $white;
+    overflow: hidden;
     width: 100%;
-    height: 100%;
+    cursor: pointer;
 
-    background-color: rgba(#f50, .85);
+    &:not(.playlist) {
+        &.active,
+        &:hover {
+            background-color: rgba($black, 0.05);
+        }
 
-    transition: all 100ms;
-    opacity: 0;
-  }
+        &:hover .cover__overlay {
+            opacity: 1;
+        }
 
-  .overlay__play-pause {
-    position: absolute;
+        &.active {
+            .item__title {
+                color: $soundcloud;
+            }
 
-    width: 100%;
-    height: 100%;
+            .cover__overlay {
+                opacity: 1;
+            }
+        }
+    }
 
-    color: #fff;
-    font-size: 35px;
+    &.playlist .playlist__header {
+        &.active,
+        &:hover {
+            background-color: rgba($black, 0.05);
+        }
 
-    line-height: 100%;
-    text-align: center;
+        &:hover .cover__overlay {
+            opacity: 1;
+        }
+    }
 
-    background: none;
-    border: none;
+    &.playlist.active {
+        .playlist__header {
+            .item__title {
+                color: $soundcloud;
+            }
 
-    // -webkit-text-stroke: 1px #f50;
-  }
+            .cover__overlay {
+                opacity: 1;
+            }
+        }
+    }
 
-  .overlay__play-pause.loading::before {
-    $size: 40px;
+    &.error {
+        text-decoration: line-through;
+    }
 
-    background-image: url('../assets/loader.svg');
-    background-size: contain;
-    width: $size;
-    height: $size;
-    line-height: $size;
-  }
+    .item__cover {
+        float: left;
+        position: relative;
+        height: $height;
+        width: $height;
+        background-position: center center;
+        background-size: cover;
+    }
 
-  .overlay__play-pause.error::before {
-    content: '\f217' !important;
-  }
+    .cover__overlay {
+        width: 100%;
+        height: 100%;
 
-  .item__meta {
-    height: 100%;
+        background-color: rgba($soundcloud, .70);
 
-    padding: 10px;
-    margin-left: 64px;
+        transition: all .2s;
+        opacity: 0;
+    }
 
-    font-size: 13px;
-    position: relative;
-  }
+    .overlay__play-pause {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        color: $white;
+        font-size: 35px;
+        line-height: 100%;
+        text-align: center;
+        background: none;
+        border: none;
+    }
 
-  .item__artist {
-    color: #888;
-  }
+    .overlay__play-pause.loading::before {
+        $size: 40px;
+        background-image: url('../assets/loader.svg');
+        background-size: contain;
+        width: $size;
+        height: $size;
+        line-height: $size;
+    }
 
-  .item__title {}
+    .overlay__play-pause.error::before {
+        content: '\f217' !important;
+    }
 
-  .item__artist,
-  .item__title {
-    @include truncate();
-    line-height: 22px;
-  }
+    .item__meta {
+        height: 100%;
+        padding: 10px;
+        margin-left: 64px;
+        font-size: 13px;
+        position: relative;
+    }
 
-  .item__duration {
-    position: absolute;
+    .item__artist {
+        color: $grey-700;
+    }
 
-    font-size: 11px;
-    color: #666;
+    .item__title {}
 
-    right: 13px;
-    top: 13px;
+    .item__artist,
+    .item__title {
+        @include truncate();
+        line-height: 22px;
+    }
 
-  }
+    .item__duration {
+        position: absolute;
+        font-size: 11px;
+        color: #666;
+        right: 13px;
+        top: 13px;
+    }
 
-  &::after {
-    content: '';
-    clear: both;
-    display: block;
-  }
-
+    &::after {
+        content: '';
+        clear: both;
+        display: block;
+    }
 }
 
-.list-item.playlist {
-}
-
+.list-item.playlist {}
 /**
  * Small list item
  */
 .list-item.small {
-  height: 44px;
+    height: 44px;
 
-  &:hover .cover__overlay {
-    opacity: 1;
-  }
+    &:hover .cover__overlay {
+        opacity: 1;
+    }
 
-  .item__cover {
-    width: 30px;
-    height: 30px;
+    .item__cover {
+        width: 30px;
+        height: 30px;
+        margin: 7px;
+    }
 
-    margin: 7px;
-  }
+    .item__meta {
+        padding: 6px 15px;
+        margin-left: 0;
+    }
 
-  .item__meta {
-    padding: 6px 15px;
-    margin-left: 0;
-  }
+    .item__artist,
+    .item__title {
+        line-height: 1.5em;
+        font-size: 11px;
+    }
 
-  .item__title, .item__artist {
-    line-height: 1.5em;
-    font-size: 11px;
-  }
+    .item__duration {
+        font-size: 10px;
+        top: 9px;
+        right: 9px;
+    }
 
-  .item__duration {
-    font-size: 10px;
-    top: 9px;
-    right: 9px;
-  }
+    .overlay__play-pause {
+        font-size: 1em;
+    }
 
-  .overlay__play-pause {
-    font-size: 1em;
-  }
-
-  .overlay__play-pause.loading::before {
-    $size: 25px;
-
-    width: $size;
-    height: $size;
-    line-height: $size;
-
-    position: absolute;
-
-    left: 2.5px;
-    top: 2.5px;
-  }
-
+    .overlay__play-pause.loading::before {
+        $size: 25px;
+        width: $size;
+        height: $size;
+        line-height: $size;
+        position: absolute;
+        left: 2.5px;
+        top: 2.5px;
+    }
 }

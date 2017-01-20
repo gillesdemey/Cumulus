@@ -1,15 +1,13 @@
 @mixin truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
-
 @mixin no-selection {
-  -webkit-user-select: none;
+    -webkit-user-select: none;
 }
-
 @mixin clear-fix {
-  content: '';
-  display: table;
-  clear: both;
+    content: '';
+    display: table;
+    clear: both;
 }

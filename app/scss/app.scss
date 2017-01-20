@@ -1,160 +1,148 @@
 @import 'mixins';
+@import 'vars';
 
 * {
-  box-sizing: border-box;
-  @include no-selection();
+    box-sizing: border-box;
+    @include no-selection();
 }
 
 html {
-  font-family: 'Lucida Grande', 'Helvetica Neue', 'Arial', sans-serif;
+    font-family: 'Lucida Grande', 'Helvetica Neue', 'Arial', sans-serif;
 }
 
 body {
-  -webkit-font-smoothing: antialiased;
-
-  height: 100%;
-  width: 100%;
-
-  overflow: hidden;
-  position: absolute;
+    -webkit-font-smoothing: antialiased;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: absolute;
 }
 
-a:focus, button:focus {
-  outline: 0;
+a:focus,
+button:focus {
+    outline: 0;
 }
 
 i.fi {
-  display: inline-block;
-
-  font-family: 'foundation-icons';
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-
-  text-transform: none;
-  text-decoration: inherit;
-
-  line-height: 1;
-
-  -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-family: 'foundation-icons';
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-decoration: inherit;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
 }
 
 .cumulusapp {
-  display: flex;
-  flex-direction: column;
-
-  position: absolute;
-
-  width: 100%;
-  height: 100%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 .content__wrapper {
-  height: 100%;
-  width: 100%;
-
-  position: relative;
-  overflow: hidden;
-
-  flex: 1;
+    height: 100%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    flex: 1;
 }
-
 /**
  * Views loading styles
  */
 [class^=content__view] {
-
-  height: 100%;
-  width: 100%;
-
-  position: absolute;
-  overflow-y: scroll;
-
-  &.loading {
-    background-color: #fff;
-    pointer-events: none;
-
-    * { opacity: 0; }
-  }
-
-  &.loading::after, .page_loader.loading::after {
-    $loader-size: 100px;
-
-    content: '';
-    display: block;
-
-    position: fixed;
-
-    background-color: #f50;
-    -webkit-mask: url('../assets/loader.svg') no-repeat 50% 50%;
-    -webkit-mask-size: cover;
-
-    width: $loader-size;
-    height: $loader-size;
-
-    left: 50%;
-    top: 50%;
-
-    margin-left: -$loader-size / 2;
-    margin-top: -$loader-size / 2;
-  }
-
-  .page_loader.loading::after {
-    $loader-size: 32px;
-    position: absolute;
-
-    width: $loader-size;
-    height: $loader-size;
-
-    margin-left: -$loader-size / 2;
-    margin-top: -$loader-size / 2;
-
-    background-color: #E2E2E2;
-  }
-
-  &.error::after,
-  &.empty::after {
-    display: block;
-
-    position: absolute;
-
-    left: 50%;
-    top: 50%;
-
-    text-align: center;
+    height: 100%;
     width: 100%;
 
-    transform: translateX(-50%) translateY(-50%);
-  }
+    position: absolute;
+    overflow-y: scroll;
 
-  &.error::after { content: 'Sorry, something went wrong.'; }
+    &.loading {
+        background-color: #fff;
+        pointer-events: none;
 
-  &.empty::after { content: 'There appears to be nothing here.'; }
+        * {
+            opacity: 0;
+        }
+    }
 
-  .page_loader {
-    width: 100%;
-    height: 64px;
-    position: relative;
-  }
+    &.loading::after,
+    .page_loader.loading::after {
+        $loader-size: 100px;
+        content: '';
+        display: block;
+        position: fixed;
+        background-color: $soundcloud;
+        -webkit-mask: url('../assets/loader.svg') no-repeat 50% 50%;
+        -webkit-mask-size: cover;
+        width: $loader-size;
+        height: $loader-size;
+        left: 50%;
+        top: 50%;
+        margin-left: -$loader-size / 2;
+        margin-top: -$loader-size / 2;
+    }
 
+    .page_loader.loading::after {
+        $loader-size: 32px;
+        position: absolute;
+        width: $loader-size;
+        height: $loader-size;
+        margin-left: -$loader-size / 2;
+        margin-top: -$loader-size / 2;
+        background-color: #E2E2E2;
+    }
+
+    &.empty::after,
+    &.error::after {
+        display: block;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        text-align: center;
+        width: 100%;
+        transform: translateX(-50%) translateY(-50%);
+    }
+
+    &.error::after {
+        content: 'Sorry, something went wrong.';
+    }
+
+    &.empty::after {
+        content: 'There appears to be nothing here.';
+    }
+
+    .page_loader {
+        width: 100%;
+        height: 64px;
+        position: relative;
+    }
 }
 
 .content__view__feed {
-  &.empty::after { content: 'You don\t have anything in your feed.'; }
+    &.empty::after {
+        content: 'You don\t have anything in your feed.';
+    }
 }
 
 .content__view__likes {
-  &.empty::after { content: 'Looks like you don\'t like anything.'; }
+    &.empty::after {
+        content: 'Looks like you don\'t like anything.';
+    }
 }
 
 .content__view__playlists {
-  &.empty::after { content: 'You don\'t have any playlists.'; }
+    &.empty::after {
+        content: 'You don\'t have any playlists.';
+    }
 }
 
 .cumulus__media-player {
-  position: initial !important;
+    position: initial !important;
 }
-
 @import 'griditem';
 @import 'header';
 @import 'listitem';
