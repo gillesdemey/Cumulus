@@ -5,15 +5,13 @@
   width: 100%;
   height: auto;
 
-  background-color: #f2f2f2;
+  background-color: $white;
 
   transition: transform 300ms, height 300ms;
 
   .media-player__controls {
     position: relative;
-    background-image: linear-gradient(180deg, #FFF, #E3E3E3);
-
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+    background-color: $white;
 
     .controls__play-pause-skip {
       display: flex;
@@ -36,13 +34,13 @@
       font-size: 28px;
       padding: 0;
 
-      color: #555;
+      color: $grey-700;
 
       width: 35px;
       vertical-align: middle;
 
       i.fi {
-        background-image: linear-gradient(0deg, #999, #333);
+        background-color: $grey-700;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
@@ -53,7 +51,7 @@
     button[disabled] i,
     button[disabled] i {
       background-image: none;
-      background-color: #CCC;
+      background-color: $grey-300;
     }
 
     .controls__actions {
@@ -67,8 +65,9 @@
       font-size: 16px;
     }
 
-    .meta__favorite {
-      i.active { background-image: linear-gradient(0deg, #F70, #F30); }
+    .meta__favorite i {
+      &.fi { background-color: $grey-300; }
+      &.active { background-color: $soundcloud; }
     }
 
     .controls__next,
@@ -157,15 +156,14 @@
     width: 100%;
     height: 2px;
     cursor: pointer;
-    background: #F50;
+    background: $soundcloud;
     border-radius: 1.3px;
   }
   input[type=range]::-webkit-slider-thumb {
     height: 12px;
     width: 12px;
     border-radius: 12px;
-    background: linear-gradient(180deg, #FFF, #E3E3E3);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    background: $soundcloud;
     cursor: pointer;
     -webkit-appearance: none;
     margin-top: -5.2px;
@@ -181,8 +179,7 @@
   text-align: center;
   cursor: default;
 
-  color: #666;
-  text-shadow: 0 1px 0 rgba(#fff, .85);
+  color: $grey-700;
 
   -webkit-user-select: none;
 }
@@ -220,11 +217,11 @@
 }
 
 .seeker__progress-bar::-webkit-progress-bar {
-  background-color: rgba(#C1C1C1, .85);
+  background-color: rgba($grey-300, .85);
 }
 
 .seeker__progress-bar::-webkit-progress-value {
-  background-color: #f50;
+  background-color: $soundcloud;
   transition: all 200ms;
 }
 
@@ -240,7 +237,7 @@
 
   float: right;
 
-  background-color: #f50;
+  background-color: $soundcloud;
 
   cursor: pointer;
 }
@@ -252,7 +249,7 @@
 
 .media-player__meta {
   font-size: 13px;
-  color: #fff;
+  color: $white;
   padding: 10px;
 
   .meta__artist,
@@ -260,6 +257,9 @@
     cursor: pointer;
   }
 
+  .meta__title {
+    margin-top: -1px; // Adjust the height of author and title so they seem as part of the same box
+  }
   > div {
     max-width: 100%;
     @include truncate();
@@ -267,7 +267,7 @@
     display: block;
 
     > span {
-      background-color: rgba(0, 0, 0, .9);
+      background-color: rgba($black, .9);
       padding: 4px 6px;
       line-height: 25px;
 

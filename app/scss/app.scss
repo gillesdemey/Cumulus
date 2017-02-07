@@ -1,4 +1,5 @@
 @import 'mixins';
+@import 'vars';
 
 * {
   box-sizing: border-box;
@@ -85,7 +86,7 @@ i.fi {
 
     position: fixed;
 
-    background-color: #f50;
+    background-color: $soundcloud;
     -webkit-mask: url('../assets/loader.svg') no-repeat 50% 50%;
     -webkit-mask-size: cover;
 

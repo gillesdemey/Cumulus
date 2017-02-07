@@ -32,7 +32,7 @@
   width: 100%;
   height: 100%;
 
-  background-color: rgba(0, 0, 0, .3);
+  background-color: rgba($black, .3);
 
   transition: all 150ms;
   opacity: 0;
@@ -46,7 +46,7 @@
   width: 100%;
   height: 100%;
 
-  color: #fff;
+  color: $white;
   font-size: 60px;
 
   line-height: 200px;
@@ -88,9 +88,9 @@
   padding: 2px 5px 0px 5px;
 
   position: absolute;
-  color: #fff;
+  color: $white;
 
-  background-color: rgba(0, 0, 0, 0.85);
+  background-color: rgba($black, 0.87);
 
   left: 10px;
   pointer-events: none;
@@ -102,13 +102,13 @@
 
 .grid-item .item__artist {
   bottom: 33px;
-  color: #C1C1C1;
+  color: $grey-400;
 }
 
 .item__footer {
   height: 16px;
   font-size: 12px;
-  color: #666;
+  color: $grey-700;
 
   margin-top: 15px;
 }
