@@ -3,7 +3,7 @@ A SoundCloud player that lives in your menubar.
 
 [![GitHub release](https://img.shields.io/badge/download-latest-blue.svg)](https://github.com/gillesdemey/Cumulus/releases/latest)
 
-<img height="600" width="auto" src="http://i.imgur.com/h7RaaRc.png">
+<img height="600" width="auto" src="assets/cumulus_app.png">
 
 # Installing
 
