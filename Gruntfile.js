@@ -20,7 +20,7 @@ module.exports = function(grunt) {
       dist : { 'NODE_ENV' : 'production' }
     },
     clean: {
-      dist: ['dist/'],
+      dist: ['./Cumulus-*.dmg'],
     },
     browserify: {
       options: {
