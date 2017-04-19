@@ -41,7 +41,18 @@ var PlaylistListItem = React.createClass({
 
   render: function() {
 
-    var cover = this.props.playlist.artwork_url || this.props.tracks[0].artwork_url
+    var cover = this.props.playlist.artwork_url
+    if (!cover) {
+      var artwork_from_tracks = this.props.tracks
+        .filter(function(track) {
+          return track.artwork_url != undefined
+        })
+        .map(function(track) {
+          return track.artwork_url
+        })
+
+      cover = artwork_from_tracks.shift()
+    }
 
     var audio  = this.props.currentAudio
     var mine   = _.isEqual(this.props.tracks, playlistStore.getPlaylist())
