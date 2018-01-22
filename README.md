@@ -14,9 +14,11 @@ Download the [latest release for OSX](https://github.com/gillesdemey/Cumulus/rel
 # Developing
 
 ## Install dependencies
-`npm install`
-
-`npm install -g electron`
+```
+yarn install
+yarn upgrade
+yarn
+```
 
 ## Compile the application
 `grunt` or `grunt build`
