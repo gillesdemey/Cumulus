@@ -8,9 +8,12 @@ var Menu           = electron.Menu
 
 var url            = require('url')
 var querystring    = require('querystring')
+var Path           = require('path')
 
 var settings       = require('electron-settings')
-settings.configure({ settingsFileName: 'config.json', pretty: true })
+settings.setPath(
+  Path.resolve(App.getPath('userData'), 'config.json')
+)
 
 var menubar        = require('menubar')
 var mb             = menubar({
@@ -82,18 +85,16 @@ mb.on('ready', function() {
         var token = querystring.parse(hash).access_token
 
         settings.set('access_token', token)
-          .then(() => {
-            if (loginWindow) {
-              loginWindow.removeListener('close', App.quit)
-              loginWindow.close()
-            }
-            initialize()
-          })
+        if (loginWindow) {
+          loginWindow.removeListener('close', App.quit)
+          loginWindow.close()
+        }
+        initialize()
         break
 
       case 'logout':
         settings.delete('access_token')
-          .then(() => doLogin())
+        doLogin()
         break
     }
 
@@ -101,7 +102,8 @@ mb.on('ready', function() {
 
   // check if we already have an access_token
   settings.has('access_token')
-    .then(hasToken => hasToken ? initialize() : doLogin())
+    ? initialize()
+    : doLogin()
 
   function _sendGlobalShortcut(accelerator) {
     if (!mb.window) return

@@ -37,7 +37,7 @@
   "license": "MIT",
   "dependencies": {
     "classnames": "^1.2.2",
-    "electron-settings": "^2.2.2",
+    "electron-settings": "^3.1.4",
     "lodash": "^3.8.0",
     "mcfly": "0.0.10",
     "menubar": "^4.1.1",
