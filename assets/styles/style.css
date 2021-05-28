@@ -2,8 +2,8 @@ body {
   margin: 0;
   font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-
-  background: #F2F2F2;
+  color:black;
+  background-color: antiquewhite;
   box-sizing: border-box;
 }
 
@@ -46,10 +46,12 @@ a:hover {
 
 #intro h1 {
   font-weight: 600;
+  color: #fff;
 }
 
 #intro p {
   font-size: 19px;
+  color: #fff;
 }
 
 #intro hr {
@@ -75,9 +77,6 @@ a:hover {
 #screenshot {
   max-width: 100%;
 }
-
-#features {}
-
 @media (min-width: 750px) {
 
   #features .row {
@@ -114,6 +113,11 @@ footer {
 
   text-align: center;
 
-  background: #FFF;
+  background: antiquewhite;
   color: #AAA;
+}
+
+.punchline {
+  margin-top: 10px;
+  text-align: center;
 }
